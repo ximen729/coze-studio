@@ -1,0 +1,288 @@
+# Default values for opencoze.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Middleware configurations
+mysql:
+  enabled: true
+  image:
+    repository: mysql
+    tag: 8.4.5
+  rootPassword: "root"
+  database: opencoze
+  user: coze
+  password: coze123
+  initScripts:
+    - files/mysql/init.sql
+    - files/mysql/sql_init.sql
+
+redis:
+  enabled: true
+  image:
+    repository: bitnami/redis
+    tag: "7.2"
+  aofEnabled: "no"
+  port: 6379
+  ioThreads: 4
+  allowEmptyPassword: "yes"
+  password: ""
+
+# -- coze-server configuration
+cozeServer:
+  enabled: true
+  # -- Number of replicas for the coze-server deployment
+  replicaCount: 1
+
+  image:
+    repository: opencoze/opencoze
+    pullPolicy: IfNotPresent
+    tag: 'latest'
+
+  service:
+    type: LoadBalancer
+    port: 8888
+
+  env:
+    LOG_LEVEL: "debug"
+    MAX_REQUEST_BODY_SIZE: "1073741824"
+    STORAGE_TYPE: "minio"
+    MINIO_POD_PROXY_URL: "opencoze-minio:9000"
+    ES_VERSION: "v8"
+    VECTOR_STORE_TYPE: "milvus"
+    EMBEDDING_TYPE: "openai"
+    OPENAI_EMBEDDING_BASE_URL: "https://search.bytedance.net/gpt/openapi/online/v2/crawl"
+    OPENAI_EMBEDDING_MODEL: "text-embedding-3-large"
+    OPENAI_EMBEDDING_API_KEY: "Kf03Hzesjg20yBr48qKEoPN41xQYs1rs"
+    OPENAI_EMBEDDING_BY_AZURE: "true"
+    OPENAI_EMBEDDING_DIMS: "1024"
+    OCR_TYPE: "ve"
+    VE_OCR_AK: "AKLTYzUzNmZkNjU4YTIzNDQxMGI0NDkxM2E4ODc5MDQzMmE"
+    VE_OCR_SK: "TXpWbFl6QXlOV00wT0dOaU5EUTVZbUptTUdFeFlXUTFOemM1WlRJME1ESQ=="
+    BUILTIN_CM_TYPE: "openai"
+    BUILTIN_CM_OPENAI_BASE_URL: "https://search.bytedance.net/gpt/openapi/online/v2/crawl"
+    BUILTIN_CM_OPENAI_API_KEY: "Kf03Hzesjg20yBr48qKEoPN41xQYs1rs"
+    BUILTIN_CM_OPENAI_BY_AZURE: "true"
+    BUILTIN_CM_OPENAI_MODEL: "gpt-4o-2024-05-13"
+
+rocketmq:
+  enabled: true
+  namesrv:
+    replicaCount: 1
+    image:
+      repository: apache/rocketmq
+      tag: 5.3.2
+    persistence:
+      enabled: true
+      storageClass: ""
+      accessModes: [ReadWriteOnce]
+      size: 5Gi
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+    livenessProbe:
+      exec:
+        command: ["sh", "-c", "mqadmin clusterList -n localhost:9876"]
+      initialDelaySeconds: 30
+      periodSeconds: 10
+  topics:
+    - opencoze_knowledge
+    - opencoze_search_app
+    - opencoze_search_resource
+    - "%RETRY%cg_knowledge"
+    - "%RETRY%cg_search_app"
+    - "%RETRY%cg_search_resource"
+  consumerGroups:
+    - cg_knowledge
+    - cg_search_app
+    - cg_search_resource
+  broker:
+    replicaCount: 1
+    image:
+      repository: apache/rocketmq
+      tag: 5.3.2
+    config: |
+      brokerClusterName = DefaultCluster
+      brokerName = broker-a
+      brokerId = 0
+      deleteWhen = 04
+      fileReservedTime = 48
+      brokerRole = ASYNC_MASTER
+      flushDiskType = ASYNC_FLUSH
+    persistence:
+      enabled: true
+      storageClass: ""
+      accessModes: [ReadWriteOnce]
+      size: 20Gi
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+    initContainers:
+      - name: wait-for-namesrv
+        image: busybox
+        command: ['sh', '-c', 'until nc -z rocketmq-namesrv 9876; do echo waiting for namesrv; sleep 2; done']
+
+elasticsearch:
+  enabled: true
+  image:
+    repository: bitnami/elasticsearch
+    tag: 8.18.0
+  javaOpts: "-Djdk.tls.client.protocols=TLSv1.2 -Dhttps.protocols=TLSv1.2 -Djavax.net.ssl.trustAll=true -Xms4096m -Xmx4096m"
+  username: ""
+  password: ""
+
+minio:
+  enabled: true
+  image:
+    repository: minio/minio
+    tag: latest
+  accessKey: minioadmin
+  secretKey: minioadmin123
+  bucket: opencoze
+
+  # -- Resource requests and limits for the container
+  resources:
+    limits:
+      cpu: 8000m
+      memory: 16Gi
+    requests:
+      cpu: 4000m
+      memory: 8Gi
+
+etcd:
+  enabled: true
+  image:
+    repository: bitnami/etcd
+    tag: 3.5
+
+milvus:
+  enabled: true
+  image:
+    repository: milvusdb/milvus
+    tag: v2.5.10
+  bucketName: milvus
+
+# -- We will add other services like mysql, redis etc. here later
+
+# This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ''
+fullnameOverride: ''
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ''
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 80
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: false
+  className: ''
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+kibana:
+  enabled: true
+  image:
+    repository: bitnami/kibana
+    tag: 8.18.0
+  service:
+    type: LoadBalancer
+    port: 5601

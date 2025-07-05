@@ -1,0 +1,19 @@
+# Production configuration with sealed secrets
+middleware:
+  enabled: true
+
+mysql:
+  rootPassword: "root"  # 明文密码
+
+minio:
+  accessKey: "minioadmin"
+  secretKey: "minioadmin123"
+
+elasticsearch:
+  password: "elastic"
+
+# 网络策略配置
+networkPolicy:
+  enabled: true
+  allowedNamespaces:
+    - application
