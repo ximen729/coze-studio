@@ -216,6 +216,7 @@ func WorkflowSchemaFromNode(ctx context.Context, c *vo.Canvas, nodeID string) (
 				},
 			},
 		},
+		OutputTypes: startOutputTypes,
 	}
 
 	trimmedSC := &compose.WorkflowSchema{

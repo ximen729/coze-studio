@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"slices"
 	"sync"
 
 	"github.com/cloudwego/eino/compose"
@@ -190,18 +191,15 @@ func (b *Batch) Execute(ctx context.Context, in map[string]any, opts ...nodes.Ne
 
 	setIthOutput := func(i int, taskOutput map[string]any) error {
 		for k, source := range b.outputs {
-			fromValue, ok := nodes.TakeMapValue(taskOutput, append(compose.FieldPath{string(source.Ref.FromNodeKey)},
+			fromValue, _ := nodes.TakeMapValue(taskOutput, append(compose.FieldPath{string(source.Ref.FromNodeKey)},
 				source.Ref.FromPath...))
-			if !ok {
-				return fmt.Errorf("key not present in inner workflow's output: %s", k)
-			}
 
 			toArray, ok := nodes.TakeMapValue(output, compose.FieldPath{k})
 			if !ok {
 				return fmt.Errorf("key not present in outer workflow's output: %s", k)
 			}
 
-			reflect.ValueOf(toArray).Index(i).Set(reflect.ValueOf(fromValue))
+			toArray.([]any)[i] = fromValue
 		}
 
 		return nil
@@ -281,7 +279,7 @@ func (b *Batch) Execute(ctx context.Context, in map[string]any, opts ...nodes.Ne
 
 		subCtx, subCheckpointID := execute.InheritExeCtxWithBatchInfo(ctx, i, items)
 
-		ithOpts := options.GetOptsForNested()
+		ithOpts := slices.Clone(options.GetOptsForNested())
 		mu.Lock()
 		ithOpts = append(ithOpts, options.GetOptsForIndexed(i)...)
 		mu.Unlock()
@@ -413,9 +411,9 @@ func (b *Batch) Execute(ctx context.Context, in map[string]any, opts ...nodes.Ne
 				return nil
 			}
 
-			// althrough this invocation does not have new interruptions,
+			// although this invocation does not have new interruptions,
 			// this batch node previously have interrupts yet to be resumed.
-			// we overrite the interrupt events, keeping only the interrupts yet to be resumed.
+			// we overwrite the interrupt events, keeping only the interrupts yet to be resumed.
 			return setter.SetInterruptEvent(b.config.BatchNodeKey, &entity.InterruptEvent{
 				NodeKey:             b.config.BatchNodeKey,
 				NodeType:            entity.NodeTypeBatch,

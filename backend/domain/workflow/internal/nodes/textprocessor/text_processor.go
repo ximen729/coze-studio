@@ -20,7 +20,6 @@ import (
 	"context"
 	"fmt"
 	"reflect"
-	"regexp"
 	"strings"
 
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes"
@@ -41,8 +40,6 @@ type Config struct {
 	Separators  []string                     `json:"separator"`
 	FullSources map[string]*nodes.SourceInfo `json:"fullSources"`
 }
-
-var parserRegexp = regexp.MustCompile(`\{\{([^}]+)}}`)
 
 type TextProcessor struct {
 	config *Config
@@ -107,21 +104,6 @@ func (t *TextProcessor) Invoke(ctx context.Context, input map[string]any) (map[s
 	default:
 		return nil, fmt.Errorf("not support type %s", t.config.Type)
 	}
-}
-
-func formatTpl(_ context.Context, tpl string, arrayVs map[string]bool) (formatedTpl string, err error) {
-	matches := parserRegexp.FindAllStringSubmatch(tpl, -1)
-	formattedTpl := tpl
-	for _, match := range matches {
-		if len(match) > 1 {
-			tplVariable := match[1]
-			if arrayVs[tplVariable] {
-				tplVariable = tplVariable + "_join"
-			}
-			formattedTpl = strings.ReplaceAll(formattedTpl, match[0], fmt.Sprintf("{{%s}}", tplVariable))
-		}
-	}
-	return formattedTpl, nil
 }
 
 func join(vs []any, concatChar string) (string, error) {
