@@ -70,7 +70,7 @@ func TestDataset_Query(t *testing.T) {
 			objects := make([]database.Object, 0)
 			objects = append(objects, database.Object{
 				"v1": "1",
-				"v2": 2,
+				"v2": int64(2),
 			})
 
 			cfg := &QueryConfig{
@@ -154,7 +154,7 @@ func TestDataset_Query(t *testing.T) {
 			objects := make([]database.Object, 0)
 			objects = append(objects, database.Object{
 				"v1": "1",
-				"v2": 2,
+				"v2": int64(2),
 			})
 
 			mockQuery := &mockDsSelect{objects: objects, t: t, validate: func(request *database.QueryRequest) {
@@ -215,7 +215,7 @@ func TestDataset_Query(t *testing.T) {
 			objects := make([]database.Object, 0)
 			objects = append(objects, database.Object{
 				"v1": "abc",
-				"v2": 2,
+				"v2": int64(2),
 			})
 
 			mockQuery := &mockDsSelect{objects: objects, t: t, validate: func(request *database.QueryRequest) {
@@ -244,7 +244,10 @@ func TestDataset_Query(t *testing.T) {
 			result, err := ds.Query(t.Context(), in)
 			assert.NoError(t, err)
 			fmt.Println(result)
-			assert.Equal(t, nil, result["outputList"])
+			assert.Equal(t, map[string]any{
+				"v1": nil,
+				"v2": int64(2),
+			}, result["outputList"].([]any)[0])
 
 		})
 
@@ -275,7 +278,7 @@ func TestDataset_Query(t *testing.T) {
 			objects := make([]database.Object, 0)
 			objects = append(objects, database.Object{
 				"v1": "1",
-				"v2": 2,
+				"v2": int64(2),
 			})
 			mockQuery := &mockDsSelect{objects: objects, t: t, validate: func(request *database.QueryRequest) {
 				if request.DatabaseInfoID != cfg.DatabaseInfoID {
@@ -321,17 +324,18 @@ func TestDataset_Query(t *testing.T) {
 			QueryFields:  []string{"v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8"},
 
 			OutputConfig: map[string]*vo.TypeInfo{
-				"outputList": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeObject, Properties: map[string]*vo.TypeInfo{
-					"v1": {Type: vo.DataTypeInteger},
-					"v2": {Type: vo.DataTypeNumber},
-					"v3": {Type: vo.DataTypeBoolean},
-					"v4": {Type: vo.DataTypeBoolean},
-					"v5": {Type: vo.DataTypeTime},
-					"v6": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeInteger}},
-					"v7": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeBoolean}},
-					"v8": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeNumber}},
-				},
-				}},
+				"outputList": {Type: vo.DataTypeArray,
+					ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeObject, Properties: map[string]*vo.TypeInfo{
+						"v1": {Type: vo.DataTypeInteger},
+						"v2": {Type: vo.DataTypeNumber},
+						"v3": {Type: vo.DataTypeBoolean},
+						"v4": {Type: vo.DataTypeBoolean},
+						"v5": {Type: vo.DataTypeTime},
+						"v6": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeInteger}},
+						"v7": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeBoolean}},
+						"v8": {Type: vo.DataTypeArray, ElemTypeInfo: &vo.TypeInfo{Type: vo.DataTypeNumber}},
+					},
+					}},
 				"rowNum": {Type: vo.DataTypeInteger},
 			},
 		}
@@ -340,7 +344,7 @@ func TestDataset_Query(t *testing.T) {
 		objects = append(objects, database.Object{
 			"v1": "1",
 			"v2": "2.1",
-			"v3": 0,
+			"v3": int64(0),
 			"v4": "true",
 			"v5": "2020-02-20T10:10:10",
 			"v6": `["1","2","3"]`,
@@ -372,15 +376,16 @@ func TestDataset_Query(t *testing.T) {
 
 		result, err := ds.Query(t.Context(), in)
 		assert.NoError(t, err)
+		object := result["outputList"].([]any)[0].(database.Object)
 
-		assert.Equal(t, int64(1), result["outputList"].([]any)[0].(database.Object)["v1"])
-		assert.Equal(t, 2.1, result["outputList"].([]any)[0].(database.Object)["v2"])
-		assert.Equal(t, false, result["outputList"].([]any)[0].(database.Object)["v3"])
-		assert.Equal(t, true, result["outputList"].([]any)[0].(database.Object)["v4"])
-		assert.Equal(t, "2020-02-20T10:10:10", result["outputList"].([]any)[0].(database.Object)["v5"])
-		assert.Equal(t, []int64{1, 2, 3}, result["outputList"].([]any)[0].(database.Object)["v6"])
-		assert.Equal(t, []bool{false, true, true}, result["outputList"].([]any)[0].(database.Object)["v7"])
-		assert.Equal(t, []float64{1.2, 2.1, 3.9}, result["outputList"].([]any)[0].(database.Object)["v8"])
+		assert.Equal(t, int64(1), object["v1"])
+		assert.Equal(t, 2.1, object["v2"])
+		assert.Equal(t, false, object["v3"])
+		assert.Equal(t, true, object["v4"])
+		assert.Equal(t, "2020-02-20T10:10:10", object["v5"])
+		assert.Equal(t, []any{int64(1), int64(2), int64(3)}, object["v6"])
+		assert.Equal(t, []any{false, true, true}, object["v7"])
+		assert.Equal(t, []any{1.2, 2.1, 3.9}, object["v8"])
 
 	})
 
@@ -404,9 +409,9 @@ func TestDataset_Query(t *testing.T) {
 
 		objects := make([]database.Object, 0)
 		objects = append(objects, database.Object{
-			"v1": 1,
+			"v1": int64(1),
 			"v2": "2.1",
-			"v3": 0,
+			"v3": int64(0),
 			"v4": "true",
 			"v5": "2020-02-20T10:10:10",
 			"v6": `["1","2","3"]`,
