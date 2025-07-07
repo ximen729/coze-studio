@@ -3,9 +3,9 @@
 -- 当主键或唯一键冲突时，不会插入新记录，而是更新指定字段
 SET NAMES utf8mb4;
 
--- email: developer@opencoze.com, password: 123456
+-- email: developer@coze-studio.com, password: 123456
 INSERT INTO user (id, name, unique_name, email, password, description, icon_uri, user_verified, locale, session_key, created_at, updated_at)
-VALUES (888, 'developer', 'developer@opencoze.com', 'developer@opencoze.com',
+VALUES (888, 'developer', 'developer@coze-studio.com', 'developer@coze-studio.com',
 '$argon2id$v=19$m=65536,t=3,p=4$NuzvhNc89RHjGkwmfItHkg$hWXhVXjQFTP/Pa637AqtcHXs84evoDUzeQsTKTElau4',
 '', 'default_icon/user_default_icon.png', 0, 'en-US', '', 1746698238701, 1746698238701)
 ON DUPLICATE KEY UPDATE
