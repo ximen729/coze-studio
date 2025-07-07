@@ -618,5 +618,8 @@ struct GetQueriedOAuthPluginListRequest {
 
 struct GetQueriedOAuthPluginListResponse {
     1  :          list<OAuthPluginInfo> oauth_plugin_list,
+
+    253: i64 code
+    254: string msg
     255: required base.BaseResp         BaseResp         ,
 }
