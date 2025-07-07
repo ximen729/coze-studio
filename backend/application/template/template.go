@@ -61,7 +61,12 @@ func (t *ApplicationService) PublicGetProductList(ctx context.Context, req *prod
 
 		avatarURL, uRrr := t.storage.GetObjectUrl(ctx, "default_icon/connector-coze.png")
 		if uRrr == nil {
-			meta.Seller.AvatarURL = avatarURL
+			if meta.Seller != nil {
+				meta.Seller.AvatarURL = avatarURL
+			}
+			if meta.UserInfo != nil {
+				meta.UserInfo.AvatarURL = avatarURL
+			}
 		}
 
 		products = append(products, &productAPI.ProductInfo{
