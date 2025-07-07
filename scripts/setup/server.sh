@@ -19,7 +19,7 @@ if command -v goimports >/dev/null 2>&1; then
         -path "*/mock/*" -prune -o \
         -path "*_mock.go" -prune -o \
         -path "*/dal/model*" -prune -o \
-        -name "*.go" -exec goimports -w -local "code.byted.org/flow/opencoze" {} \;
+        -name "*.go" -exec goimports -w -local "github.com/coze-dev/coze-studio" {} \;
 else
     echo "⚠️ goimports not found, skipping Go file formatting."
 fi
