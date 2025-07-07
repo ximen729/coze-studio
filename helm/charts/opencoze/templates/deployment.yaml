@@ -97,4 +97,16 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- if .Values.cozeServer.confHostPath }}
+          volumeMounts:
+            - name: opencoze-server-conf
+              mountPath: /app/resources/conf
+          {{- end }}
+      {{- if .Values.cozeServer.confHostPath }}
+      volumes:
+        - name: opencoze-server-conf
+          hostPath:
+            path: {{ .Values.cozeServer.confHostPath }}
+            type: DirectoryOrCreate
+      {{- end }}
 {{- end }}

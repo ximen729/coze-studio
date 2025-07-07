@@ -32,6 +32,7 @@ cozeServer:
   enabled: true
   # -- Number of replicas for the coze-server deployment
   replicaCount: 1
+  confHostPath: ""
 
   image:
     repository: opencoze/opencoze
