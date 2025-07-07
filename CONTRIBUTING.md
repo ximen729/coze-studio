@@ -16,10 +16,10 @@ Providing a reduced test code is a recommended way for reporting issues. Then ca
 - [Golang Playground](https://play.golang.org/)
 
 ### 3. Security Bugs
-Please do not report the safe disclosure of bugs to public issues. Contact us by [Support Email](mailto:feedback@coze.cn)
+Please do not report the safe disclosure of bugs to public issues. Contact us by [Support Email](mailto:opensource-studio@coze.cn)
 
 ## How to Get in Touch
-- [Email](mailto:feedback@coze.cn)
+- [Email](mailto:opensource-studio@coze.cn)
 
 ## Submit a Pull Request
 Before you submit your Pull Request (PR) consider the following guidelines:
