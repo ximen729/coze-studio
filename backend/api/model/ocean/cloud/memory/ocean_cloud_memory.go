@@ -3,10 +3,10 @@
 package memory
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/knowledge/document"
-	"code.byted.org/flow/opencoze/backend/api/model/kvmemory"
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
-	"code.byted.org/flow/opencoze/backend/api/model/table"
+	"github.com/coze-dev/coze-studio/backend/api/model/knowledge/document"
+	"github.com/coze-dev/coze-studio/backend/api/model/kvmemory"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
+	"github.com/coze-dev/coze-studio/backend/api/model/table"
 	"context"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"

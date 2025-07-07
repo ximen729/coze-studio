@@ -24,8 +24,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/knowledge"
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/knowledge"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 )
 
 type IndexerConfig struct {

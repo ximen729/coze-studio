@@ -29,13 +29,13 @@ import (
 	"github.com/cloudwego/eino/compose"
 	"github.com/cloudwego/eino/schema"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/singleagent"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossworkflow"
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/singleagent"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossworkflow"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 func newReplyCallback(_ context.Context, executeID string) (clb callbacks.Handler,

@@ -21,7 +21,7 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/datacopy"
+	"github.com/coze-dev/coze-studio/backend/domain/datacopy"
 )
 
 type DataCopy interface {

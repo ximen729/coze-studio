@@ -30,17 +30,17 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
-	"code.byted.org/flow/opencoze/backend/api/model/table"
-	entity2 "code.byted.org/flow/opencoze/backend/domain/memory/database/entity"
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/internal/dal"
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/repository"
-	"code.byted.org/flow/opencoze/backend/infra/contract/rdb"
-	rdb2 "code.byted.org/flow/opencoze/backend/infra/impl/rdb"
-	mock "code.byted.org/flow/opencoze/backend/internal/mock/infra/contract/idgen"
-	storageMock "code.byted.org/flow/opencoze/backend/internal/mock/infra/contract/storage"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/api/model/table"
+	entity2 "github.com/coze-dev/coze-studio/backend/domain/memory/database/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/internal/dal"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/repository"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/rdb"
+	rdb2 "github.com/coze-dev/coze-studio/backend/infra/impl/rdb"
+	mock "github.com/coze-dev/coze-studio/backend/internal/mock/infra/contract/idgen"
+	storageMock "github.com/coze-dev/coze-studio/backend/internal/mock/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 func setupTestEnv(t *testing.T) (*gorm.DB, rdb.RDB, *mock.MockIDGenerator, repository.DraftDAO, repository.OnlineDAO, Database) {

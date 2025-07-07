@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/plugin/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/internal/dal/model"
 )
 
 func newPluginVersion(db *gorm.DB, opts ...gen.DOOption) pluginVersion {

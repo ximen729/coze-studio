@@ -15,7 +15,7 @@ import (
 
 	gomock "go.uber.org/mock/gomock"
 
-	entity "code.byted.org/flow/opencoze/backend/domain/search/entity"
+	entity "github.com/coze-dev/coze-studio/backend/domain/search/entity"
 )
 
 // MockResourceDomainNotifier is a mock of ResourceDomainNotifier interface.

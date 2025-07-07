@@ -3,8 +3,8 @@
 package developer_api
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/bot_common"
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/playground"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/playground"
 	"context"
 	"database/sql"
 	"database/sql/driver"

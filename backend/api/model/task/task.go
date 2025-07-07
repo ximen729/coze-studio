@@ -3,8 +3,8 @@
 package task
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	"code.byted.org/flow/opencoze/backend/api/model/task_struct"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/task_struct"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"
 )

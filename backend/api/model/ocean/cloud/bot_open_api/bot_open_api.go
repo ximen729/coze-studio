@@ -3,7 +3,7 @@
 package bot_open_api
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
 	"context"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"

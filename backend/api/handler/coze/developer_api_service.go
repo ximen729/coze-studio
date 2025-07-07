@@ -30,16 +30,16 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 
-	developer_api "code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/developer_api"
-	"code.byted.org/flow/opencoze/backend/application/base/ctxutil"
-	"code.byted.org/flow/opencoze/backend/application/modelmgr"
-	"code.byted.org/flow/opencoze/backend/application/singleagent"
-	application "code.byted.org/flow/opencoze/backend/application/singleagent"
-	"code.byted.org/flow/opencoze/backend/application/upload"
-	"code.byted.org/flow/opencoze/backend/application/user"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	developer_api "github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/developer_api"
+	"github.com/coze-dev/coze-studio/backend/application/base/ctxutil"
+	"github.com/coze-dev/coze-studio/backend/application/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/application/singleagent"
+	application "github.com/coze-dev/coze-studio/backend/application/singleagent"
+	"github.com/coze-dev/coze-studio/backend/application/upload"
+	"github.com/coze-dev/coze-studio/backend/application/user"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 // DraftBotCreate .

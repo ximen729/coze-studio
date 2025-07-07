@@ -25,11 +25,11 @@ import (
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/app/entity"
-	"code.byted.org/flow/opencoze/backend/domain/app/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/app/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/domain/app/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/app/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/app/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 func NewAPPReleaseRecordDAO(db *gorm.DB, idGen idgen.IDGenerator) *APPReleaseRecordDAO {

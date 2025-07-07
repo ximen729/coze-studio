@@ -19,11 +19,11 @@ package variables
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/variables"
-	"code.byted.org/flow/opencoze/backend/api/model/kvmemory"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossvariables"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/entity"
-	variables "code.byted.org/flow/opencoze/backend/domain/memory/variables/service"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/variables"
+	"github.com/coze-dev/coze-studio/backend/api/model/kvmemory"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossvariables"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/entity"
+	variables "github.com/coze-dev/coze-studio/backend/domain/memory/variables/service"
 )
 
 var defaultSVC crossvariables.Variables

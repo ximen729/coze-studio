@@ -13,7 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	service "code.byted.org/flow/opencoze/backend/domain/memory/database/service"
+	service "github.com/coze-dev/coze-studio/backend/domain/memory/database/service"
 	gomock "go.uber.org/mock/gomock"
 )
 

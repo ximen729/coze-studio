@@ -24,9 +24,9 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 
-	dataset "code.byted.org/flow/opencoze/backend/api/model/flow/dataengine/dataset"
-	application "code.byted.org/flow/opencoze/backend/application/knowledge"
-	"code.byted.org/flow/opencoze/backend/application/upload"
+	dataset "github.com/coze-dev/coze-studio/backend/api/model/flow/dataengine/dataset"
+	application "github.com/coze-dev/coze-studio/backend/application/knowledge"
+	"github.com/coze-dev/coze-studio/backend/application/upload"
 )
 
 // CreateDataset .

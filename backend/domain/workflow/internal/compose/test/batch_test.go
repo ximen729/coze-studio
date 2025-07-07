@@ -24,10 +24,10 @@ import (
 	"github.com/cloudwego/eino/compose"
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
-	compose2 "code.byted.org/flow/opencoze/backend/domain/workflow/internal/compose"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/batch"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
+	compose2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/compose"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/batch"
 )
 
 func TestBatch(t *testing.T) {

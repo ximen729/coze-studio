@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/internal/dal/model"
 )
 
 func newVariablesMeta(db *gorm.DB, opts ...gen.DOOption) variablesMeta {

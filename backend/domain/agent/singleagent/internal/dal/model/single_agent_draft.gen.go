@@ -5,7 +5,7 @@
 package model
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/bot_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
 	"gorm.io/gorm"
 )
 

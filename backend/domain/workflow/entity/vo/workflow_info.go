@@ -17,8 +17,8 @@
 package vo
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/workflow"
-	"code.byted.org/flow/opencoze/backend/pkg/sonic"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/workflow"
+	"github.com/coze-dev/coze-studio/backend/pkg/sonic"
 )
 
 type ReleasedWorkflowData struct {

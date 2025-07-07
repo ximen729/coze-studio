@@ -20,9 +20,9 @@ import (
 	"context"
 	"fmt"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/searchstore"
-	"code.byted.org/flow/opencoze/backend/infra/contract/embedding"
-	"code.byted.org/flow/opencoze/backend/infra/contract/es"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/searchstore"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/embedding"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/es"
 )
 
 type ManagerConfig struct {

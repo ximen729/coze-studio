@@ -3,8 +3,8 @@
 package project
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	"code.byted.org/flow/opencoze/backend/api/model/intelligence/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/intelligence/common"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"
 )

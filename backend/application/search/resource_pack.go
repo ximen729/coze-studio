@@ -20,14 +20,14 @@ import (
 	"context"
 	"fmt"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
-	"code.byted.org/flow/opencoze/backend/api/model/resource/common"
-	"code.byted.org/flow/opencoze/backend/api/model/table"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/service"
-	dbservice "code.byted.org/flow/opencoze/backend/domain/memory/database/service"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/api/model/resource/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/table"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/service"
+	dbservice "github.com/coze-dev/coze-studio/backend/domain/memory/database/service"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 var defaultAction = []*common.ResourceAction{

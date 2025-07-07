@@ -21,7 +21,7 @@ import (
 
 	"github.com/cloudwego/eino/compose"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/variable"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/variable"
 )
 
 type Break struct {

@@ -22,7 +22,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
 )
 
 func NewCountRepo(cli *redis.Client) *CounterImpl {

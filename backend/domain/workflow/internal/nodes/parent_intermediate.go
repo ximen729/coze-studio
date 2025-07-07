@@ -21,11 +21,11 @@ import (
 	"fmt"
 	"sync"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/variable"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/variable"
 
 	"github.com/cloudwego/eino/compose"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 )
 
 type ParentIntermediateStore struct {

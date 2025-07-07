@@ -19,7 +19,7 @@ package crossmessage
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/message"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/message"
 )
 
 type Message interface {

@@ -19,7 +19,7 @@ package crossmodelmgr
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/modelmgr"
 )
 
 type ModelMgr interface {

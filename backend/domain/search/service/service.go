@@ -19,7 +19,7 @@ package service
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/domain/search/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/search/entity"
 )
 
 type ProjectEventBus interface {

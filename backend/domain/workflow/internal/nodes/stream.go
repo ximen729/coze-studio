@@ -21,7 +21,7 @@ import (
 
 	"github.com/cloudwego/eino/compose"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 )
 
 var KeyIsFinished = "\x1FKey is finished\x1F"

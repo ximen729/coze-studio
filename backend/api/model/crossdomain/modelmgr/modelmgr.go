@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/chatmodel"
-	"code.byted.org/flow/opencoze/backend/pkg/i18n"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/chatmodel"
+	"github.com/coze-dev/coze-studio/backend/pkg/i18n"
 )
 
 type MGetModelRequest struct {

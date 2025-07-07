@@ -23,16 +23,16 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/eventbus"
-	"code.byted.org/flow/opencoze/backend/infra/contract/imagex"
-	"code.byted.org/flow/opencoze/backend/infra/impl/cache/redis"
-	"code.byted.org/flow/opencoze/backend/infra/impl/es"
-	"code.byted.org/flow/opencoze/backend/infra/impl/eventbus/rmq"
-	"code.byted.org/flow/opencoze/backend/infra/impl/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/impl/imagex/veimagex"
-	"code.byted.org/flow/opencoze/backend/infra/impl/mysql"
-	"code.byted.org/flow/opencoze/backend/infra/impl/storage"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/eventbus"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/imagex"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/cache/redis"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/es"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus/rmq"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/imagex/veimagex"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/mysql"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/storage"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 type AppDependencies struct {

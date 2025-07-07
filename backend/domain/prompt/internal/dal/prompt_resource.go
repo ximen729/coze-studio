@@ -24,12 +24,12 @@ import (
 	"gorm.io/gen"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/prompt/entity"
-	"code.byted.org/flow/opencoze/backend/domain/prompt/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/prompt/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 type PromptDAO struct {

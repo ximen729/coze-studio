@@ -21,10 +21,10 @@ import (
 	"reflect"
 	"time"
 
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/entity"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/consts"
-	"code.byted.org/flow/opencoze/backend/infra/contract/document"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/consts"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 const timeFormat = "2006-01-02 15:04:05"

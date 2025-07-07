@@ -23,11 +23,11 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/modelmgr"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/sqlutil"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/sqlutil"
 )
 
 type ModelEntityRepo interface {

@@ -17,10 +17,10 @@
 package entity
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/intelligence/common"
-	publishAPI "code.byted.org/flow/opencoze/backend/api/model/publish"
-	resourceCommon "code.byted.org/flow/opencoze/backend/api/model/resource/common"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/api/model/intelligence/common"
+	publishAPI "github.com/coze-dev/coze-studio/backend/api/model/publish"
+	resourceCommon "github.com/coze-dev/coze-studio/backend/api/model/resource/common"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type APP struct {

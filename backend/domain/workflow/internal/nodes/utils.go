@@ -25,7 +25,7 @@ import (
 	"github.com/cloudwego/eino/compose"
 	"github.com/nikolalohinski/gonja"
 
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 // TakeMapValue extracts the value for specified path from input map.

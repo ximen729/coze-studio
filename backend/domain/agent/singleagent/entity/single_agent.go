@@ -17,7 +17,7 @@
 package entity
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/singleagent"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/singleagent"
 )
 
 // Use composition instead of aliasing for domain entities to enhance extensibility

@@ -27,13 +27,13 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol"
 
-	"code.byted.org/flow/opencoze/backend/api/model/passport"
-	"code.byted.org/flow/opencoze/backend/application/user"
-	"code.byted.org/flow/opencoze/backend/domain/user/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/hertzutil/domain"
-	"code.byted.org/flow/opencoze/backend/pkg/i18n"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/api/model/passport"
+	"github.com/coze-dev/coze-studio/backend/application/user"
+	"github.com/coze-dev/coze-studio/backend/domain/user/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/hertzutil/domain"
+	"github.com/coze-dev/coze-studio/backend/pkg/i18n"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 // PassportWebEmailRegisterV2Post .

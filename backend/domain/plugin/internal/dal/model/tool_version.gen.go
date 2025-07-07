@@ -5,7 +5,7 @@
 package model
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
 	"gorm.io/gorm"
 )
 

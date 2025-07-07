@@ -3,8 +3,8 @@
 package plugin_develop
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	"code.byted.org/flow/opencoze/backend/api/model/plugin_develop_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/plugin_develop_common"
 	"context"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"

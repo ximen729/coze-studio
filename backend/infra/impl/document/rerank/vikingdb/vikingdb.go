@@ -28,8 +28,8 @@ import (
 
 	"github.com/volcengine/volc-sdk-golang/base"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/rerank"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/rerank"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type Config struct {

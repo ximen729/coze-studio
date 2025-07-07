@@ -22,12 +22,12 @@ import (
 
 	model2 "github.com/cloudwego/eino/components/model"
 
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossmodelmgr"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/model"
-	"code.byted.org/flow/opencoze/backend/infra/contract/chatmodel"
-	chatmodel2 "code.byted.org/flow/opencoze/backend/infra/impl/chatmodel"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossmodelmgr"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/chatmodel"
+	chatmodel2 "github.com/coze-dev/coze-studio/backend/infra/impl/chatmodel"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type ModelManager struct {

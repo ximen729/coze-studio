@@ -1,7 +1,7 @@
 package search
 
 import (
-	resource "code.byted.org/flow/opencoze/backend/api/model/resource/common"
+	resource "github.com/coze-dev/coze-studio/backend/api/model/resource/common"
 )
 
 type SearchResourcesRequest struct {

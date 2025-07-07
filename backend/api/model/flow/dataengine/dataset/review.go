@@ -3,7 +3,7 @@
 package dataset
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"
 )

@@ -19,12 +19,12 @@ package template
 import (
 	"context"
 
-	productAPI "code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/product_public_api"
-	"code.byted.org/flow/opencoze/backend/domain/template/entity"
-	"code.byted.org/flow/opencoze/backend/domain/template/repository"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	productAPI "github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/product_public_api"
+	"github.com/coze-dev/coze-studio/backend/domain/template/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/template/repository"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 type ApplicationService struct {

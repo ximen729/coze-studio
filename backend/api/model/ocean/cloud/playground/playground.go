@@ -3,8 +3,8 @@
 package playground
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/bot_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
 	"context"
 	"database/sql"
 	"database/sql/driver"

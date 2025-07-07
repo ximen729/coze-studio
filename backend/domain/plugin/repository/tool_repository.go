@@ -19,8 +19,8 @@ package repository
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
-	"code.byted.org/flow/opencoze/backend/domain/plugin/entity"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/entity"
 )
 
 type ToolRepository interface {

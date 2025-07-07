@@ -25,7 +25,7 @@ import (
 	"github.com/cloudwego/eino/components/document/parser"
 	"github.com/cloudwego/eino/schema"
 
-	contract "code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
+	contract "github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 )
 
 func parseJSON(config *contract.Config) parseFn {

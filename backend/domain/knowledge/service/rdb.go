@@ -19,18 +19,18 @@ package service
 import (
 	"context"
 
-	knowledgeModel "code.byted.org/flow/opencoze/backend/api/model/crossdomain/knowledge"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/entity"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/consts"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/convert"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/infra/contract/document"
-	"code.byted.org/flow/opencoze/backend/infra/contract/rdb"
-	rdbEntity "code.byted.org/flow/opencoze/backend/infra/contract/rdb/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	knowledgeModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/knowledge"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/consts"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/convert"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/rdb"
+	rdbEntity "github.com/coze-dev/coze-studio/backend/infra/contract/rdb/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 func (k *knowledgeSVC) selectTableData(ctx context.Context, tableInfo *entity.TableInfo, slices []*model.KnowledgeDocumentSlice) (sliceEntityMap map[int64]*entity.Slice, err error) {

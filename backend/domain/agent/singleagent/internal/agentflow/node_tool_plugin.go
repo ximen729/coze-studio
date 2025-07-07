@@ -22,15 +22,15 @@ import (
 	"github.com/cloudwego/eino/components/tool"
 	"github.com/cloudwego/eino/schema"
 
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/bot_common"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossplugin"
-	pluginEntity "code.byted.org/flow/opencoze/backend/domain/plugin/entity"
-	"code.byted.org/flow/opencoze/backend/domain/plugin/service"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossplugin"
+	pluginEntity "github.com/coze-dev/coze-studio/backend/domain/plugin/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/service"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 type toolConfig struct {

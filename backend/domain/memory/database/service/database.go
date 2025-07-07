@@ -19,11 +19,11 @@ package service
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/common"
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/api/model/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
 
-	"code.byted.org/flow/opencoze/backend/api/model/table"
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/entity"
+	"github.com/coze-dev/coze-studio/backend/api/model/table"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/entity"
 )
 
 //go:generate mockgen -destination  ../../../../internal/mock/domain/memory/database/database_mock.go  --package database  -source database.go

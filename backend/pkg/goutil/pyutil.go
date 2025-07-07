@@ -20,7 +20,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 func GetPythonFilePath(fileName string) string {

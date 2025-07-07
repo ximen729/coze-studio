@@ -19,7 +19,7 @@ package prompt
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/domain/prompt/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/entity"
 )
 
 type Prompt interface {

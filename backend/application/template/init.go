@@ -21,9 +21,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/template/repository"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/domain/template/repository"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
 )
 
 type ServiceComponents struct {

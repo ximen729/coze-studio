@@ -22,10 +22,10 @@ import (
 
 	"github.com/cloudwego/hertz/pkg/app"
 
-	"code.byted.org/flow/opencoze/backend/domain/user/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/ctxcache"
-	"code.byted.org/flow/opencoze/backend/pkg/i18n"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/domain/user/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
+	"github.com/coze-dev/coze-studio/backend/pkg/i18n"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 func I18nMW() app.HandlerFunc {

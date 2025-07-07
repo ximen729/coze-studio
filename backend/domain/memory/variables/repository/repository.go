@@ -21,10 +21,10 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/entity"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/internal/dal"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/internal/dal"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 func NewVariableRepo(db *gorm.DB, generator idgen.IDGenerator) VariableRepository {

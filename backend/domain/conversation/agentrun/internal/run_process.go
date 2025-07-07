@@ -22,11 +22,11 @@ import (
 
 	"github.com/cloudwego/eino/schema"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/agentrun"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/entity"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/repository"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/agentrun"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/repository"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 type RunProcess struct {

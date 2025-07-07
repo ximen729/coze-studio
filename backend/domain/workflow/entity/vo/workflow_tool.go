@@ -16,7 +16,7 @@
 
 package vo
 
-import "code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/workflow"
+import "github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/workflow"
 
 type WorkflowToolConfig struct {
 	InputParametersConfig  []*workflow.APIParameter

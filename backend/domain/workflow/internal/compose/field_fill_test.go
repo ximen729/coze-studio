@@ -22,7 +22,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 )
 
 func TestNodeSchema_OutputValueFiller(t *testing.T) {

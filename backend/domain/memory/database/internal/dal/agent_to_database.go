@@ -23,11 +23,11 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
-	"code.byted.org/flow/opencoze/backend/api/model/table"
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/api/model/table"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 var (

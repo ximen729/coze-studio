@@ -19,9 +19,9 @@ package service
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/kvmemory"
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/entity"
+	"github.com/coze-dev/coze-studio/backend/api/model/kvmemory"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/entity"
 )
 
 type Variables interface {

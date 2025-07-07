@@ -19,7 +19,7 @@ package crossconnector
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/connector"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/connector"
 )
 
 type Connector interface {

@@ -25,10 +25,10 @@ import (
 	"github.com/cloudwego/eino/components/document/parser"
 	"github.com/cloudwego/eino/schema"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/chatmodel"
-	contract "code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/chatmodel"
+	contract "github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 func parseImage(config *contract.Config, model chatmodel.BaseChatModel) parseFn {

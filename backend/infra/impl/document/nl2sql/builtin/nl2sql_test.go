@@ -25,7 +25,7 @@ import (
 	"github.com/cloudwego/eino/schema"
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document"
 )
 
 func TestNL2SQL(t *testing.T) {

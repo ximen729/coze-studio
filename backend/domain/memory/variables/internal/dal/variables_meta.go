@@ -23,12 +23,12 @@ import (
 	"gorm.io/gen"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/entity"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 func (m *VariablesDAO) GetProjectVariable(ctx context.Context, projectID, version string) (*entity.VariablesMeta, error) {

@@ -19,7 +19,7 @@ package conversation
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/entity"
 )
 
 type Conversation interface {

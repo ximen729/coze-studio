@@ -24,7 +24,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"code.byted.org/flow/opencoze/backend/infra/impl/dynconf/static/internal"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/dynconf/static/internal"
 )
 
 var (

@@ -19,7 +19,7 @@ package crossconversation
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/conversation"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/conversation"
 )
 
 type Conversation interface {

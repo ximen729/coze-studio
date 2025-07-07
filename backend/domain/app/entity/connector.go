@@ -17,8 +17,8 @@
 package entity
 
 import (
-	publishAPI "code.byted.org/flow/opencoze/backend/api/model/publish"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	publishAPI "github.com/coze-dev/coze-studio/backend/api/model/publish"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 var ConnectorIDWhiteList = []int64{

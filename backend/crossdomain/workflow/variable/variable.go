@@ -26,16 +26,16 @@ import (
 
 	"github.com/cloudwego/eino/compose"
 
-	variablesModel "code.byted.org/flow/opencoze/backend/api/model/crossdomain/variables"
-	"code.byted.org/flow/opencoze/backend/api/model/kvmemory"
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/entity"
-	variables "code.byted.org/flow/opencoze/backend/domain/memory/variables/service"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/variable"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	variablesModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/variables"
+	"github.com/coze-dev/coze-studio/backend/api/model/kvmemory"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/entity"
+	variables "github.com/coze-dev/coze-studio/backend/domain/memory/variables/service"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/variable"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ternary"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ternary"
 )
 
 type varStore struct {

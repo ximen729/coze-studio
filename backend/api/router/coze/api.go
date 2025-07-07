@@ -19,7 +19,7 @@
 package coze
 
 import (
-	coze "code.byted.org/flow/opencoze/backend/api/handler/coze"
+	coze "github.com/coze-dev/coze-studio/backend/api/handler/coze"
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 

@@ -16,7 +16,7 @@
 
 package entity
 
-import "code.byted.org/flow/opencoze/backend/domain/shortcutcmd/internal/dal/model"
+import "github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/internal/dal/model"
 
 type ShortcutCmd = model.ShortcutCommand
 

@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"os"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
-	"code.byted.org/flow/opencoze/backend/infra/impl/storage/minio"
-	"code.byted.org/flow/opencoze/backend/infra/impl/storage/tos"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/storage/minio"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/storage/tos"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 type Storage = storage.Storage

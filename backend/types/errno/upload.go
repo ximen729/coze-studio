@@ -16,7 +16,7 @@
 
 package errno
 
-import "code.byted.org/flow/opencoze/backend/pkg/errorx/code"
+import "github.com/coze-dev/coze-studio/backend/pkg/errorx/code"
 
 // Upload: 104 000 000 ~ 104 999 999
 const (

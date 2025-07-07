@@ -24,10 +24,10 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/entity"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type KnowledgeDAO struct {

@@ -4,7 +4,7 @@
 
 package model
 
-import "code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/product_public_api"
+import "github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/product_public_api"
 
 const TableNameTemplate = "template"
 

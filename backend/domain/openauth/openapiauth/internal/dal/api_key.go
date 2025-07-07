@@ -27,10 +27,10 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/openauth/openapiauth/entity"
-	"code.byted.org/flow/opencoze/backend/domain/openauth/openapiauth/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/openauth/openapiauth/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/domain/openauth/openapiauth/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/openauth/openapiauth/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/openauth/openapiauth/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 type ApiKeyDAO struct {

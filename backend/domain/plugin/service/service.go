@@ -24,11 +24,11 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/getkin/kin-openapi/openapi3"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
-	common "code.byted.org/flow/opencoze/backend/api/model/plugin_develop_common"
-	"code.byted.org/flow/opencoze/backend/domain/plugin/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	common "github.com/coze-dev/coze-studio/backend/api/model/plugin_develop_common"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 //go:generate mockgen -destination ../../../internal/mock/domain/plugin/interface.go --package mockPlugin -source service.go

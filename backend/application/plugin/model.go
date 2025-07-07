@@ -17,8 +17,8 @@
 package plugin
 
 import (
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
-	"code.byted.org/flow/opencoze/backend/domain/plugin/entity"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/entity"
 )
 
 type CopyPluginRequest struct {

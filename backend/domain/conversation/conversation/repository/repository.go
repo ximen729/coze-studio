@@ -21,9 +21,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/entity"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/internal/dal"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/internal/dal"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 func NewConversationRepo(db *gorm.DB, idGen idgen.IDGenerator) ConversationRepo {

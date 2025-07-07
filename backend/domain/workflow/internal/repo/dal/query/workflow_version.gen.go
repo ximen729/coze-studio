@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/repo/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/repo/dal/model"
 )
 
 func newWorkflowVersion(db *gorm.DB, opts ...gen.DOOption) workflowVersion {

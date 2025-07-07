@@ -19,7 +19,7 @@ package middleware
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/pkg/ctxcache"
+	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
 
 	"github.com/cloudwego/hertz/pkg/app"
 )

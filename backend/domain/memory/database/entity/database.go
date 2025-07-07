@@ -19,8 +19,8 @@ package entity
 import (
 	"github.com/xuri/excelize/v2"
 
-	"code.byted.org/flow/opencoze/backend/api/model/common"
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/api/model/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
 )
 
 type Database = database.Database

@@ -29,7 +29,7 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
 )
 
 type minioClient struct {

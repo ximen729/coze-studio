@@ -19,7 +19,7 @@ package service
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/entity"
 )
 
 type ShortcutCmd interface {

@@ -22,10 +22,10 @@ import (
 
 	"github.com/bytedance/sonic"
 
-	"code.byted.org/flow/opencoze/backend/domain/search/entity"
-	"code.byted.org/flow/opencoze/backend/infra/contract/eventbus"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/domain/search/entity"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/eventbus"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 type eventbusImpl struct {

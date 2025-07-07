@@ -20,14 +20,14 @@ import (
 	redisV9 "github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/app/repository"
-	"code.byted.org/flow/opencoze/backend/domain/app/service"
-	connector "code.byted.org/flow/opencoze/backend/domain/connector/service"
-	variables "code.byted.org/flow/opencoze/backend/domain/memory/variables/service"
-	search "code.byted.org/flow/opencoze/backend/domain/search/service"
-	user "code.byted.org/flow/opencoze/backend/domain/user/service"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/domain/app/repository"
+	"github.com/coze-dev/coze-studio/backend/domain/app/service"
+	connector "github.com/coze-dev/coze-studio/backend/domain/connector/service"
+	variables "github.com/coze-dev/coze-studio/backend/domain/memory/variables/service"
+	search "github.com/coze-dev/coze-studio/backend/domain/search/service"
+	user "github.com/coze-dev/coze-studio/backend/domain/user/service"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
 )
 
 type ServiceComponents struct {

@@ -16,7 +16,7 @@
 
 package nodes
 
-import "code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
+import "github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 
 type StructuredCallbackOutput struct {
 	Output    map[string]any

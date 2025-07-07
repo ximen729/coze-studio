@@ -19,7 +19,7 @@ package crosssearch
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/search"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/search"
 )
 
 type Search interface {

@@ -27,8 +27,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
-	contract "code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
-	ms "code.byted.org/flow/opencoze/backend/internal/mock/infra/contract/storage"
+	contract "github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
+	ms "github.com/coze-dev/coze-studio/backend/internal/mock/infra/contract/storage"
 )
 
 func TestParseMarkdown(t *testing.T) {

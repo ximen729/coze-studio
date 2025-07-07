@@ -28,14 +28,14 @@ import (
 	"github.com/cloudwego/eino/compose"
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
-	compose2 "code.byted.org/flow/opencoze/backend/domain/workflow/internal/compose"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/httprequester"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/selector"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/textprocessor"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/variableaggregator"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
+	compose2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/compose"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/httprequester"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/selector"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/textprocessor"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/variableaggregator"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 func TestAddSelector(t *testing.T) {

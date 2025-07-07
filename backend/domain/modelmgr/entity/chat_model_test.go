@@ -22,7 +22,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/modelmgr"
 )
 
 func TestDefaultParameter(t *testing.T) {

@@ -20,7 +20,7 @@ import (
 	"github.com/cloudwego/eino/components/indexer"
 	"github.com/cloudwego/eino/components/retriever"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/progressbar"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/progressbar"
 )
 
 type IndexerOptions struct {

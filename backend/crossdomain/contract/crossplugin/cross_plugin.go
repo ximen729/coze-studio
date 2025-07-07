@@ -19,7 +19,7 @@ package crossplugin
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
 )
 
 type PluginService interface {

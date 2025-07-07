@@ -17,8 +17,8 @@
 package entity
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/developer_api"
-	"code.byted.org/flow/opencoze/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/developer_api"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
 var PublishConnectorIDWhiteList = map[int64]bool{

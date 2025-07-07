@@ -4,7 +4,7 @@
 
 package model
 
-import "code.byted.org/flow/opencoze/backend/domain/app/entity"
+import "github.com/coze-dev/coze-studio/backend/domain/app/entity"
 
 const TableNameAppReleaseRecord = "app_release_record"
 

@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/openauth/openapiauth/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/openauth/openapiauth/internal/dal/model"
 )
 
 func newAPIKey(db *gorm.DB, opts ...gen.DOOption) aPIKey {

@@ -19,8 +19,8 @@ package modelmgr
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/modelmgr"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr/entity"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr/entity"
 )
 
 type Manager interface {

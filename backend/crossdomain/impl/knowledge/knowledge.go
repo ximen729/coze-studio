@@ -19,9 +19,9 @@ package knowledge
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/knowledge"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossknowledge"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/service"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/knowledge"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossknowledge"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/service"
 )
 
 var defaultSVC crossknowledge.Knowledge

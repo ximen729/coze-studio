@@ -21,8 +21,8 @@ import (
 	"errors"
 	"fmt"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/database"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 )
 
 type UpdateConfig struct {

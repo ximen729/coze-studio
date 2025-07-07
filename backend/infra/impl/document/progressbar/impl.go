@@ -24,10 +24,10 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/cache"
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/progressbar"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/cache"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/progressbar"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type ProgressBarImpl struct {

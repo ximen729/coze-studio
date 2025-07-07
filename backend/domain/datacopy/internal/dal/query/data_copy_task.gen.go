@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/datacopy/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/datacopy/internal/dal/model"
 )
 
 func newDataCopyTask(db *gorm.DB, opts ...gen.DOOption) dataCopyTask {

@@ -22,24 +22,24 @@ import (
 	"context"
 	"strconv"
 
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/workflow"
-	appworkflow "code.byted.org/flow/opencoze/backend/application/workflow"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/workflow"
+	appworkflow "github.com/coze-dev/coze-studio/backend/application/workflow"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/developer_api"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/developer_api"
 
-	"code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/product_common"
-	"code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/product_public_api"
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/bot_common"
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/playground"
-	appApplication "code.byted.org/flow/opencoze/backend/application/app"
-	"code.byted.org/flow/opencoze/backend/application/modelmgr"
-	"code.byted.org/flow/opencoze/backend/application/plugin"
-	"code.byted.org/flow/opencoze/backend/application/search"
-	"code.byted.org/flow/opencoze/backend/application/singleagent"
-	"code.byted.org/flow/opencoze/backend/application/template"
+	"github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/product_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/product_public_api"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/playground"
+	appApplication "github.com/coze-dev/coze-studio/backend/application/app"
+	"github.com/coze-dev/coze-studio/backend/application/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/application/plugin"
+	"github.com/coze-dev/coze-studio/backend/application/search"
+	"github.com/coze-dev/coze-studio/backend/application/singleagent"
+	"github.com/coze-dev/coze-studio/backend/application/template"
 )
 
 // PublicGetProductList .

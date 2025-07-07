@@ -19,18 +19,18 @@ package conversation
 import (
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/application/singleagent"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/repository"
-	agentrun "code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/service"
-	convRepo "code.byted.org/flow/opencoze/backend/domain/conversation/conversation/repository"
-	conversation "code.byted.org/flow/opencoze/backend/domain/conversation/conversation/service"
-	msgRepo "code.byted.org/flow/opencoze/backend/domain/conversation/message/repository"
-	message "code.byted.org/flow/opencoze/backend/domain/conversation/message/service"
-	shortcutRepo "code.byted.org/flow/opencoze/backend/domain/shortcutcmd/repository"
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/service"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/contract/imagex"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/application/singleagent"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/repository"
+	agentrun "github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/service"
+	convRepo "github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/repository"
+	conversation "github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/service"
+	msgRepo "github.com/coze-dev/coze-studio/backend/domain/conversation/message/repository"
+	message "github.com/coze-dev/coze-studio/backend/domain/conversation/message/service"
+	shortcutRepo "github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/repository"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/service"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/imagex"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
 )
 
 type ServiceComponents struct {

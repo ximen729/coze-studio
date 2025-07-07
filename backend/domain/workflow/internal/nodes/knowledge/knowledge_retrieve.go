@@ -20,8 +20,8 @@ import (
 	"context"
 	"errors"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/knowledge"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/knowledge"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 const outputList = "outputList"

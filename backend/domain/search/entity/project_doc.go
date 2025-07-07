@@ -16,7 +16,7 @@
 
 package entity
 
-import "code.byted.org/flow/opencoze/backend/api/model/intelligence/common"
+import "github.com/coze-dev/coze-studio/backend/api/model/intelligence/common"
 
 type ProjectDocument struct {
 	ID             int64                     `json:"id"`

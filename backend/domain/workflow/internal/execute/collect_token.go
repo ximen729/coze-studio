@@ -25,7 +25,7 @@ import (
 	"github.com/cloudwego/eino/schema"
 	callbacks2 "github.com/cloudwego/eino/utils/callbacks"
 
-	"code.byted.org/flow/opencoze/backend/pkg/safego"
+	"github.com/coze-dev/coze-studio/backend/pkg/safego"
 )
 
 type TokenCollector struct {

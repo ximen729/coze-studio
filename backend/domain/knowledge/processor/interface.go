@@ -16,7 +16,7 @@
 
 package processor
 
-import "code.byted.org/flow/opencoze/backend/domain/knowledge/entity"
+import "github.com/coze-dev/coze-studio/backend/domain/knowledge/entity"
 
 type DocProcessor interface {
 	BeforeCreate() error         // 获取数据源

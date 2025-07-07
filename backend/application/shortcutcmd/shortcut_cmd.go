@@ -20,11 +20,11 @@ import (
 	"context"
 	"strconv"
 
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/playground"
-	"code.byted.org/flow/opencoze/backend/application/base/ctxutil"
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/entity"
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/service"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/playground"
+	"github.com/coze-dev/coze-studio/backend/application/base/ctxutil"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/service"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 )
 
 type ShortcutCmdApplicationService struct {

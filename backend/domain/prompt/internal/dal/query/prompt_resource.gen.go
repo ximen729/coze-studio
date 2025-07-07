@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/prompt/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/internal/dal/model"
 )
 
 func newPromptResource(db *gorm.DB, opts ...gen.DOOption) promptResource {

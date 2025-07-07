@@ -22,8 +22,8 @@ import (
 	"github.com/cloudwego/eino/components/document/parser"
 	"github.com/cloudwego/eino/schema"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document"
-	contract "code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document"
+	contract "github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 )
 
 type rowIterator interface {

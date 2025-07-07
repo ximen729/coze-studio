@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/conversation/message/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/message/internal/dal/model"
 )
 
 func newMessage(db *gorm.DB, opts ...gen.DOOption) message {

@@ -19,9 +19,9 @@ package conversation
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/conversation"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossconversation"
-	conversation "code.byted.org/flow/opencoze/backend/domain/conversation/conversation/service"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/conversation"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossconversation"
+	conversation "github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/service"
 )
 
 var defaultSVC crossconversation.Conversation

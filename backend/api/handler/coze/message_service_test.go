@@ -27,10 +27,10 @@ import (
 	"github.com/cloudwego/hertz/pkg/common/ut"
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/common"
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/message"
-	"code.byted.org/flow/opencoze/backend/application"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/message"
+	"github.com/coze-dev/coze-studio/backend/application"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 func TestGetMessageList(t *testing.T) {

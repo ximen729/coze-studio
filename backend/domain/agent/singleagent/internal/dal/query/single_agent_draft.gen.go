@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/internal/dal/model"
 )
 
 func newSingleAgentDraft(db *gorm.DB, opts ...gen.DOOption) singleAgentDraft {

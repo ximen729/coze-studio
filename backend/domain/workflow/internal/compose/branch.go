@@ -24,11 +24,11 @@ import (
 	"github.com/cloudwego/eino/compose"
 	"github.com/spf13/cast"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/qa"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/selector"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/qa"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/selector"
 )
 
 func (s *NodeSchema) OutputPortCount() (int, bool) {

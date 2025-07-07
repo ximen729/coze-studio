@@ -19,7 +19,7 @@ package crossuser
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/domain/user/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/user/entity"
 )
 
 type EntitySpace = entity.Space

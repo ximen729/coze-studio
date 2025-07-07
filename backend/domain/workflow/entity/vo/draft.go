@@ -19,7 +19,7 @@ package vo
 import (
 	"time"
 
-	"code.byted.org/flow/opencoze/backend/pkg/sonic"
+	"github.com/coze-dev/coze-studio/backend/pkg/sonic"
 )
 
 type DraftInfo struct {

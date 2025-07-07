@@ -25,13 +25,13 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 
-	"code.byted.org/flow/opencoze/backend/api/model/intelligence"
-	"code.byted.org/flow/opencoze/backend/api/model/intelligence/common"
-	project "code.byted.org/flow/opencoze/backend/api/model/project"
-	publish "code.byted.org/flow/opencoze/backend/api/model/publish"
-	task "code.byted.org/flow/opencoze/backend/api/model/task"
-	appApplication "code.byted.org/flow/opencoze/backend/application/app"
-	"code.byted.org/flow/opencoze/backend/application/search"
+	"github.com/coze-dev/coze-studio/backend/api/model/intelligence"
+	"github.com/coze-dev/coze-studio/backend/api/model/intelligence/common"
+	project "github.com/coze-dev/coze-studio/backend/api/model/project"
+	publish "github.com/coze-dev/coze-studio/backend/api/model/publish"
+	task "github.com/coze-dev/coze-studio/backend/api/model/task"
+	appApplication "github.com/coze-dev/coze-studio/backend/application/app"
+	"github.com/coze-dev/coze-studio/backend/application/search"
 )
 
 // GetDraftIntelligenceList .

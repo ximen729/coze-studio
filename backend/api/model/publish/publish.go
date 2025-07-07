@@ -3,8 +3,8 @@
 package publish
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	"code.byted.org/flow/opencoze/backend/api/model/intelligence/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/intelligence/common"
 	"database/sql"
 	"database/sql/driver"
 	"fmt"

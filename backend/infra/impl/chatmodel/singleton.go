@@ -19,7 +19,7 @@ package chatmodel
 import (
 	"sync"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/chatmodel"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/chatmodel"
 )
 
 var (

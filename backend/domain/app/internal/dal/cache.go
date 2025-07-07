@@ -23,7 +23,7 @@ import (
 
 	redisV9 "github.com/redis/go-redis/v9"
 
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type AppCache struct {

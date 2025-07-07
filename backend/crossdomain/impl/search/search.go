@@ -19,9 +19,9 @@ package search
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/search"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crosssearch"
-	"code.byted.org/flow/opencoze/backend/domain/search/service"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/search"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crosssearch"
+	"github.com/coze-dev/coze-studio/backend/domain/search/service"
 )
 
 var defaultSVC crosssearch.Search

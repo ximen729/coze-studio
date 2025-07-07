@@ -28,8 +28,8 @@ import (
 	"github.com/cloudwego/eino-ext/components/model/qwen"
 	"github.com/ollama/ollama/api"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/chatmodel"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/chatmodel"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type Builder func(ctx context.Context, config *chatmodel.Config) (chatmodel.ToolCallingChatModel, error)

@@ -21,8 +21,8 @@ import (
 
 	"github.com/volcengine/volc-sdk-golang/service/vikingdb"
 
-	embcontract "code.byted.org/flow/opencoze/backend/infra/contract/embedding"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	embcontract "github.com/coze-dev/coze-studio/backend/infra/contract/embedding"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 type VikingEmbeddingModelName string

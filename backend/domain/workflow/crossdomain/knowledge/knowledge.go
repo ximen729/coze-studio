@@ -19,7 +19,7 @@ package knowledge
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 )
 
 type ParseMode string

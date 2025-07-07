@@ -23,11 +23,11 @@ import (
 
 	"github.com/bytedance/sonic"
 
-	"code.byted.org/flow/opencoze/backend/domain/search/entity"
-	"code.byted.org/flow/opencoze/backend/infra/contract/es"
-	"code.byted.org/flow/opencoze/backend/infra/contract/eventbus"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/domain/search/entity"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/es"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/eventbus"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 const resourceIndexName = "coze_resource"

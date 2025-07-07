@@ -21,9 +21,9 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/prompt/entity"
-	"code.byted.org/flow/opencoze/backend/domain/prompt/internal/dal"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/prompt/internal/dal"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 func NewPromptRepo(db *gorm.DB, generator idgen.IDGenerator) PromptRepository {

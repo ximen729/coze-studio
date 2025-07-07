@@ -3,7 +3,7 @@
 package product_common
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/marketplace_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/marketplace_common"
 	"database/sql"
 	"database/sql/driver"
 	"fmt"

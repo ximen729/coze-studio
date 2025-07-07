@@ -3,7 +3,7 @@
 package testcase
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/flow/devops/debugger/domain/infra"
+	"github.com/coze-dev/coze-studio/backend/api/model/flow/devops/debugger/domain/infra"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"
 )

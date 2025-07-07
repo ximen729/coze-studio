@@ -33,12 +33,12 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/config"
 
-	"code.byted.org/flow/opencoze/backend/api/middleware"
+	"github.com/coze-dev/coze-studio/backend/api/middleware"
 
-	"code.byted.org/flow/opencoze/backend/api/router"
-	"code.byted.org/flow/opencoze/backend/application"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/api/router"
+	"github.com/coze-dev/coze-studio/backend/application"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 func main() {

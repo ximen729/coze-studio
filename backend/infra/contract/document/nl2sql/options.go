@@ -16,7 +16,7 @@
 
 package nl2sql
 
-import "code.byted.org/flow/opencoze/backend/infra/contract/chatmodel"
+import "github.com/coze-dev/coze-studio/backend/infra/contract/chatmodel"
 
 type Option func(o *Options)
 

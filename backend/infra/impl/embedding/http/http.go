@@ -27,7 +27,7 @@ import (
 
 	opt "github.com/cloudwego/eino/components/embedding"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/embedding"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/embedding"
 )
 
 const (

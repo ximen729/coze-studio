@@ -21,14 +21,14 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	database "code.byted.org/flow/opencoze/backend/domain/memory/database/service"
-	"code.byted.org/flow/opencoze/backend/domain/memory/variables/repository"
-	variables "code.byted.org/flow/opencoze/backend/domain/memory/variables/service"
-	search "code.byted.org/flow/opencoze/backend/domain/search/service"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/contract/rdb"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
-	rdbService "code.byted.org/flow/opencoze/backend/infra/impl/rdb"
+	database "github.com/coze-dev/coze-studio/backend/domain/memory/database/service"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/variables/repository"
+	variables "github.com/coze-dev/coze-studio/backend/domain/memory/variables/service"
+	search "github.com/coze-dev/coze-studio/backend/domain/search/service"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/rdb"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	rdbService "github.com/coze-dev/coze-studio/backend/infra/impl/rdb"
 )
 
 type MemoryApplicationServices struct {

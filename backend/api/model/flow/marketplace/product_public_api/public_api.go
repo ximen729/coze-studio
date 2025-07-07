@@ -3,9 +3,9 @@
 package product_public_api
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	"code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/marketplace_common"
-	"code.byted.org/flow/opencoze/backend/api/model/flow/marketplace/product_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	"github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/marketplace_common"
+	"github.com/coze-dev/coze-studio/backend/api/model/flow/marketplace/product_common"
 	"context"
 	"database/sql"
 	"database/sql/driver"

@@ -15,8 +15,8 @@ import (
 
 	gomock "go.uber.org/mock/gomock"
 
-	modelmgr "code.byted.org/flow/opencoze/backend/domain/modelmgr"
-	entity "code.byted.org/flow/opencoze/backend/domain/modelmgr/entity"
+	modelmgr "github.com/coze-dev/coze-studio/backend/domain/modelmgr"
+	entity "github.com/coze-dev/coze-studio/backend/domain/modelmgr/entity"
 )
 
 // MockModelMgr is a mock of ModelMgr interface.

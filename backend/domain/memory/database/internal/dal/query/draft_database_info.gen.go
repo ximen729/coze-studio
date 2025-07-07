@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/internal/dal/model"
 )
 
 func newDraftDatabaseInfo(db *gorm.DB, opts ...gen.DOOption) draftDatabaseInfo {

@@ -19,7 +19,7 @@ package rdb
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/rdb/entity"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/rdb/entity"
 )
 
 //go:generate mockgen -destination  ../../../internal/mock/infra/contract/rdb/rdb_mock.go  --package rdb  -source rdb.go

@@ -25,7 +25,7 @@ import (
 	"strings"
 	"time"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document"
 )
 
 const baseWord = "1Aa2Bb3Cc4Dd5Ee6Ff7Gg8Hh9Ii0JjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"

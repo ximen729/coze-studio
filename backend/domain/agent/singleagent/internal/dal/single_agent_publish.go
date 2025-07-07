@@ -22,11 +22,11 @@ import (
 
 	// 添加这个导入以解决 gen.Expr 未定义的问题
 
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/entity"
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 // List 方法：分页查询发布记录 pageIndex 从1开始

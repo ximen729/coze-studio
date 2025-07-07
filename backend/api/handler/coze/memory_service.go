@@ -24,14 +24,14 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 
-	"code.byted.org/flow/opencoze/backend/api/model/knowledge/document"
-	"code.byted.org/flow/opencoze/backend/api/model/kvmemory"
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
-	table "code.byted.org/flow/opencoze/backend/api/model/table"
-	appApplication "code.byted.org/flow/opencoze/backend/application/app"
-	"code.byted.org/flow/opencoze/backend/application/knowledge"
-	"code.byted.org/flow/opencoze/backend/application/memory"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/api/model/knowledge/document"
+	"github.com/coze-dev/coze-studio/backend/api/model/kvmemory"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
+	table "github.com/coze-dev/coze-studio/backend/api/model/table"
+	appApplication "github.com/coze-dev/coze-studio/backend/application/app"
+	"github.com/coze-dev/coze-studio/backend/application/knowledge"
+	"github.com/coze-dev/coze-studio/backend/application/memory"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 )
 
 // GetSysVariableConf .

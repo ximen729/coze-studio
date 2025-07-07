@@ -17,8 +17,8 @@
 package entity
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/common"
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/conversation"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/conversation"
 )
 
 type Conversation = conversation.Conversation

@@ -19,11 +19,11 @@ package plugin
 import (
 	"context"
 
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossplugin"
-	"code.byted.org/flow/opencoze/backend/domain/plugin/entity"
-	plugin "code.byted.org/flow/opencoze/backend/domain/plugin/service"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossplugin"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/entity"
+	plugin "github.com/coze-dev/coze-studio/backend/domain/plugin/service"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 var defaultSVC crossplugin.PluginService

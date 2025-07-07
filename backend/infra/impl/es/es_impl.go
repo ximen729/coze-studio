@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/es"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/es"
 )
 
 type (

@@ -21,13 +21,13 @@ import (
 	"strconv"
 	"strings"
 
-	"code.byted.org/flow/opencoze/backend/api/model/base"
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
-	"code.byted.org/flow/opencoze/backend/api/model/table"
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/entity"
-	database "code.byted.org/flow/opencoze/backend/domain/memory/database/service"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/api/model/base"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
+	"github.com/coze-dev/coze-studio/backend/api/model/table"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/entity"
+	database "github.com/coze-dev/coze-studio/backend/domain/memory/database/service"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 func convertAddDatabase(req *table.AddDatabaseRequest) *database.CreateDatabaseRequest {

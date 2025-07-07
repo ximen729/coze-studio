@@ -23,7 +23,7 @@ import (
 
 	"github.com/cloudwego/eino/schema"
 
-	"code.byted.org/flow/opencoze/backend/domain/agent/singleagent/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/agent/singleagent/entity"
 )
 
 const (

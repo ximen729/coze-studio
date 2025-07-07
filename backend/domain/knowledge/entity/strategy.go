@@ -17,8 +17,8 @@
 package entity
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/knowledge"
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/knowledge"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 )
 
 type RetrievalStrategy = knowledge.RetrievalStrategy

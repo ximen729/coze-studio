@@ -24,7 +24,7 @@ import (
 	"github.com/cloudwego/eino/schema"
 	"github.com/xuri/excelize/v2"
 
-	contract "code.byted.org/flow/opencoze/backend/infra/contract/document/parser"
+	contract "github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 )
 
 func parseXLSX(config *contract.Config) parseFn {

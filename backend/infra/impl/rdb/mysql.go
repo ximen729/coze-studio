@@ -24,12 +24,12 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/contract/rdb"
-	entity2 "code.byted.org/flow/opencoze/backend/infra/contract/rdb/entity"
-	sqlparsercontract "code.byted.org/flow/opencoze/backend/infra/contract/sqlparser"
-	"code.byted.org/flow/opencoze/backend/infra/impl/sqlparser"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/rdb"
+	entity2 "github.com/coze-dev/coze-studio/backend/infra/contract/rdb/entity"
+	sqlparsercontract "github.com/coze-dev/coze-studio/backend/infra/contract/sqlparser"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/sqlparser"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 type mysqlService struct {

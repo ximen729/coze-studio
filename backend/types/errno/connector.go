@@ -16,7 +16,7 @@
 
 package errno
 
-import "code.byted.org/flow/opencoze/backend/pkg/errorx/code"
+import "github.com/coze-dev/coze-studio/backend/pkg/errorx/code"
 
 // Connector: 102 000 000 ~ 102 999 999
 const (

@@ -25,9 +25,9 @@ import (
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/internal/mock/infra/contract/orm"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/internal/mock/infra/contract/orm"
 )
 
 func TestKnowledgeSuite(t *testing.T) {

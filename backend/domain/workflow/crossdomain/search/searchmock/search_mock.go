@@ -29,7 +29,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	search "code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/search"
+	search "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/search"
 	gomock "go.uber.org/mock/gomock"
 )
 

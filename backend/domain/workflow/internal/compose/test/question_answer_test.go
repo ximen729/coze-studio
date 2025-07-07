@@ -37,20 +37,20 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/model"
-	mockmodel "code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/model/modelmock"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity/vo"
-	compose2 "code.byted.org/flow/opencoze/backend/domain/workflow/internal/compose"
-	"code.byted.org/flow/opencoze/backend/domain/workflow/internal/nodes/qa"
-	repo2 "code.byted.org/flow/opencoze/backend/domain/workflow/internal/repo"
-	"code.byted.org/flow/opencoze/backend/infra/impl/checkpoint"
-	mock "code.byted.org/flow/opencoze/backend/internal/mock/infra/contract/idgen"
-	storageMock "code.byted.org/flow/opencoze/backend/internal/mock/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model"
+	mockmodel "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model/modelmock"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
+	compose2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/compose"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/qa"
+	repo2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/repo"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/checkpoint"
+	mock "github.com/coze-dev/coze-studio/backend/internal/mock/infra/contract/idgen"
+	storageMock "github.com/coze-dev/coze-studio/backend/internal/mock/infra/contract/storage"
 
-	"code.byted.org/flow/opencoze/backend/internal/testutil"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/internal/testutil"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 )
 
 func TestQuestionAnswer(t *testing.T) {

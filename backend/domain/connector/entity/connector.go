@@ -17,9 +17,9 @@
 package entity
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/connector"
-	"code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/developer_api"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/conv"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/connector"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/developer_api"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 )
 
 // Use composition instead of aliasing for domain entities to enhance extensibility

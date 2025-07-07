@@ -29,8 +29,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	crossmodelmgr "code.byted.org/flow/opencoze/backend/crossdomain/contract/crossmodelmgr"
-	model "code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/model"
+	crossmodelmgr "github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossmodelmgr"
+	model "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model"
 	model0 "github.com/cloudwego/eino/components/model"
 	gomock "go.uber.org/mock/gomock"
 )

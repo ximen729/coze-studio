@@ -19,8 +19,8 @@ package service
 import (
 	"context"
 
-	connectorModel "code.byted.org/flow/opencoze/backend/api/model/crossdomain/connector"
-	"code.byted.org/flow/opencoze/backend/domain/app/entity"
+	connectorModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/connector"
+	"github.com/coze-dev/coze-studio/backend/domain/app/entity"
 )
 
 type AppService interface {

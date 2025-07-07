@@ -21,7 +21,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"code.byted.org/flow/opencoze/backend/domain/memory/database/service"
+	"github.com/coze-dev/coze-studio/backend/domain/memory/database/service"
 )
 
 func TestFormatDatabaseResult(t *testing.T) {

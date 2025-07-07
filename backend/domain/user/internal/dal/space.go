@@ -21,8 +21,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/user/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/user/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/domain/user/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/user/internal/dal/query"
 )
 
 func NewSpaceDAO(db *gorm.DB) *SpaceDAO {

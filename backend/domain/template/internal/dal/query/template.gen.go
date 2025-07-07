@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"code.byted.org/flow/opencoze/backend/domain/template/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/template/internal/dal/model"
 )
 
 func newTemplate(db *gorm.DB, opts ...gen.DOOption) template {

@@ -21,8 +21,8 @@ import (
 
 	"github.com/milvus-io/milvus/client/v2/entity"
 
-	"code.byted.org/flow/opencoze/backend/infra/contract/document/searchstore"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document/searchstore"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 func denseFieldName(name string) string {

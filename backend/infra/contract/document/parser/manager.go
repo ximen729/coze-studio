@@ -17,8 +17,8 @@
 package parser
 
 import (
-	"code.byted.org/flow/opencoze/backend/infra/contract/document"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/sets"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/document"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/sets"
 )
 
 type Manager interface {

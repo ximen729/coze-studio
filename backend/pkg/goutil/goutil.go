@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"runtime/debug"
 
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 func Recovery(ctx context.Context) {

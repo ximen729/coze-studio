@@ -4,7 +4,7 @@
 
 package model
 
-import "code.byted.org/flow/opencoze/backend/api/model/crossdomain/plugin"
+import "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
 
 const TableNamePluginOauthAuth = "plugin_oauth_auth"
 

@@ -13,8 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	entity "code.byted.org/flow/opencoze/backend/domain/plugin/entity"
-	service "code.byted.org/flow/opencoze/backend/domain/plugin/service"
+	entity "github.com/coze-dev/coze-studio/backend/domain/plugin/entity"
+	service "github.com/coze-dev/coze-studio/backend/domain/plugin/service"
 	gomock "go.uber.org/mock/gomock"
 )
 

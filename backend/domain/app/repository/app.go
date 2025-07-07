@@ -19,7 +19,7 @@ package repository
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/domain/app/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/app/entity"
 )
 
 type AppRepository interface {

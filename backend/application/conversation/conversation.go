@@ -19,19 +19,19 @@ package conversation
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/common"
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/conversation"
-	"code.byted.org/flow/opencoze/backend/application/base/ctxutil"
-	agentrun "code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/service"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/entity"
-	conversationService "code.byted.org/flow/opencoze/backend/domain/conversation/conversation/service"
-	message "code.byted.org/flow/opencoze/backend/domain/conversation/message/service"
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/service"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
-	"code.byted.org/flow/opencoze/backend/types/consts"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/conversation"
+	"github.com/coze-dev/coze-studio/backend/application/base/ctxutil"
+	agentrun "github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/service"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/entity"
+	conversationService "github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/service"
+	message "github.com/coze-dev/coze-studio/backend/domain/conversation/message/service"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/service"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 type ConversationApplicationService struct {

@@ -21,10 +21,10 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/entity"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/internal/dal"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/internal/dal"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 func NewRunRecordRepo(db *gorm.DB, idGen idgen.IDGenerator) RunRecordRepo {

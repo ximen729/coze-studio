@@ -17,8 +17,8 @@
 package entity
 
 import (
-	model "code.byted.org/flow/opencoze/backend/api/model/crossdomain/search"
-	"code.byted.org/flow/opencoze/backend/api/model/intelligence/common"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/search"
+	"github.com/coze-dev/coze-studio/backend/api/model/intelligence/common"
 )
 
 const (

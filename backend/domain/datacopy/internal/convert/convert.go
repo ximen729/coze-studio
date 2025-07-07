@@ -17,8 +17,8 @@
 package convert
 
 import (
-	"code.byted.org/flow/opencoze/backend/domain/datacopy/entity"
-	"code.byted.org/flow/opencoze/backend/domain/datacopy/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/datacopy/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/datacopy/internal/dal/model"
 )
 
 func ConvertToDataCopyTaskModel(task *entity.CopyDataTask) *model.DataCopyTask {

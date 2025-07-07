@@ -17,7 +17,7 @@
 package app
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/resource/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/resource/common"
 )
 
 type copyMetaInfo struct {

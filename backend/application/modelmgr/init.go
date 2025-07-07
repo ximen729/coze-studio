@@ -28,13 +28,13 @@ import (
 	"gopkg.in/yaml.v3"
 	"gorm.io/gorm"
 
-	crossmodelmgr "code.byted.org/flow/opencoze/backend/api/model/crossdomain/modelmgr"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr/entity"
-	"code.byted.org/flow/opencoze/backend/domain/modelmgr/service"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
-	"code.byted.org/flow/opencoze/backend/infra/impl/idgen"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
+	crossmodelmgr "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/modelmgr/service"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/idgen"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 )
 
 func InitService(db *gorm.DB, idgen idgen.IDGenerator, oss storage.Storage) (*ModelmgrApplicationService, error) {

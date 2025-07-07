@@ -19,9 +19,9 @@ package shortcutcmd
 import (
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/repository"
-	"code.byted.org/flow/opencoze/backend/domain/shortcutcmd/service"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/repository"
+	"github.com/coze-dev/coze-studio/backend/domain/shortcutcmd/service"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 )
 
 var ShortcutCmdSVC *ShortcutCmdApplicationService

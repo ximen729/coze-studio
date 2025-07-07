@@ -29,7 +29,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	plugin "code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/plugin"
+	plugin "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/plugin"
 	schema "github.com/cloudwego/eino/schema"
 	gomock "go.uber.org/mock/gomock"
 )

@@ -22,10 +22,10 @@ import (
 	"github.com/go-resty/resty/v2"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/plugin/repository"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/infra/contract/storage"
-	"code.byted.org/flow/opencoze/backend/pkg/safego"
+	"github.com/coze-dev/coze-studio/backend/domain/plugin/repository"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/pkg/safego"
 )
 
 type Components struct {

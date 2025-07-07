@@ -20,8 +20,8 @@ import (
 	"sort"
 	"strings"
 
-	"code.byted.org/flow/opencoze/backend/api/model/kvmemory"
-	"code.byted.org/flow/opencoze/backend/api/model/project_memory"
+	"github.com/coze-dev/coze-studio/backend/api/model/kvmemory"
+	"github.com/coze-dev/coze-studio/backend/api/model/project_memory"
 )
 
 type SysConfVariables []*kvmemory.VariableInfo

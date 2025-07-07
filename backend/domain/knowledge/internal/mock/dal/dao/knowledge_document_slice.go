@@ -15,8 +15,8 @@ import (
 
 	gomock "go.uber.org/mock/gomock"
 
-	"code.byted.org/flow/opencoze/backend/domain/knowledge/entity"
-	model "code.byted.org/flow/opencoze/backend/domain/knowledge/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/knowledge/entity"
+	model "github.com/coze-dev/coze-studio/backend/domain/knowledge/internal/dal/model"
 )
 
 // MockKnowledgeDocumentSliceRepo is a mock of KnowledgeDocumentSliceRepo interface.

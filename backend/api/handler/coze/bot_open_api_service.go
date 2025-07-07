@@ -24,9 +24,9 @@ import (
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 
-	"code.byted.org/flow/opencoze/backend/application/plugin"
+	"github.com/coze-dev/coze-studio/backend/application/plugin"
 
-	bot_open_api "code.byted.org/flow/opencoze/backend/api/model/ocean/cloud/bot_open_api"
+	bot_open_api "github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_open_api"
 )
 
 // OauthAuthorizationCode .

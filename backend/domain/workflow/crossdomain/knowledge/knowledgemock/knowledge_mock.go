@@ -29,7 +29,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	knowledge "code.byted.org/flow/opencoze/backend/domain/workflow/crossdomain/knowledge"
+	knowledge "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/knowledge"
 	gomock "go.uber.org/mock/gomock"
 )
 

@@ -19,8 +19,8 @@ package agentrun
 import (
 	"context"
 
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossagentrun"
-	agentrun "code.byted.org/flow/opencoze/backend/domain/conversation/agentrun/service"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossagentrun"
+	agentrun "github.com/coze-dev/coze-studio/backend/domain/conversation/agentrun/service"
 )
 
 type AgentRun interface {

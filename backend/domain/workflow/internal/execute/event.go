@@ -19,7 +19,7 @@ package execute
 import (
 	"time"
 
-	"code.byted.org/flow/opencoze/backend/domain/workflow/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 )
 
 type EventType string

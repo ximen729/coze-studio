@@ -28,13 +28,13 @@ import (
 	redisV9 "github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/domain/app/entity"
-	"code.byted.org/flow/opencoze/backend/domain/app/internal/dal"
-	"code.byted.org/flow/opencoze/backend/domain/app/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/logs"
-	"code.byted.org/flow/opencoze/backend/pkg/taskgroup"
+	"github.com/coze-dev/coze-studio/backend/domain/app/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/app/internal/dal"
+	"github.com/coze-dev/coze-studio/backend/domain/app/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/pkg/taskgroup"
 )
 
 type appRepoImpl struct {

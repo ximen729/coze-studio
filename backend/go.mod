@@ -1,4 +1,4 @@
-module code.byted.org/flow/opencoze/backend
+module github.com/coze-dev/coze-studio/backend
 
 go 1.24.0
 

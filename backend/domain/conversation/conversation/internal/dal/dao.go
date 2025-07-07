@@ -23,13 +23,13 @@ import (
 
 	"gorm.io/gorm"
 
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/common"
-	"code.byted.org/flow/opencoze/backend/api/model/crossdomain/conversation"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/entity"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/internal/dal/model"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/conversation/internal/dal/query"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/common"
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/conversation"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/internal/dal/model"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/internal/dal/query"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
 )
 
 type ConversationDAO struct {

@@ -21,7 +21,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"code.byted.org/flow/opencoze/backend/pkg/ctxcache"
+	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
 )
 
 const (

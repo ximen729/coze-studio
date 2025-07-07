@@ -20,16 +20,16 @@ import (
 	"context"
 	"strconv"
 
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/message"
-	"code.byted.org/flow/opencoze/backend/api/model/conversation/run"
-	message3 "code.byted.org/flow/opencoze/backend/api/model/crossdomain/message"
-	"code.byted.org/flow/opencoze/backend/application/base/ctxutil"
-	convEntity "code.byted.org/flow/opencoze/backend/domain/conversation/conversation/entity"
-	"code.byted.org/flow/opencoze/backend/domain/conversation/message/entity"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/ptr"
-	"code.byted.org/flow/opencoze/backend/pkg/lang/slices"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/message"
+	"github.com/coze-dev/coze-studio/backend/api/model/conversation/run"
+	message3 "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/message"
+	"github.com/coze-dev/coze-studio/backend/application/base/ctxutil"
+	convEntity "github.com/coze-dev/coze-studio/backend/domain/conversation/conversation/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/conversation/message/entity"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/slices"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 type OpenapiMessageApplication struct{}

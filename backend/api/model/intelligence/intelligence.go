@@ -3,9 +3,9 @@
 package intelligence
 
 import (
-	"code.byted.org/flow/opencoze/backend/api/model/project"
-	"code.byted.org/flow/opencoze/backend/api/model/publish"
-	"code.byted.org/flow/opencoze/backend/api/model/task"
+	"github.com/coze-dev/coze-studio/backend/api/model/project"
+	"github.com/coze-dev/coze-studio/backend/api/model/publish"
+	"github.com/coze-dev/coze-studio/backend/api/model/task"
 	"context"
 	"fmt"
 	"github.com/apache/thrift/lib/go/thrift"

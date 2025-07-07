@@ -22,18 +22,18 @@ import (
 
 	"gorm.io/gorm"
 
-	connectorModel "code.byted.org/flow/opencoze/backend/api/model/crossdomain/connector"
-	databaseModel "code.byted.org/flow/opencoze/backend/api/model/crossdomain/database"
-	knowledgeModel "code.byted.org/flow/opencoze/backend/api/model/crossdomain/knowledge"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossconnector"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossdatabase"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossknowledge"
-	"code.byted.org/flow/opencoze/backend/crossdomain/contract/crossplugin"
-	"code.byted.org/flow/opencoze/backend/domain/app/entity"
-	"code.byted.org/flow/opencoze/backend/domain/app/repository"
-	"code.byted.org/flow/opencoze/backend/infra/contract/idgen"
-	"code.byted.org/flow/opencoze/backend/pkg/errorx"
-	"code.byted.org/flow/opencoze/backend/types/errno"
+	connectorModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/connector"
+	databaseModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/database"
+	knowledgeModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/knowledge"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossconnector"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossdatabase"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossknowledge"
+	"github.com/coze-dev/coze-studio/backend/crossdomain/contract/crossplugin"
+	"github.com/coze-dev/coze-studio/backend/domain/app/entity"
+	"github.com/coze-dev/coze-studio/backend/domain/app/repository"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 type Components struct {
