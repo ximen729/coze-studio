@@ -862,6 +862,19 @@ func (n *NodeHandler) OnStartWithStreamInput(ctx context.Context, info *callback
 		Type:    NodeStart,
 		Context: c,
 	}
+	if entity.NodeType(info.Type) == entity.NodeTypeExit {
+		terminatePlan := n.terminatePlan
+		if terminatePlan == nil {
+			terminatePlan = ptr.Of(vo.ReturnVariables)
+		}
+		if *terminatePlan == vo.UseAnswerContent {
+			e.extra = &entity.NodeExtra{
+				ResponseExtra: map[string]any{
+					"terminal_plan": workflow2.TerminatePlanType_USESETTING,
+				},
+			}
+		}
+	}
 	n.ch <- e
 
 	safego.Go(ctx, func() {
@@ -1176,19 +1189,6 @@ func (n *NodeHandler) OnEndWithStreamOutput(ctx context.Context, info *callbacks
 
 				if firstEvent == nil { // prioritize sending the first event asap.
 					firstEvent = deltaEvent
-					if t == entity.NodeTypeExit {
-						terminatePlan := n.terminatePlan
-						if terminatePlan == nil {
-							terminatePlan = ptr.Of(vo.ReturnVariables)
-						}
-						if *terminatePlan == vo.UseAnswerContent {
-							firstEvent.extra = &entity.NodeExtra{
-								ResponseExtra: map[string]any{
-									"terminal_plan": workflow2.TerminatePlanType_USESETTING,
-								},
-							}
-						}
-					}
 					n.ch <- firstEvent
 				} else {
 					secondPreviousEvent = previousEvent

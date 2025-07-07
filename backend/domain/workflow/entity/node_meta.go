@@ -59,6 +59,7 @@ type ExecutableMeta struct {
 	InputSourceAware     bool                       `json:"input_source_aware,omitempty"` // whether this node needs to know the runtime status of its input sources
 	StreamingParadigms   map[StreamingParadigm]bool `json:"streaming_paradigms,omitempty"`
 	StreamSourceEOFAware bool                       `json:"needs_stream_source_eof,omitempty"` // whether this node needs to be aware stream sources' SourceEOF error
+	IncrementalOutput    bool                       `json:"incremental_output,omitempty"`
 }
 
 type PluginNodeMeta struct {

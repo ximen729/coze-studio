@@ -296,6 +296,20 @@ func (e *executeHistoryStoreImpl) CreateNodeExecution(ctx context.Context, execu
 	return e.query.NodeExecution.WithContext(ctx).Create(nodeExec)
 }
 
+func (e *executeHistoryStoreImpl) UpdateNodeExecutionStreaming(ctx context.Context, execution *entity.NodeExecution) error {
+	if execution.Output == nil {
+		return nil
+	}
+
+	key := fmt.Sprintf(nodeExecOutputKey, execution.ID)
+
+	if err := e.redis.Set(ctx, key, execution.Output, nodeExecDataExpiry).Err(); err != nil {
+		return vo.WrapError(errno.ErrRedisError, err)
+	}
+
+	return nil
+}
+
 func (e *executeHistoryStoreImpl) UpdateNodeExecution(ctx context.Context, execution *entity.NodeExecution) (err error) {
 	defer func() {
 		if err != nil {
@@ -424,10 +438,36 @@ func (e *executeHistoryStoreImpl) GetNodeExecutionsByWfExeID(ctx context.Context
 
 	for _, nodeExec := range nodeExecs {
 		nodeExeEntity := convertNodeExecution(nodeExec)
+		// For nodes that are currently running and support streaming, their complete information needs to be retrieved from Redis.
+		if nodeExeEntity.Status == entity.NodeRunning {
+			meta := entity.NodeMetaByNodeType(nodeExeEntity.NodeType)
+			if meta.ExecutableMeta.IncrementalOutput {
+				if err := e.loadNodeExecutionFromRedis(ctx, nodeExeEntity); err != nil {
+					logs.CtxErrorf(ctx, "failed to load node execution from redis: %v", err)
+				}
+			}
+		}
 		result = append(result, nodeExeEntity)
 	}
-
 	return result, nil
+}
+
+func (e *executeHistoryStoreImpl) loadNodeExecutionFromRedis(ctx context.Context, nodeExeEntity *entity.NodeExecution) error {
+	key := fmt.Sprintf(nodeExecOutputKey, nodeExeEntity.ID)
+
+	result, err := e.redis.Get(ctx, key).Result()
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			return nil
+		}
+		return vo.WrapError(errno.ErrRedisError, err)
+	}
+
+	if result != "" {
+		nodeExeEntity.Output = &result
+	}
+
+	return nil
 }
 
 func (e *executeHistoryStoreImpl) GetNodeExecution(ctx context.Context, wfExeID int64, nodeID string) (*entity.NodeExecution, bool, error) {
@@ -465,6 +505,8 @@ func (e *executeHistoryStoreImpl) GetNodeExecutionByParent(ctx context.Context, 
 const (
 	testRunLastExeKey   = "test_run_last_exe_id:%d:%d"
 	nodeDebugLastExeKey = "node_debug_last_exe_id:%d:%s:%d"
+	nodeExecDataExpiry  = 24 * time.Hour // keep it for 24 hours
+	nodeExecOutputKey   = "wf:node_exec:output:%d"
 )
 
 func (e *executeHistoryStoreImpl) SetTestRunLatestExeID(ctx context.Context, wfID int64, uID int64, exeID int64) error {
