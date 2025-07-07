@@ -463,18 +463,27 @@ func (au *AuthV2) unmarshalOAuth(auth *Auth) (err error) {
 }
 
 type AuthOfAPIToken struct {
-	Location     HTTPParamLocation `json:"location"` // header or query
-	Key          string            `json:"key"`
-	ServiceToken string            `json:"service_token"`
+	// Location is the location of the parameter.
+	// It can be "header" or "query".
+	Location HTTPParamLocation `json:"location"`
+	// Key is the name of the parameter.
+	Key string `json:"key"`
+	// ServiceToken is the simple authorization information for the service.
+	ServiceToken string `json:"service_token"`
 }
 
 type OAuthAuthorizationCodeConfig struct {
-	ClientID                 string `json:"client_id"`
-	ClientSecret             string `json:"client_secret"`
-	ClientURL                string `json:"client_url"`
-	Scope                    string `json:"scope,omitempty"`
-	AuthorizationURL         string `json:"authorization_url"`
-	AuthorizationContentType string `json:"authorization_content_type"` // only support application/json
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	// ClientURL is the URL of authorization endpoint.
+	ClientURL string `json:"client_url"`
+	// Scope is the scope of the authorization request.
+	// If multiple scopes are requested, they must be separated by a space.
+	Scope string `json:"scope,omitempty"`
+	// AuthorizationURL is the URL of token exchange endpoint.
+	AuthorizationURL string `json:"authorization_url"`
+	// AuthorizationContentType is the content type of the authorization request, and it must be "application/json".
+	AuthorizationContentType string `json:"authorization_content_type"`
 }
 
 type OAuthClientCredentialsConfig struct {
