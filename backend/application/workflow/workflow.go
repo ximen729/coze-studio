@@ -438,6 +438,7 @@ func (w *ApplicationService) TestRun(ctx context.Context, req *workflow.WorkFlow
 		TaskType:     vo.TaskTypeForeground,
 		SyncPattern:  vo.SyncPatternAsync,
 		BizType:      vo.BizTypeWorkflow,
+		Cancellable:  true,
 	}
 
 	if exeCfg.AppID != nil && exeCfg.AgentID != nil {
@@ -507,6 +508,7 @@ func (w *ApplicationService) NodeDebug(ctx context.Context, req *workflow.Workfl
 		TaskType:     vo.TaskTypeForeground,
 		SyncPattern:  vo.SyncPatternAsync,
 		BizType:      vo.BizTypeWorkflow,
+		Cancellable:  true,
 	}
 
 	if exeCfg.AppID != nil && exeCfg.AgentID != nil {
@@ -1798,9 +1800,10 @@ func (w *ApplicationService) TestResume(ctx context.Context, req *workflow.Workf
 		ResumeData: req.GetData(),
 	}
 	err = GetWorkflowDomainSVC().AsyncResume(ctx, resumeReq, vo.ExecuteConfig{
-		Operator: ptr.FromOrDefault(ctxutil.GetUIDFromCtx(ctx), 0),
-		Mode:     vo.ExecuteModeDebug, // at this stage it could be debug or node debug, we will decide it within AsyncResume
-		BizType:  vo.BizTypeWorkflow,
+		Operator:    ptr.FromOrDefault(ctxutil.GetUIDFromCtx(ctx), 0),
+		Mode:        vo.ExecuteModeDebug, // at this stage it could be debug or node debug, we will decide it within AsyncResume
+		BizType:     vo.BizTypeWorkflow,
+		Cancellable: true,
 	})
 	if err != nil {
 		return nil, err

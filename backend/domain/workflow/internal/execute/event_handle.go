@@ -22,10 +22,10 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"time"
 
 	"github.com/bytedance/sonic"
 	"github.com/cloudwego/eino/schema"
-	"github.com/redis/go-redis/v9"
 
 	"github.com/coze-dev/coze-studio/backend/domain/workflow"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
@@ -719,78 +719,124 @@ type fcInfo struct {
 }
 
 func HandleExecuteEvent(ctx context.Context,
-	eventChan <-chan *Event, // workflow execution event emitted by workflow handler and node handlers
-	cancelFn context.CancelFunc, // func to cancel the context given to running workflow
-	timeoutFn context.CancelFunc, // func to timeout the context
-	cancelSignalChan <-chan *redis.Message, // channel to receive workflow cancel signal from redis
-	clearFn func(), // func to clear the cancel signal subscription
+	wfExeID int64,
+	eventChan <-chan *Event,
+	cancelFn context.CancelFunc,
+	timeoutFn context.CancelFunc,
 	repo workflow.Repository,
-	sw *schema.StreamWriter[*entity.Message], // stream writer for emitting entity.Message
+	sw *schema.StreamWriter[*entity.Message],
 	exeCfg vo.ExecuteConfig,
 ) (event *Event) {
-	defer func() {
-		logs.CtxInfof(ctx, "[handleExecuteEvent] finish, returned event type: %v, workflow id: %d",
-			event.Type, event.Context.RootWorkflowBasic.ID)
-		clearFn()
-		if timeoutFn != nil {
-			timeoutFn()
-		}
-		cancelFn() // always invoke cancel to notify any child contexts to release its resource
-	}()
-
 	var (
 		wfSuccessEvent *Event
 		lastNodeIsDone bool
+		cancelled      bool
 	)
 
 	ctx = context.WithValue(ctx, fcCacheKey{}, make(map[vo.NodeKey]map[string]*fcInfo))
 
-	for {
-		select {
-		case <-cancelSignalChan:
-			cancelFn()
-		case event = <-eventChan:
-			var (
-				nodeType entity.NodeType
-				nodeKey  vo.NodeKey
-			)
-			if event.Context.NodeCtx != nil {
-				nodeType = event.Context.NodeCtx.NodeType
-				nodeKey = event.Context.NodeCtx.NodeKey
-			}
-			fmt.Println(fmt.Sprintf("receiving event type= %v, workflowID= %v, nodeType= %v, nodeKey = %s",
-				event.Type, event.RootWorkflowBasic.ID, nodeType, nodeKey))
+	handler := func(event *Event) *Event {
+		var (
+			nodeType entity.NodeType
+			nodeKey  vo.NodeKey
+		)
+		if event.Context.NodeCtx != nil {
+			nodeType = event.Context.NodeCtx.NodeType
+			nodeKey = event.Context.NodeCtx.NodeKey
+		}
 
-			signal, err := handleEvent(ctx, event, repo, sw)
-			if err != nil {
-				logs.CtxErrorf(ctx, "failed to handle event: %v", err)
-			}
+		logs.CtxInfof(ctx, "receiving event type= %v, workflowID= %v, nodeType= %v, nodeKey = %s",
+			event.Type, event.RootWorkflowBasic.ID, nodeType, nodeKey)
 
-			switch signal {
-			case noTerminate:
-				// continue to next event
-			case workflowAbort:
-				return event
-			case workflowSuccess: // workflow success, wait for exit node to be done
-				wfSuccessEvent = event
-				if lastNodeIsDone || exeCfg.Mode == vo.ExecuteModeNodeDebug {
-					if err = setRootWorkflowSuccess(ctx, wfSuccessEvent, repo, sw); err != nil {
-						logs.CtxErrorf(ctx, "failed to set root workflow success for workflow %d: %v",
-							wfSuccessEvent.RootWorkflowBasic.ID, err)
-					}
-					return wfSuccessEvent
+		signal, err := handleEvent(ctx, event, repo, sw)
+		if err != nil {
+			logs.CtxErrorf(ctx, "failed to handle event: %v", err)
+		}
+
+		switch signal {
+		case noTerminate:
+			// continue to next event
+		case workflowAbort:
+			return event
+		case workflowSuccess: // workflow success, wait for exit node to be done
+			wfSuccessEvent = event
+			if lastNodeIsDone || exeCfg.Mode == vo.ExecuteModeNodeDebug {
+				if err = setRootWorkflowSuccess(ctx, wfSuccessEvent, repo, sw); err != nil {
+					logs.CtxErrorf(ctx, "failed to set root workflow success for workflow %d: %v",
+						wfSuccessEvent.RootWorkflowBasic.ID, err)
 				}
-			case lastNodeDone: // exit node done, wait for workflow success
-				lastNodeIsDone = true
-				if wfSuccessEvent != nil {
-					if err = setRootWorkflowSuccess(ctx, wfSuccessEvent, repo, sw); err != nil {
-						logs.CtxErrorf(ctx, "failed to set root workflow success: %v", err)
-					}
-					return wfSuccessEvent
+				return wfSuccessEvent
+			}
+		case lastNodeDone: // exit node done, wait for workflow success
+			lastNodeIsDone = true
+			if wfSuccessEvent != nil {
+				if err = setRootWorkflowSuccess(ctx, wfSuccessEvent, repo, sw); err != nil {
+					logs.CtxErrorf(ctx, "failed to set root workflow success: %v", err)
+				}
+				return wfSuccessEvent
+			}
+		default:
+		}
+
+		return nil
+	}
+
+	if exeCfg.Cancellable {
+		// Add cancellation check timer
+		cancelTicker := time.NewTicker(cancelCheckInterval)
+		defer func() {
+			logs.CtxInfof(ctx, "[handleExecuteEvent] finish, returned event type: %v, workflow id: %d",
+				event.Type, event.Context.RootWorkflowBasic.ID)
+			cancelTicker.Stop() // Clean up timer
+			if timeoutFn != nil {
+				timeoutFn()
+			}
+			cancelFn()
+		}()
+
+		for {
+			select {
+			case <-cancelTicker.C:
+				if cancelled {
+					continue
+				}
+
+				// Check cancellation status in Redis
+				isCancelled, err := repo.GetWorkflowCancelFlag(ctx, wfExeID)
+				if err != nil {
+					logs.CtxErrorf(ctx, "failed to check cancellation status for workflow %d: %v", wfExeID, err)
+					continue
+				}
+
+				if isCancelled {
+					cancelled = true
+					logs.CtxInfof(ctx, "workflow %d cancellation detected", wfExeID)
+					cancelFn()
+				}
+			case event = <-eventChan:
+				if terminalE := handler(event); terminalE != nil {
+					return terminalE
 				}
 			}
 		}
+	} else {
+		defer func() {
+			logs.CtxInfof(ctx, "[handleExecuteEvent] finish, returned event type: %v, workflow id: %d",
+				event.Type, event.Context.RootWorkflowBasic.ID)
+			if timeoutFn != nil {
+				timeoutFn()
+			}
+			cancelFn()
+		}()
+
+		for e := range eventChan {
+			if terminalE := handler(e); terminalE != nil {
+				return terminalE
+			}
+		}
 	}
+
+	panic("unreachable")
 }
 
 func mustMarshalToString[T any](m map[string]T) string {

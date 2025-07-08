@@ -31,19 +31,9 @@ type cancelSignalStoreImpl struct {
 	redis *redis.Client
 }
 
-const (
-	workflowExecutionCancelChannelKey = "workflow:cancel:signal:%d"
-	workflowExecutionCancelStatusKey  = "workflow:cancel:status:%d"
-)
+const workflowExecutionCancelStatusKey = "workflow:cancel:status:%d"
 
-func (c *cancelSignalStoreImpl) EmitWorkflowCancelSignal(ctx context.Context, wfExeID int64) (err error) {
-	defer func() {
-		if err != nil {
-			err = vo.WrapIfNeeded(errno.ErrRedisError, err)
-		}
-	}()
-
-	signalChannel := fmt.Sprintf(workflowExecutionCancelChannelKey, wfExeID)
+func (c *cancelSignalStoreImpl) SetWorkflowCancelFlag(ctx context.Context, wfExeID int64) (err error) {
 	statusKey := fmt.Sprintf(workflowExecutionCancelStatusKey, wfExeID)
 	// Define a reasonable expiration for the status key, e.g., 24 hours
 	expiration := 24 * time.Hour
@@ -51,35 +41,11 @@ func (c *cancelSignalStoreImpl) EmitWorkflowCancelSignal(ctx context.Context, wf
 	// set a kv to redis to indicate cancellation status
 	err = c.redis.Set(ctx, statusKey, "cancelled", expiration).Err()
 	if err != nil {
-		return fmt.Errorf("failed to set workflow cancel status for wfExeID %d after publishing signal: %w", wfExeID, err)
-	}
-
-	// Publish a signal to Redis
-	err = c.redis.Publish(ctx, signalChannel, "").Err()
-	if err != nil {
-		return fmt.Errorf("failed to publish workflow cancel signal for wfExeID %d: %w", wfExeID, err)
+		return vo.WrapError(errno.ErrRedisError,
+			fmt.Errorf("failed to set workflow cancel status for wfExeID %d after publishing signal: %w", wfExeID, err))
 	}
 
 	return nil
-}
-
-func (c *cancelSignalStoreImpl) SubscribeWorkflowCancelSignal(ctx context.Context, wfExeID int64) (<-chan *redis.Message, func(), error) {
-	// Subscribe to Redis channel specific to this workflow execution
-	channelName := fmt.Sprintf(workflowExecutionCancelChannelKey, wfExeID)
-	pubSub := c.redis.Subscribe(ctx, channelName)
-
-	// Verify subscription was successful
-	_, err := pubSub.Receive(ctx) // Wait for subscription confirmation
-	if err != nil {
-		_ = pubSub.Close() // Cleanup on error
-		return nil, nil, vo.WrapError(errno.ErrRedisError, fmt.Errorf("failed to subscribe to cancel signal: %w", err))
-	}
-
-	closeFn := func() {
-		_ = pubSub.Close()
-	}
-
-	return pubSub.Channel(redis.WithChannelSize(1)), closeFn, nil
 }
 
 func (c *cancelSignalStoreImpl) GetWorkflowCancelFlag(ctx context.Context, wfExeID int64) (bool, error) {

@@ -22,7 +22,6 @@ import (
 	"github.com/cloudwego/eino/components/tool"
 	"github.com/cloudwego/eino/compose"
 	"github.com/cloudwego/eino/schema"
-	"github.com/redis/go-redis/v9"
 
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
@@ -63,8 +62,7 @@ type InterruptEventStore interface {
 }
 
 type CancelSignalStore interface {
-	EmitWorkflowCancelSignal(ctx context.Context, wfExeID int64) error
-	SubscribeWorkflowCancelSignal(ctx context.Context, wfExeID int64) (<-chan *redis.Message, func(), error)
+	SetWorkflowCancelFlag(ctx context.Context, wfExeID int64) error
 	GetWorkflowCancelFlag(ctx context.Context, wfExeID int64) (bool, error)
 }
 

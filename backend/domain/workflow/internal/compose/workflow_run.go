@@ -258,11 +258,6 @@ func (r *WorkflowRunner) Prepare(ctx context.Context) (
 		}
 	}
 
-	cancelSignalChan, clearFn, err := repo.SubscribeWorkflowCancelSignal(ctx, executeID)
-	if err != nil {
-		return ctx, 0, nil, nil, err
-	}
-
 	cancelCtx, cancelFn := context.WithCancel(ctx)
 	var timeoutFn context.CancelFunc
 	if s := execute.GetStaticConfig(); s != nil {
@@ -288,8 +283,8 @@ func (r *WorkflowRunner) Prepare(ctx context.Context) (
 		}()
 
 		// this goroutine should not use the cancelCtx because it needs to be alive to receive workflow cancel events
-		lastEventChan <- execute.HandleExecuteEvent(ctx, eventChan, cancelFn, timeoutFn,
-			cancelSignalChan, clearFn, repo, sw, config)
+		lastEventChan <- execute.HandleExecuteEvent(ctx, executeID, eventChan, cancelFn, timeoutFn,
+			repo, sw, config)
 		close(lastEventChan)
 	}()
 

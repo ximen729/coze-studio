@@ -890,5 +890,5 @@ func (i *impl) Cancel(ctx context.Context, wfExeID int64, wfID, spaceID int64) e
 	}
 
 	// emit cancel signal just in case the execution is running
-	return i.repo.EmitWorkflowCancelSignal(ctx, wfExeID)
+	return i.repo.SetWorkflowCancelFlag(ctx, wfExeID)
 }

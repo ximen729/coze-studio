@@ -29,6 +29,7 @@ const (
 	backgroundRunTimeout     = 24 * time.Hour
 	maxNodeCountPerWorkflow  = 1000
 	maxNodeCountPerExecution = 1000
+	cancelCheckInterval      = 200 * time.Millisecond
 )
 
 type StaticConfig struct {

@@ -31,6 +31,7 @@ type ExecuteConfig struct {
 	SyncPattern   SyncPattern
 	InputFailFast bool // whether to fail fast if input conversion has warnings
 	BizType       BizType
+	Cancellable   bool
 }
 
 type ExecuteMode string

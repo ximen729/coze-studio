@@ -13,13 +13,12 @@ import (
 	context "context"
 	reflect "reflect"
 
+	compose "github.com/cloudwego/eino/compose"
+	schema "github.com/cloudwego/eino/schema"
 	workflow "github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/workflow"
 	workflow0 "github.com/coze-dev/coze-studio/backend/domain/workflow"
 	entity "github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	vo "github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
-	compose "github.com/cloudwego/eino/compose"
-	schema "github.com/cloudwego/eino/schema"
-	redis "github.com/redis/go-redis/v9"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -692,20 +691,6 @@ func (mr *MockRepositoryMockRecorder) DraftV2(ctx, id, commitID any) *gomock.Cal
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DraftV2", reflect.TypeOf((*MockRepository)(nil).DraftV2), ctx, id, commitID)
 }
 
-// EmitWorkflowCancelSignal mocks base method.
-func (m *MockRepository) EmitWorkflowCancelSignal(ctx context.Context, wfExeID int64) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EmitWorkflowCancelSignal", ctx, wfExeID)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// EmitWorkflowCancelSignal indicates an expected call of EmitWorkflowCancelSignal.
-func (mr *MockRepositoryMockRecorder) EmitWorkflowCancelSignal(ctx, wfExeID any) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EmitWorkflowCancelSignal", reflect.TypeOf((*MockRepository)(nil).EmitWorkflowCancelSignal), ctx, wfExeID)
-}
-
 // GenID mocks base method.
 func (m *MockRepository) GenID(ctx context.Context) (int64, error) {
 	m.ctrl.T.Helper()
@@ -1115,20 +1100,18 @@ func (mr *MockRepositoryMockRecorder) SetTestRunLatestExeID(ctx, wfID, uID, exeI
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTestRunLatestExeID", reflect.TypeOf((*MockRepository)(nil).SetTestRunLatestExeID), ctx, wfID, uID, exeID)
 }
 
-// SubscribeWorkflowCancelSignal mocks base method.
-func (m *MockRepository) SubscribeWorkflowCancelSignal(ctx context.Context, wfExeID int64) (<-chan *redis.Message, func(), error) {
+// SetWorkflowCancelFlag mocks base method.
+func (m *MockRepository) SetWorkflowCancelFlag(ctx context.Context, wfExeID int64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SubscribeWorkflowCancelSignal", ctx, wfExeID)
-	ret0, _ := ret[0].(<-chan *redis.Message)
-	ret1, _ := ret[1].(func())
-	ret2, _ := ret[2].(error)
-	return ret0, ret1, ret2
+	ret := m.ctrl.Call(m, "SetWorkflowCancelFlag", ctx, wfExeID)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
-// SubscribeWorkflowCancelSignal indicates an expected call of SubscribeWorkflowCancelSignal.
-func (mr *MockRepositoryMockRecorder) SubscribeWorkflowCancelSignal(ctx, wfExeID any) *gomock.Call {
+// SetWorkflowCancelFlag indicates an expected call of SetWorkflowCancelFlag.
+func (mr *MockRepositoryMockRecorder) SetWorkflowCancelFlag(ctx, wfExeID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubscribeWorkflowCancelSignal", reflect.TypeOf((*MockRepository)(nil).SubscribeWorkflowCancelSignal), ctx, wfExeID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetWorkflowCancelFlag", reflect.TypeOf((*MockRepository)(nil).SetWorkflowCancelFlag), ctx, wfExeID)
 }
 
 // TryLockWorkflowExecution mocks base method.
