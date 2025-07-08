@@ -59,7 +59,15 @@ type ExecutableMeta struct {
 	InputSourceAware     bool                       `json:"input_source_aware,omitempty"` // whether this node needs to know the runtime status of its input sources
 	StreamingParadigms   map[StreamingParadigm]bool `json:"streaming_paradigms,omitempty"`
 	StreamSourceEOFAware bool                       `json:"needs_stream_source_eof,omitempty"` // whether this node needs to be aware stream sources' SourceEOF error
-	IncrementalOutput    bool                       `json:"incremental_output,omitempty"`
+	/*
+	 IncrementalOutput indicates that the node's output is intended for progressive, user-facing streaming.
+	 This distinguishes nodes that actually stream text to the user (e.g., 'Exit', 'Output')
+	 from those that are merely capable of streaming internally (defined by StreamingParadigms),
+	 whose output is consumed by other nodes.
+	 In essence, nodes with IncrementalOutput are a subset of those defined in StreamingParadigms.
+	 When set to true, stream chunks from the node are persisted in real-time and can be fetched by get_process.
+	*/
+	IncrementalOutput bool `json:"incremental_output,omitempty"`
 }
 
 type PluginNodeMeta struct {
