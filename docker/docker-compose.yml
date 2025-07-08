@@ -514,7 +514,7 @@ services:
     volumes:
       - ../docker/.env:/app/.env
       - ../backend/conf:/app/resources/conf
-      - ../backend/static:/app/resources/static
+      # - ../backend/static:/app/resources/static
     depends_on:
       mysql:
         condition: service_healthy

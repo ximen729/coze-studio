@@ -1,11 +1,12 @@
 #!/bin/sh
+set -e
 
 if [[ "$ES_ADDR" == *"localhost"* || "$ES_ADDR" == *"127.0.0.1"* ]]; then
   echo "ES_ADDR is localhost, using docker address: http://elasticsearch:9200"
   ES_ADDR="http://elasticsearch:9200"
 fi
 # ES_ADDR=http://localhost:31160
-INDEX_DIR=/es_index_scma
+INDEX_DIR=/es_index_schema
 
 echo "ES_ADDR: $ES_ADDR"
 
@@ -34,6 +35,7 @@ echo -e "🔍 Initializing Elasticsearch index templates..."
 ES_TEMPLATES=$(find "$INDEX_DIR" -type f -name "*.index-template.json" | sort)
 if [ -z "$ES_TEMPLATES" ]; then
   echo -e "ℹ️ No Elasticsearch index templates found in $INDEX_DIR"
+  exit 1
 else
   # Add index creation logic
   echo -e "🔄 Creating Elasticsearch indexes..."

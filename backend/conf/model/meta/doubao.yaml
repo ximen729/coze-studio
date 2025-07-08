@@ -19,8 +19,8 @@ capability: # 模型基础能力
   reasoning: false # 是否支持 reasoning
   prefill_response: false # 是否支持续写
 conn_config: # 模型连接参数
-  api_key: 
-  model: ep-20250623194625-rszwf # 模型名称
+  api_key: # api key
+  model:  # 模型接入点名称：ep-xxx-xxxx
   temperature: 0.1 # 默认 temperature
   frequency_penalty: 0 # 默认 frequency_penalty
   presence_penalty: 0 # 默认 presence_penalty
