@@ -28,7 +28,7 @@ func newAPIKey(db *gorm.DB, opts ...gen.DOOption) aPIKey {
 	tableName := _aPIKey.aPIKeyDo.TableName()
 	_aPIKey.ALL = field.NewAsterisk(tableName)
 	_aPIKey.ID = field.NewInt64(tableName, "id")
-	_aPIKey.Key = field.NewString(tableName, "key")
+	_aPIKey.APIKey = field.NewString(tableName, "api_key")
 	_aPIKey.Name = field.NewString(tableName, "name")
 	_aPIKey.Status = field.NewInt32(tableName, "status")
 	_aPIKey.UserID = field.NewInt64(tableName, "user_id")
@@ -48,7 +48,7 @@ type aPIKey struct {
 
 	ALL        field.Asterisk
 	ID         field.Int64  // Primary Key ID
-	Key        field.String // API Key hash
+	APIKey     field.String // API Key hash
 	Name       field.String // API Key Name
 	Status     field.Int32  // 0 normal, 1 deleted
 	UserID     field.Int64  // API Key Owner
@@ -73,7 +73,7 @@ func (a aPIKey) As(alias string) *aPIKey {
 func (a *aPIKey) updateTableName(table string) *aPIKey {
 	a.ALL = field.NewAsterisk(table)
 	a.ID = field.NewInt64(table, "id")
-	a.Key = field.NewString(table, "key")
+	a.APIKey = field.NewString(table, "api_key")
 	a.Name = field.NewString(table, "name")
 	a.Status = field.NewInt32(table, "status")
 	a.UserID = field.NewInt64(table, "user_id")
@@ -99,7 +99,7 @@ func (a *aPIKey) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 func (a *aPIKey) fillFieldMap() {
 	a.fieldMap = make(map[string]field.Expr, 9)
 	a.fieldMap["id"] = a.ID
-	a.fieldMap["key"] = a.Key
+	a.fieldMap["api_key"] = a.APIKey
 	a.fieldMap["name"] = a.Name
 	a.fieldMap["status"] = a.Status
 	a.fieldMap["user_id"] = a.UserID

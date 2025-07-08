@@ -81,7 +81,7 @@ func (a *apiAuthImpl) buildPoData2ApiKey(apiKey []*model.APIKey) []*entity.ApiKe
 		return &entity.ApiKey{
 			ID:         a.ID,
 			Name:       a.Name,
-			ApiKey:     a.Key,
+			ApiKey:     a.APIKey,
 			UserID:     a.UserID,
 			ExpiredAt:  a.ExpiredAt,
 			CreatedAt:  a.CreatedAt,
@@ -112,7 +112,7 @@ func (a *apiAuthImpl) CheckPermission(ctx context.Context, req *entity.CheckPerm
 	if err != nil {
 		return nil, err
 	}
-	if apiKey.Key != req.ApiKey {
+	if apiKey.APIKey != req.ApiKey {
 		return nil, nil
 	}
 	apiKeyDo := &entity.ApiKey{

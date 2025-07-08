@@ -127,7 +127,7 @@ func (sa *SingleAgentDraftDAO) singleAgentDraftPo2Do(po *model.SingleAgentDraft)
 			CreatorID:               po.CreatorID,
 			SpaceID:                 po.SpaceID,
 			Name:                    po.Name,
-			Desc:                    po.Desc,
+			Desc:                    po.Description,
 			IconURI:                 po.IconURI,
 			CreatedAt:               po.CreatedAt,
 			UpdatedAt:               po.UpdatedAt,
@@ -142,7 +142,7 @@ func (sa *SingleAgentDraftDAO) singleAgentDraftPo2Do(po *model.SingleAgentDraft)
 			JumpConfig:              po.JumpConfig,
 			VariablesMetaID:         po.VariablesMetaID,
 			BackgroundImageInfoList: po.BackgroundImageInfoList,
-			Database:                po.Database,
+			Database:                po.DatabaseConfig,
 			ShortcutCommand:         po.ShortcutCommand,
 		},
 	}
@@ -154,7 +154,7 @@ func (sa *SingleAgentDraftDAO) singleAgentDraftDo2Po(do *entity.SingleAgent) *mo
 		CreatorID:               do.CreatorID,
 		SpaceID:                 do.SpaceID,
 		Name:                    do.Name,
-		Desc:                    do.Desc,
+		Description:             do.Desc,
 		IconURI:                 do.IconURI,
 		CreatedAt:               do.CreatedAt,
 		UpdatedAt:               do.UpdatedAt,
@@ -169,7 +169,7 @@ func (sa *SingleAgentDraftDAO) singleAgentDraftDo2Po(do *entity.SingleAgent) *mo
 		JumpConfig:              do.JumpConfig,
 		VariablesMetaID:         do.VariablesMetaID,
 		BackgroundImageInfoList: do.BackgroundImageInfoList,
-		Database:                do.Database,
+		DatabaseConfig:          do.Database,
 		ShortcutCommand:         do.ShortcutCommand,
 	}
 }

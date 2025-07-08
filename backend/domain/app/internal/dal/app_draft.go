@@ -48,7 +48,7 @@ func (a appDraftPO) ToDO() *entity.APP {
 		SpaceID:     a.SpaceID,
 		IconURI:     &a.IconURI,
 		Name:        &a.Name,
-		Desc:        &a.Desc,
+		Desc:        &a.Description,
 		OwnerID:     a.OwnerID,
 		CreatedAtMS: a.CreatedAt,
 		UpdatedAtMS: a.UpdatedAt,
@@ -62,12 +62,12 @@ func (a *APPDraftDAO) Create(ctx context.Context, app *entity.APP) (appID int64,
 	}
 
 	m := &model.AppDraft{
-		ID:      appID,
-		SpaceID: app.SpaceID,
-		OwnerID: app.OwnerID,
-		IconURI: app.GetIconURI(),
-		Name:    app.GetName(),
-		Desc:    app.GetDesc(),
+		ID:          appID,
+		SpaceID:     app.SpaceID,
+		OwnerID:     app.OwnerID,
+		IconURI:     app.GetIconURI(),
+		Name:        app.GetName(),
+		Description: app.GetDesc(),
 	}
 	err = a.query.AppDraft.WithContext(ctx).Create(m)
 	if err != nil {
@@ -128,7 +128,7 @@ func (a *APPDraftDAO) Update(ctx context.Context, app *entity.APP) (err error) {
 		m.Name = *app.Name
 	}
 	if app.Desc != nil {
-		m.Desc = *app.Desc
+		m.Description = *app.Desc
 	}
 	if app.IconURI != nil {
 		m.IconURI = *app.IconURI

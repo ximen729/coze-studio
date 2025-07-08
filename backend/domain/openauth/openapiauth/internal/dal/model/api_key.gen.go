@@ -9,7 +9,7 @@ const TableNameAPIKey = "api_key"
 // APIKey api key table
 type APIKey struct {
 	ID         int64  `gorm:"column:id;primaryKey;autoIncrement:true;comment:Primary Key ID" json:"id"`                              // Primary Key ID
-	Key        string `gorm:"column:key;not null;comment:API Key hash" json:"key"`                                                   // API Key hash
+	APIKey     string `gorm:"column:api_key;not null;comment:API Key hash" json:"api_key"`                                           // API Key hash
 	Name       string `gorm:"column:name;not null;comment:API Key Name" json:"name"`                                                 // API Key Name
 	Status     int32  `gorm:"column:status;not null;comment:0 normal, 1 deleted" json:"status"`                                      // 0 normal, 1 deleted
 	UserID     int64  `gorm:"column:user_id;not null;comment:API Key Owner" json:"user_id"`                                          // API Key Owner

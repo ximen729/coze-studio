@@ -224,7 +224,7 @@ table "api_key" {
     comment        = "Primary Key ID"
     auto_increment = true
   }
-  column "key" {
+  column "api_key" {
     null    = false
     type    = varchar(255)
     default = ""
@@ -370,7 +370,7 @@ table "app_draft" {
     default = ""
     comment = "Application Name"
   }
-  column "desc" {
+  column "description" {
     null    = true
     type    = text
     comment = "Application Description"
@@ -441,7 +441,7 @@ table "app_release_record" {
     default = ""
     comment = "Application Name"
   }
-  column "desc" {
+  column "description" {
     null    = true
     type    = text
     comment = "Application Description"
@@ -2445,7 +2445,7 @@ table "single_agent_draft" {
     default = ""
     comment = "Agent Name"
   }
-  column "desc" {
+  column "description" {
     null    = false
     type    = text
     comment = "Agent Description"
@@ -2525,7 +2525,7 @@ table "single_agent_draft" {
     type    = json
     comment = "Background image"
   }
-  column "database" {
+  column "database_config" {
     null    = true
     type    = json
     comment = "Agent Database Base Configuration"
@@ -2672,7 +2672,7 @@ table "single_agent_version" {
     default = ""
     comment = "Agent Name"
   }
-  column "desc" {
+  column "description" {
     null    = false
     type    = text
     comment = "Agent Description"
@@ -2764,7 +2764,7 @@ table "single_agent_version" {
     type    = json
     comment = "Background image"
   }
-  column "database" {
+  column "database_config" {
     null    = true
     type    = json
     comment = "Agent Database Base Configuration"

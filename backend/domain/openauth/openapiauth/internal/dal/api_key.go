@@ -52,7 +52,7 @@ func (a *ApiKeyDAO) Create(ctx context.Context, do *entity.CreateApiKey) (*entit
 		return nil, err
 	}
 	originApiKey, md5Key := a.getAPIKey(poData.ID)
-	poData.Key = md5Key
+	poData.APIKey = md5Key
 	err = a.dbQuery.APIKey.WithContext(ctx).Create(poData)
 	if err != nil {
 		return nil, err
@@ -114,7 +114,7 @@ func (a *ApiKeyDAO) Get(ctx context.Context, id int64) (*model.APIKey, error) {
 }
 
 func (a *ApiKeyDAO) FindByKey(ctx context.Context, key string) (*model.APIKey, error) {
-	return a.dbQuery.APIKey.WithContext(ctx).Where(a.dbQuery.APIKey.Key.Eq(key)).First()
+	return a.dbQuery.APIKey.WithContext(ctx).Where(a.dbQuery.APIKey.APIKey.Eq(key)).First()
 }
 
 func (a *ApiKeyDAO) List(ctx context.Context, userID int64, limit int, page int) ([]*model.APIKey, bool, error) {

@@ -67,7 +67,7 @@ func TestApiAuthImpl_Get(t *testing.T) {
 			&model.APIKey{
 				ID:        10000000001,
 				Name:      "test",
-				Key:       "a5f58bea9028d49143bff3ee436b2fb663291c0c6ab242f3c9dc6bf6df9f7b74",
+				APIKey:    "a5f58bea9028d49143bff3ee436b2fb663291c0c6ab242f3c9dc6bf6df9f7b74",
 				Status:    0,
 				UserID:    666666,
 				ExpiredAt: time.Now().Add(time.Hour).UnixMilli(),
@@ -102,7 +102,7 @@ func TestApiAuthImpl_Delete(t *testing.T) {
 			&model.APIKey{
 				ID:        10000000001,
 				Name:      "test",
-				Key:       "df9f7b74",
+				APIKey:    "df9f7b74",
 				Status:    0,
 				UserID:    666666,
 				ExpiredAt: time.Now().Add(time.Hour).UnixMilli(),
@@ -132,7 +132,7 @@ func TestApiAuthImpl_List(t *testing.T) {
 			&model.APIKey{
 				ID:        10000000001,
 				Name:      "test",
-				Key:       "df9f7b74",
+				APIKey:    "df9f7b74",
 				Status:    0,
 				UserID:    666666,
 				ExpiredAt: time.Now().Add(time.Hour).UnixMilli(),
@@ -142,7 +142,7 @@ func TestApiAuthImpl_List(t *testing.T) {
 			&model.APIKey{
 				ID:        10000000002,
 				Name:      "test2",
-				Key:       "adfadfad",
+				APIKey:    "adfadfad",
 				Status:    0,
 				UserID:    666666,
 				ExpiredAt: time.Now().Add(time.Hour).UnixMilli(),
@@ -179,7 +179,7 @@ func TestApiAuthImpl_CheckPermission(t *testing.T) {
 			&model.APIKey{
 				ID:        10000000001,
 				Name:      "test",
-				Key:       "df9f7b74",
+				APIKey:    "df9f7b74",
 				Status:    0,
 				UserID:    666666,
 				ExpiredAt: time.Now().Add(time.Hour).UnixMilli(),
