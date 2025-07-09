@@ -53,7 +53,8 @@ spec:
         name: etcd-data
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.etcd.persistence.storageClassName | quote }}
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.etcd.persistence.size | quote }}
 {{- end }}

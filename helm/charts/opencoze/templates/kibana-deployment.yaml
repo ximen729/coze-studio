@@ -24,7 +24,7 @@ spec:
         fsGroup: 1001
       initContainers:
       - name: wait-for-elasticsearch
-        image: curlimages/curl:8.5.0
+        image: {{ .Values.images.curl }}
         env:
         - name: ES_HOST
           value: '{{ include "opencoze.fullname" . }}-elasticsearch'
@@ -43,7 +43,7 @@ spec:
         command: ['sh', '-c', 'until curl -s -u "$ES_USERNAME:$ES_PASSWORD" "http://$ES_HOST:$ES_PORT/_cluster/health?wait_for_status=yellow&timeout=1s"; do echo "waiting for elasticsearch"; sleep 2; done;']
       containers:
         - name: kibana
-          image: "bitnami/kibana:8.18.0"
+          image: "{{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}"
           env:
           - name: KIBANA_ELASTICSEARCH_URL
             value: "{{ include "opencoze.fullname" . }}-elasticsearch"
@@ -74,7 +74,7 @@ spec:
                   key: password
           ports:
             - name: http
-              containerPort: 5601
+              containerPort: {{ .Values.kibana.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:

@@ -42,7 +42,8 @@ spec:
         name: redis-data
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.redis.persistence.storageClassName | quote }}
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.redis.persistence.size | quote }}
 {{- end }}

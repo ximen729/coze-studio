@@ -171,12 +171,12 @@ func main() {
 	fmt.Printf("[Elasticsearch] Created successfully instanceID : %s\n", esInstanceID)
 	updateEnvVarInFile("VE_ES_INSTANCE_ID", esInstanceID)
 
-	ecsInstanceID, err := CreateECSInstance(zoneID, sgID, subnetID, ts)
-	if err != nil {
-		panic("CreateECSInstance failed, err=" + err.Error())
-	}
-	fmt.Printf("[ECS] Created successfully instanceID : %s\n", ecsInstanceID)
-	updateEnvVarInFile("VE_ECS_INSTANCE_ID", ecsInstanceID)
+	// ecsInstanceID, err := CreateECSInstance(zoneID, sgID, subnetID, ts)
+	// if err != nil {
+	// 	panic("CreateECSInstance failed, err=" + err.Error())
+	// }
+	// fmt.Printf("[ECS] Created successfully instanceID : %s\n", ecsInstanceID)
+	// updateEnvVarInFile("VE_ECS_INSTANCE_ID", ecsInstanceID)
 
 	// -----------------------------------------------------------------
 	// -------- Waiting for the instance to become available -----------

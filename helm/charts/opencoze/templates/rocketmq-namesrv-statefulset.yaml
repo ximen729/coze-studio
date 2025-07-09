@@ -56,14 +56,16 @@ spec:
         name: namesrv-store
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.rocketmq.namesrv.persistence.store.storageClassName | quote }}
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.rocketmq.namesrv.persistence.store.size | quote }}
     - metadata:
         name: namesrv-logs
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.rocketmq.namesrv.persistence.logs.storageClassName | quote }}
         resources:
           requests:
-            storage: 5Gi
+            storage: {{ .Values.rocketmq.namesrv.persistence.logs.size | quote }}
 {{- end }}

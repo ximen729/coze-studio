@@ -11,10 +11,10 @@ spec:
     spec:
       initContainers:
       - name: wait-for-mysql
-        image: busybox:1.36
+        image: {{ .Values.images.busybox }}
         command: ['sh', '-c', 'until nc -z {{ .Release.Name }}-mysql 3306; do echo waiting for mysql; sleep 2; done']
       - name: sql-init
-        image: mysql:8.4.5
+        image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
         command:
         - "/bin/sh"
         - "-c"
@@ -34,7 +34,7 @@ spec:
           value: {{ .Values.mysql.password | quote }}
       containers:
       - name: job-completer
-        image: busybox:1.36
+        image: {{ .Values.images.busybox }}
         command: ["echo", "MySQL initialization complete"]
       volumes:
       - name: init-sql

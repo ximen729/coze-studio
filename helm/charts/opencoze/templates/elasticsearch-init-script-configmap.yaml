@@ -14,11 +14,6 @@ data:
       CURL_AUTH="-u $ES_USERNAME:$ES_PASSWORD"
     fi
 
-    # Wait for Elasticsearch to be ready
-    until curl -s -f $CURL_AUTH "$ES_HOST/_cluster/health?wait_for_status=yellow&timeout=5s"; do
-      echo "Waiting for Elasticsearch..."
-      sleep 5
-    done
 
     # Upload index templates
     for file in /es_index_schema/*.json; do

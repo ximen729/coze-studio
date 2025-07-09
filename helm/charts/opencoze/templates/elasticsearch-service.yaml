@@ -6,10 +6,10 @@ metadata:
   labels:
     {{- include "opencoze.labels" . | nindent 4 }}
 spec:
-  type: LoadBalancer
+  type: {{ .Values.elasticsearch.service.type }}
   ports:
-    - port: 9200
-      targetPort: 9200
+    - port: {{ .Values.elasticsearch.service.port }}
+      targetPort: {{ .Values.elasticsearch.service.targetPort }}
       protocol: TCP
       name: http
   selector:

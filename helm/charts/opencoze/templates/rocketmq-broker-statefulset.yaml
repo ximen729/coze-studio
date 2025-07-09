@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
         - name: wait-for-namesrv
-          image: busybox:1.28
+          image: opencoze-cn-beijing.cr.volces.com/iac/busybox:latest
           command: ['sh', '-c', 'until nc -z {{ .Release.Name }}-rocketmq-namesrv 9876; do echo waiting for namesrv; sleep 2; done']
       volumes:
         - name: broker-config
@@ -111,14 +111,16 @@ spec:
         name: broker-store
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.rocketmq.broker.persistence.store.storageClassName | quote }}
         resources:
           requests:
-            storage: 20Gi
+            storage: {{ .Values.rocketmq.broker.persistence.store.size | quote }}
     - metadata:
         name: broker-logs
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.rocketmq.broker.persistence.logs.storageClassName | quote }}
         resources:
           requests:
-            storage: 10Gi
+            storage: {{ .Values.rocketmq.broker.persistence.logs.size | quote }}
 {{- end }}

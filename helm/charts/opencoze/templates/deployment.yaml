@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "opencoze.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.cozeServer.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/instance: {{ .Release.Name }}
@@ -24,31 +25,31 @@ spec:
     spec:
       initContainers:
         - name: wait-for-mysql
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-mysql 3306; do echo waiting for mysql; sleep 2; done']
         {{- if .Values.redis.enabled }}
         - name: wait-for-redis
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-redis {{ .Values.redis.port }}; do echo waiting for redis; sleep 2; done']
         {{- end }}
         {{- if .Values.rocketmq.enabled }}
         - name: wait-for-rocketmq
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-rocketmq-namesrv 9876; do echo waiting for rocketmq; sleep 2; done']
         {{- end }}
         {{- if .Values.elasticsearch.enabled }}
         - name: wait-for-elasticsearch
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-elasticsearch 9200; do echo waiting for elasticsearch; sleep 2; done']
         {{- end }}
         {{- if .Values.minio.enabled }}
         - name: wait-for-minio
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-minio 9000; do echo waiting for minio; sleep 2; done']
         {{- end }}
         {{- if .Values.milvus.enabled }}
         - name: wait-for-milvus
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-milvus 19530; do echo waiting for milvus; sleep 2; done']
         {{- end }}
       containers:
@@ -62,7 +63,7 @@ spec:
             - name: MYSQL_HOST
               value: "{{ include "opencoze.fullname" . }}-mysql"
             - name: MYSQL_PORT
-              value: "3306"
+              value: {{ .Values.mysql.port | quote }}
             - name: MYSQL_USER
               value: {{ .Values.mysql.user | quote }}
             - name: MYSQL_PASSWORD
@@ -71,8 +72,6 @@ spec:
               value: {{ .Values.mysql.database | quote }}
             - name: REDIS_ADDR
               value: "{{ include "opencoze.fullname" . }}-redis:{{ .Values.redis.port }}"
-            - name: MINIO_ENDPOINT
-              value: "127.0.0.1:9000"
             - name: MINIO_AK
               value: {{ .Values.minio.accessKey | quote }}
             - name: MINIO_SK
@@ -95,8 +94,7 @@ spec:
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+
           {{- if .Values.cozeServer.confHostPath }}
           volumeMounts:
             - name: opencoze-server-conf

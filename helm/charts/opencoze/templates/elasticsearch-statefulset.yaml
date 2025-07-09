@@ -64,7 +64,7 @@ spec:
               chmod g+s /bitnami/elasticsearch/data
               exec /opt/bitnami/scripts/elasticsearch/entrypoint.sh /opt/bitnami/scripts/elasticsearch/run.sh
           ports:
-            - containerPort: 9200
+            - containerPort: {{ .Values.elasticsearch.service.port }}
           volumeMounts:
             - name: es-data
               mountPath: /bitnami/elasticsearch/data
@@ -76,6 +76,13 @@ spec:
       - name: es-config
         configMap:
           name: {{ include "opencoze.fullname" . }}-es-init-config
-      - name: es-data
-        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: es-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.elasticsearch.persistence.storageClassName | quote }}
+      resources:
+        requests:
+          storage: {{ .Values.elasticsearch.persistence.size | quote }}
 {{- end }}

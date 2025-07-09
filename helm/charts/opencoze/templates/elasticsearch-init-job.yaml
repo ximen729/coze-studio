@@ -9,11 +9,11 @@ spec:
       restartPolicy: Never
       initContainers:
         - name: wait-for-es
-          image: busybox:1.36
+          image: {{ .Values.images.busybox }}
           command: ['sh', '-c', 'until nc -z {{ include "opencoze.fullname" . }}-elasticsearch 9200; do echo waiting for elasticsearch; sleep 2; done']
       containers:
         - name: es-init
-          image: alpine/curl:8.12.1
+          image: {{ .Values.images.curl }}
           env:
             - name: ES_USERNAME
               valueFrom:

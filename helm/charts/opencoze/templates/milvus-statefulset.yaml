@@ -70,7 +70,8 @@ spec:
         name: milvus-data
       spec:
         accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ .Values.milvus.persistence.storageClassName | quote }}
         resources:
           requests:
-            storage: 20Gi
+            storage: {{ .Values.milvus.persistence.size | quote }}
 {{- end }}

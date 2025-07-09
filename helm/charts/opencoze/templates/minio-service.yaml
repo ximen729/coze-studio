@@ -6,14 +6,14 @@ metadata:
   labels:
     {{- include "opencoze.labels" . | nindent 4 }}
 spec:
-  type: LoadBalancer
+  type: {{ .Values.minio.service.type }}
   ports:
     - name: api
-      port: 9000
-      targetPort: 9000
+      port: {{ .Values.minio.service.port }}
+      targetPort: {{ .Values.minio.service.port }}
     - name: console
-      port: 9001
-      targetPort: 9001
+      port: {{ .Values.minio.service.consolePort }}
+      targetPort: {{ .Values.minio.service.consolePort }}
   selector:
     app.kubernetes.io/component: minio
     app.kubernetes.io/name: {{ include "opencoze.name" . }}

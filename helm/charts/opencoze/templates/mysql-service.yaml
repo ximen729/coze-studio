@@ -5,10 +5,10 @@ metadata:
   labels:
     {{- include "opencoze.labels" . | nindent 4 }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
-    - port: 3306
-      targetPort: 3306
+    - port: {{ .Values.mysql.port }}
+      targetPort: {{ .Values.mysql.targetPort }}
       name: mysql
   selector:
     app.kubernetes.io/component: mysql

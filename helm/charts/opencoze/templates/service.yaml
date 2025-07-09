@@ -10,7 +10,7 @@ spec:
     - port: {{ .Values.cozeServer.service.port }}
       targetPort: http
       protocol: TCP
-      name: http
+      name: app-port
   selector:
     app.kubernetes.io/name: {{ include "opencoze.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
