@@ -38,14 +38,14 @@ type projectHandlerImpl struct {
 
 type ConsumerHandler = eventbus.ConsumerHandler
 
-var defaultProjectHandle *projectHandlerImpl
+var defaultProjectHandle *projectHandlerImpl // deprecate
 
 func NewProjectHandler(ctx context.Context, e es.Client) ConsumerHandler {
-	defaultProjectHandle = &projectHandlerImpl{
+	handler := &projectHandlerImpl{
 		esClient: e,
 	}
 
-	return defaultProjectHandle
+	return handler
 }
 
 func (s *projectHandlerImpl) HandleMessage(ctx context.Context, msg *eventbus.Message) error {

@@ -38,15 +38,15 @@ const (
 	TOSRegion     = "TOS_REGION"
 	TOSEndpoint   = "TOS_ENDPOINT"
 
-	RMQServer               = "RMQ_NAME_SERVER"
-	RMQSecretKey            = "RMQ_SECRET_KEY"
-	RMQAccessKey            = "RMQ_ACCESS_KEY"
-	RMQTopicApp             = "opencoze_search_app"
-	RMQTopicResource        = "opencoze_search_resource"
-	RMQTopicKnowledge       = "opencoze_knowledge"
-	RMQTopicSearchResource  = "cg_search_resource"
-	RMQTopicSearchApp       = "cg_search_app"
-	RMQTopicKnowledgeSearch = "cg_knowledge"
+	RMQServer                = "RMQ_NAME_SERVER"
+	RMQSecretKey             = "RMQ_SECRET_KEY"
+	RMQAccessKey             = "RMQ_ACCESS_KEY"
+	RMQTopicApp              = "opencoze_search_app"
+	RMQTopicResource         = "opencoze_search_resource"
+	RMQTopicKnowledge        = "opencoze_knowledge"
+	RMQConsumeGroupResource  = "cg_search_resource"
+	RMQConsumeGroupApp       = "cg_search_app"
+	RMQConsumeGroupKnowledge = "cg_knowledge"
 
 	CozeConnectorID   = int64(10000010)
 	WebSDKConnectorID = int64(999)

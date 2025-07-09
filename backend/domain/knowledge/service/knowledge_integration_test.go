@@ -121,7 +121,7 @@ func (suite *KnowledgeTestSuite) SetupSuite() {
 
 	rdbService := rdbservice.NewService(db, idGenSVC)
 
-	knowledgeProducer, err := rmq.NewProducer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQTopicKnowledgeSearch, 2)
+	knowledgeProducer, err := rmq.NewProducer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, 2)
 	if err != nil {
 		panic(err)
 	}
@@ -179,7 +179,7 @@ func (suite *KnowledgeTestSuite) SetupSuite() {
 
 	suite.handler = knowledgeEventHandler
 
-	err = rmq.RegisterConsumer(rmqEndpoint, "opencoze_knowledge", "cg_knowledge", suite)
+	err = rmq.RegisterConsumer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, suite)
 	if err != nil {
 		panic(err)
 	}

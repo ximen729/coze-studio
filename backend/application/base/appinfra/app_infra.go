@@ -108,7 +108,7 @@ func initTOS(ctx context.Context) (storage.Storage, error) {
 func initResourceEventBusProducer() (eventbus.Producer, error) {
 	nameServer := os.Getenv(consts.RMQServer)
 	resourceEventBusProducer, err := rmq.NewProducer(nameServer,
-		consts.RMQTopicSearchResource, consts.RMQTopicSearchResource, 1)
+		consts.RMQConsumeGroupResource, consts.RMQConsumeGroupResource, 1)
 	if err != nil {
 		return nil, fmt.Errorf("init resource producer failed, err=%w", err)
 	}
@@ -118,7 +118,7 @@ func initResourceEventBusProducer() (eventbus.Producer, error) {
 
 func initAppEventProducer() (eventbus.Producer, error) {
 	nameServer := os.Getenv(consts.RMQServer)
-	appEventProducer, err := rmq.NewProducer(nameServer, consts.RMQTopicSearchApp, consts.RMQTopicSearchApp, 1)
+	appEventProducer, err := rmq.NewProducer(nameServer, consts.RMQTopicApp, consts.RMQConsumeGroupApp, 1)
 	if err != nil {
 		return nil, fmt.Errorf("init search producer failed, err=%w", err)
 	}

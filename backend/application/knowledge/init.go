@@ -85,7 +85,7 @@ func InitService(c *ServiceComponents) (*KnowledgeApplicationService, error) {
 
 	nameServer := os.Getenv(consts.RMQServer)
 
-	knowledgeProducer, err := rmq.NewProducer(nameServer, consts.RMQTopicKnowledge, consts.RMQTopicKnowledgeSearch, 2)
+	knowledgeProducer, err := rmq.NewProducer(nameServer, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, 2)
 	if err != nil {
 		return nil, fmt.Errorf("init knowledge producer failed, err=%w", err)
 	}
@@ -173,7 +173,7 @@ func InitService(c *ServiceComponents) (*KnowledgeApplicationService, error) {
 		ModelFactory:              chatmodelImpl.NewDefaultFactory(),
 	})
 
-	if err = rmq.RegisterConsumer(nameServer, "opencoze_knowledge", "cg_knowledge", knowledgeEventHandler); err != nil {
+	if err = rmq.RegisterConsumer(nameServer, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, knowledgeEventHandler); err != nil {
 		return nil, fmt.Errorf("register knowledge consumer failed, err=%w", err)
 	}
 

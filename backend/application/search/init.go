@@ -72,14 +72,14 @@ func InitService(ctx context.Context, s *ServiceComponents) (*SearchApplicationS
 	logs.Infof("start search domain consumer...")
 	nameServer := os.Getenv(consts.RMQServer)
 
-	err := rmq.RegisterConsumer(nameServer, "opencoze_search_app", "cg_search_app", searchConsumer)
+	err := rmq.RegisterConsumer(nameServer, consts.RMQTopicApp, consts.RMQConsumeGroupApp, searchConsumer)
 	if err != nil {
 		return nil, fmt.Errorf("register search consumer failed, err=%w", err)
 	}
 
 	searchResourceConsumer := search.NewResourceHandler(ctx, s.ESClient)
 
-	err = rmq.RegisterConsumer(nameServer, "opencoze_search_resource", "cg_search_resource", searchResourceConsumer)
+	err = rmq.RegisterConsumer(nameServer, consts.RMQTopicResource, consts.RMQConsumeGroupResource, searchResourceConsumer)
 	if err != nil {
 		return nil, fmt.Errorf("register search consumer failed, err=%w", err)
 	}
