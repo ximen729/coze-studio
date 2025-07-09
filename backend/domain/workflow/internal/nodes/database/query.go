@@ -60,7 +60,7 @@ func NewQuery(_ context.Context, cfg *QueryConfig) (*Query, error) {
 }
 
 func (ds *Query) Query(ctx context.Context, in map[string]any) (map[string]any, error) {
-	conditionGroup, err := ConvertClauseGroupToConditionGroup(ctx, ds.config.ClauseGroup, in)
+	conditionGroup, err := convertClauseGroupToConditionGroup(ctx, ds.config.ClauseGroup, in)
 	if err != nil {
 		return nil, err
 	}
@@ -92,8 +92,8 @@ func notNeedTakeMapValue(op database.Operator) bool {
 	return op == database.OperatorIsNull || op == database.OperatorIsNotNull
 }
 
-func (ds *Query) ToCallbackInput(_ context.Context, in map[string]any) (map[string]any, error) {
-	conditionGroup, err := ConvertClauseGroupToConditionGroup(context.Background(), ds.config.ClauseGroup, in)
+func (ds *Query) ToCallbackInput(ctx context.Context, in map[string]any) (map[string]any, error) {
+	conditionGroup, err := convertClauseGroupToConditionGroup(ctx, ds.config.ClauseGroup, in)
 	if err != nil {
 		return nil, err
 	}

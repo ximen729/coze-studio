@@ -784,70 +784,36 @@ func applyDBConditionToSchema(ns *compose.NodeSchema, condition *vo.DBCondition,
 	if condition.ConditionList == nil {
 		return nil
 	}
-	if len(condition.ConditionList) > 0 {
-		if len(condition.ConditionList) == 1 {
-			params := condition.ConditionList[0]
-			var right *vo.Param
-			for _, param := range params {
-				if param == nil {
-					continue
-				}
-				if param.Name == "right" {
-					right = param
-					break
-				}
+
+	for idx, params := range condition.ConditionList {
+		var right *vo.Param
+		for _, param := range params {
+			if param == nil {
+				continue
 			}
-
-			if right == nil {
-				return nil
+			if param.Name == "right" {
+				right = param
+				break
 			}
-
-			name := "SingleRight"
-			tInfo, err := CanvasBlockInputToTypeInfo(right.Input)
-			if err != nil {
-				return err
-			}
-			ns.SetInputType(name, tInfo)
-
-			sources, err := CanvasBlockInputToFieldInfo(right.Input, einoCompose.FieldPath{name}, parentNode)
-			if err != nil {
-				return err
-			}
-			ns.AddInputSource(sources...)
-
-		} else {
-			for idx, params := range condition.ConditionList {
-				var right *vo.Param
-				for _, param := range params {
-					if param == nil {
-						continue
-					}
-					if param.Name == "right" {
-						right = param
-						break
-					}
-				}
-
-				if right == nil {
-					continue
-				}
-				name := fmt.Sprintf("Multi_%d_Right", idx)
-				tInfo, err := CanvasBlockInputToTypeInfo(right.Input)
-				if err != nil {
-					return err
-				}
-				ns.SetInputType(name, tInfo)
-
-				sources, err := CanvasBlockInputToFieldInfo(right.Input, einoCompose.FieldPath{name}, parentNode)
-				if err != nil {
-					return err
-				}
-				ns.AddInputSource(sources...)
-			}
-
 		}
 
+		if right == nil {
+			continue
+		}
+		name := fmt.Sprintf("__condition_right_%d", idx)
+		tInfo, err := CanvasBlockInputToTypeInfo(right.Input)
+		if err != nil {
+			return err
+		}
+		ns.SetInputType(name, tInfo)
+		sources, err := CanvasBlockInputToFieldInfo(right.Input, einoCompose.FieldPath{name}, parentNode)
+		if err != nil {
+			return err
+		}
+		ns.AddInputSource(sources...)
+
 	}
+
 	return nil
 
 }
@@ -856,26 +822,19 @@ func applyInsetFieldInfoToSchema(ns *compose.NodeSchema, fieldInfo [][]*vo.Param
 	if len(fieldInfo) == 0 {
 		return nil
 	}
-	fieldsName := "Fields"
-	FieldsTypeInfo := &vo.TypeInfo{
-		Type:       vo.DataTypeObject,
-		Properties: make(map[string]*vo.TypeInfo, len(fieldInfo)),
-	}
-	ns.SetInputType(fieldsName, FieldsTypeInfo)
 	for _, params := range fieldInfo {
 		// Each FieldInfo is list params, containing two elements.
 		// The first is to set the name of the field and the second is the corresponding value.
 		p0 := params[0]
 		p1 := params[1]
-
 		name := p0.Input.Value.Content.(string) // must string type
 		tInfo, err := CanvasBlockInputToTypeInfo(p1.Input)
 		if err != nil {
 			return err
 		}
-
-		FieldsTypeInfo.Properties[name] = tInfo
-		sources, err := CanvasBlockInputToFieldInfo(p1.Input, einoCompose.FieldPath{fieldsName, name}, parentNode)
+		name = "__setting_field_" + name
+		ns.SetInputType(name, tInfo)
+		sources, err := CanvasBlockInputToFieldInfo(p1.Input, einoCompose.FieldPath{name}, parentNode)
 		if err != nil {
 			return err
 		}

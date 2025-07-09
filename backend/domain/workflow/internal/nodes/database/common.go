@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/cloudwego/eino/compose"
@@ -341,7 +342,7 @@ func responseFormatted(configOutput map[string]*vo.TypeInfo, response *database.
 	return ret, nil
 }
 
-func ConvertClauseGroupToConditionGroup(ctx context.Context, clauseGroup *database.ClauseGroup, input map[string]any) (*database.ConditionGroup, error) {
+func convertClauseGroupToConditionGroup(ctx context.Context, clauseGroup *database.ClauseGroup, input map[string]any) (*database.ConditionGroup, error) {
 	var (
 		rightValue any
 		ok         bool
@@ -355,7 +356,7 @@ func ConvertClauseGroupToConditionGroup(ctx context.Context, clauseGroup *databa
 	if clauseGroup.Single != nil {
 		clause := clauseGroup.Single
 		if !notNeedTakeMapValue(clause.Operator) {
-			rightValue, ok = nodes.TakeMapValue(input, compose.FieldPath{"SingleRight"})
+			rightValue, ok = nodes.TakeMapValue(input, compose.FieldPath{"__condition_right_0"})
 			if !ok {
 				return nil, fmt.Errorf("cannot take single clause from input")
 			}
@@ -376,7 +377,7 @@ func ConvertClauseGroupToConditionGroup(ctx context.Context, clauseGroup *databa
 		multiSelect := clauseGroup.Multi
 		for idx, clause := range multiSelect.Clauses {
 			if !notNeedTakeMapValue(clause.Operator) {
-				rightValue, ok = nodes.TakeMapValue(input, compose.FieldPath{fmt.Sprintf("Multi_%d_Right", idx)})
+				rightValue, ok = nodes.TakeMapValue(input, compose.FieldPath{fmt.Sprintf("__condition_right_%d", idx)})
 				if !ok {
 					return nil, fmt.Errorf("cannot take multi clause from input")
 				}
@@ -393,22 +394,12 @@ func ConvertClauseGroupToConditionGroup(ctx context.Context, clauseGroup *databa
 	return conditionGroup, nil
 }
 
-func ConvertClauseGroupToUpdateInventory(ctx context.Context, clauseGroup *database.ClauseGroup, input map[string]any) (*UpdateInventory, error) {
-	conditionGroup, err := ConvertClauseGroupToConditionGroup(ctx, clauseGroup, input)
+func convertClauseGroupToUpdateInventory(ctx context.Context, clauseGroup *database.ClauseGroup, input map[string]any) (*UpdateInventory, error) {
+	conditionGroup, err := convertClauseGroupToConditionGroup(ctx, clauseGroup, input)
 	if err != nil {
 		return nil, err
 	}
-
-	f, ok := nodes.TakeMapValue(input, compose.FieldPath{"Fields"})
-	if !ok {
-		return nil, fmt.Errorf("cannot get key 'Fields' value from input")
-	}
-
-	fields, ok := f.(map[string]any)
-	if !ok {
-		return nil, fmt.Errorf("fields expected to be map[string]any, but got %T", f)
-	}
-
+	fields := parseToInput(input)
 	inventory := &UpdateInventory{
 		ConditionGroup: conditionGroup,
 		Fields:         fields,
@@ -430,4 +421,15 @@ func getExecUserID(ctx context.Context) int64 {
 		panic(fmt.Errorf("unable to get exe context"))
 	}
 	return execCtx.RootCtx.ExeCfg.Operator
+}
+
+func parseToInput(input map[string]any) map[string]any {
+	result := make(map[string]any, len(input))
+	for key, value := range input {
+		if strings.HasPrefix(key, "__setting_field_") {
+			key = strings.TrimPrefix(key, "__setting_field_")
+			result[key] = value
+		}
+	}
+	return result
 }

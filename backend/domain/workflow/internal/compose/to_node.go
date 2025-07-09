@@ -509,13 +509,6 @@ func (s *NodeSchema) ToDatabaseQueryConfig() (*database.QueryConfig, error) {
 }
 
 func (s *NodeSchema) ToDatabaseInsertConfig() (*database.InsertConfig, error) {
-	inputTimeTypes := make(map[string]*vo.TypeInfo, len(s.InputTypes))
-	fieldTypes := s.InputTypes["Fields"]
-	for key, t := range fieldTypes.Properties {
-		if t.Type == vo.DataTypeTime {
-			inputTimeTypes[key] = t
-		}
-	}
 
 	return &database.InsertConfig{
 		DatabaseInfoID: mustGetKey[int64]("DatabaseInfoID", s.Configs),
@@ -534,13 +527,7 @@ func (s *NodeSchema) ToDatabaseDeleteConfig() (*database.DeleteConfig, error) {
 }
 
 func (s *NodeSchema) ToDatabaseUpdateConfig() (*database.UpdateConfig, error) {
-	inputTimeTypes := make(map[string]*vo.TypeInfo, len(s.InputTypes))
-	fieldTypes := s.InputTypes["Fields"]
-	for key, t := range fieldTypes.Properties {
-		if t.Type == vo.DataTypeTime {
-			inputTimeTypes[key] = t
-		}
-	}
+
 	return &database.UpdateConfig{
 		DatabaseInfoID: mustGetKey[int64]("DatabaseInfoID", s.Configs),
 		ClauseGroup:    mustGetKey[*crossdatabase.ClauseGroup]("ClauseGroup", s.Configs),

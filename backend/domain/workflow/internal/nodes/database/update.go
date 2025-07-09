@@ -60,7 +60,7 @@ func NewUpdate(_ context.Context, cfg *UpdateConfig) (*Update, error) {
 }
 
 func (u *Update) Update(ctx context.Context, in map[string]any) (map[string]any, error) {
-	inventory, err := ConvertClauseGroupToUpdateInventory(ctx, u.config.ClauseGroup, in)
+	inventory, err := convertClauseGroupToUpdateInventory(ctx, u.config.ClauseGroup, in)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (u *Update) Update(ctx context.Context, in map[string]any) (map[string]any,
 }
 
 func (u *Update) ToCallbackInput(_ context.Context, in map[string]any) (map[string]any, error) {
-	inventory, err := ConvertClauseGroupToUpdateInventory(context.Background(), u.config.ClauseGroup, in)
+	inventory, err := convertClauseGroupToUpdateInventory(context.Background(), u.config.ClauseGroup, in)
 	if err != nil {
 		return nil, err
 	}

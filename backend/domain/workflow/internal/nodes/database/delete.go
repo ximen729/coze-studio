@@ -58,7 +58,7 @@ func NewDelete(_ context.Context, cfg *DeleteConfig) (*Delete, error) {
 }
 
 func (d *Delete) Delete(ctx context.Context, in map[string]any) (map[string]any, error) {
-	conditionGroup, err := ConvertClauseGroupToConditionGroup(ctx, d.config.ClauseGroup, in)
+	conditionGroup, err := convertClauseGroupToConditionGroup(ctx, d.config.ClauseGroup, in)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func (d *Delete) Delete(ctx context.Context, in map[string]any) (map[string]any,
 }
 
 func (d *Delete) ToCallbackInput(_ context.Context, in map[string]any) (map[string]any, error) {
-	conditionGroup, err := ConvertClauseGroupToConditionGroup(context.Background(), d.config.ClauseGroup, in)
+	conditionGroup, err := convertClauseGroupToConditionGroup(context.Background(), d.config.ClauseGroup, in)
 	if err != nil {
 		return nil, err
 	}

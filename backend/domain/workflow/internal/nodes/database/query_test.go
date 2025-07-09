@@ -65,7 +65,6 @@ func TestDataset_Query(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	t.Run("string case", func(t *testing.T) {
-
 		t.Run("single", func(t *testing.T) {
 			objects := make([]database.Object, 0)
 			objects = append(objects, database.Object{
@@ -114,7 +113,7 @@ func TestDataset_Query(t *testing.T) {
 			}
 
 			in := map[string]interface{}{
-				"SingleRight": 1,
+				"__condition_right_0": 1,
 			}
 
 			result, err := ds.Query(t.Context(), in)
@@ -178,8 +177,8 @@ func TestDataset_Query(t *testing.T) {
 			}
 
 			in := map[string]any{
-				"Multi_0_Right": 1,
-				"Multi_1_Right": 2,
+				"__condition_right_0": 1,
+				"__condition_right_1": 2,
 			}
 
 			result, err := ds.Query(t.Context(), in)
@@ -238,7 +237,7 @@ func TestDataset_Query(t *testing.T) {
 			}
 
 			in := map[string]any{
-				"SingleRight": 1,
+				"__condition_right_0": 1,
 			}
 
 			result, err := ds.Query(t.Context(), in)
@@ -297,7 +296,7 @@ func TestDataset_Query(t *testing.T) {
 				config: cfg,
 			}
 
-			in := map[string]any{"SingleRight": 1}
+			in := map[string]any{"__condition_right_0": 1}
 
 			result, err := ds.Query(t.Context(), in)
 			assert.NoError(t, err)
@@ -371,7 +370,7 @@ func TestDataset_Query(t *testing.T) {
 		}
 
 		in := map[string]any{
-			"SingleRight": 1,
+			"__condition_right_0": 1,
 		}
 
 		result, err := ds.Query(t.Context(), in)
@@ -436,7 +435,7 @@ func TestDataset_Query(t *testing.T) {
 		}
 
 		in := map[string]any{
-			"SingleRight": 1,
+			"__condition_right_0": 1,
 		}
 
 		result, err := ds.Query(t.Context(), in)

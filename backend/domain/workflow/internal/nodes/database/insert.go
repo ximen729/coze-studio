@@ -21,11 +21,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/cloudwego/eino/compose"
-
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/database"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
-	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes"
 )
 
 type InsertConfig struct {
@@ -56,16 +53,8 @@ func NewInsert(_ context.Context, cfg *InsertConfig) (*Insert, error) {
 }
 
 func (is *Insert) Insert(ctx context.Context, input map[string]any) (map[string]any, error) {
-	fs, ok := nodes.TakeMapValue(input, compose.FieldPath{"Fields"})
-	if !ok {
-		return nil, errors.New("cannot get key 'Fields' value from input")
-	}
 
-	fields := make(map[string]any)
-	for key, value := range fs.(map[string]any) {
-		fields[key] = value
-	}
-
+	fields := parseToInput(input)
 	req := &database.InsertRequest{
 		DatabaseInfoID: is.config.DatabaseInfoID,
 		Fields:         fields,
@@ -88,12 +77,7 @@ func (is *Insert) Insert(ctx context.Context, input map[string]any) (map[string]
 
 func (is *Insert) ToCallbackInput(_ context.Context, input map[string]any) (map[string]any, error) {
 	databaseID := is.config.DatabaseInfoID
-
-	fs, ok := input["Fields"]
-	if !ok {
-		return nil, fmt.Errorf("failed to take right value of %s", compose.FieldPath{"Fields"})
-	}
-
+	fs := parseToInput(input)
 	result := make(map[string]any)
 	result["databaseInfoList"] = []string{fmt.Sprintf("%d", databaseID)}
 
@@ -103,7 +87,7 @@ func (is *Insert) ToCallbackInput(_ context.Context, input map[string]any) (map[
 	}
 
 	fieldInfo := make([]*FieldInfo, 0)
-	for k, v := range fs.(map[string]any) {
+	for k, v := range fs {
 		fieldInfo = append(fieldInfo, &FieldInfo{
 			FieldID:    k,
 			FieldValue: v,
