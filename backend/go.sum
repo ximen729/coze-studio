@@ -923,6 +923,8 @@ github.com/cloudwego/eino v0.3.49-0.20250707114407-8c41f7343f76 h1:EsYisASpoRNVc
 github.com/cloudwego/eino v0.3.49-0.20250707114407-8c41f7343f76/go.mod h1:wUjz990apdsaOraOXdh6CdhVXq8DJsOvLsVlxNTcNfY=
 github.com/cloudwego/eino v0.3.49 h1:qa7opXacC2PJpdvcHM1mHDvDFrQNy3SRY9sie/FS804=
 github.com/cloudwego/eino v0.3.49/go.mod h1:wUjz990apdsaOraOXdh6CdhVXq8DJsOvLsVlxNTcNfY=
+github.com/cloudwego/eino v0.3.51 h1:emSaDu49v9EEJYOusL42Li/VL5QBSyBvhxO9ZcKPZvs=
+github.com/cloudwego/eino v0.3.51/go.mod h1:wUjz990apdsaOraOXdh6CdhVXq8DJsOvLsVlxNTcNfY=
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250522060253-ddb617598b09 h1:hZScBE/Etiji2RqjlABcAkq6n1uzYPu+jo4GV5TF8Hc=
 github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250522060253-ddb617598b09/go.mod h1:pLtH5BZKgb7/bB8+P3W5/f1d46gTl9K77+08j88Gb4k=
 github.com/cloudwego/eino-ext/components/embedding/openai v0.0.0-20250522060253-ddb617598b09 h1:C8RjF193iguUuevkuv0q4SC+XGlM/DlJEgic7l8OUAI=

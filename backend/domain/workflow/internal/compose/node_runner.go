@@ -389,7 +389,6 @@ func (nc *nodeRunConfig[O]) toNode() *Node {
 
 type nodeRunner[O any] struct {
 	*nodeRunConfig[O]
-	onStartDone bool
 	interrupted bool
 	cancelFn    context.CancelFunc
 }
@@ -413,13 +412,13 @@ func (r *nodeRunner[O]) onStart(ctx context.Context, input map[string]any) (cont
 	if r.callbackInputConverter != nil {
 		convertedInput, err := r.callbackInputConverter(ctx, input)
 		if err != nil {
-			return nil, err
+			ctx = callbacks.OnStart(ctx, input)
+			return ctx, err
 		}
 		ctx = callbacks.OnStart(ctx, convertedInput)
 	} else {
 		ctx = callbacks.OnStart(ctx, input)
 	}
-	r.onStartDone = true
 
 	return ctx, nil
 }
