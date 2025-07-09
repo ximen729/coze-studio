@@ -62,7 +62,15 @@ func WorkflowSchemaFromNode(ctx context.Context, c *vo.Canvas, nodeID string) (
 		n = batchN
 	}
 
-	nsList, hierarchy, err := NodeToNodeSchema(ctx, n)
+	implicitDependencies, err := extractImplicitDependency(n, c.Nodes)
+	if err != nil {
+		return nil, err
+	}
+	opts := make([]OptionFn, 0, 1)
+	if len(implicitDependencies) > 0 {
+		opts = append(opts, WithImplicitNodeDependencies(implicitDependencies))
+	}
+	nsList, hierarchy, err := NodeToNodeSchema(ctx, n, opts...)
 	if err != nil {
 		return nil, err
 	}

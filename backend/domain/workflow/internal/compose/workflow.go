@@ -219,24 +219,9 @@ func (w *Workflow) addInnerNode(ctx context.Context, cNode *NodeSchema) (map[vo.
 
 func (w *Workflow) addNodeInternal(ctx context.Context, ns *NodeSchema, inner *innerWorkflowInfo) (map[vo.NodeKey][]*compose.FieldMapping, error) {
 	key := ns.Key
-	implicitInputs, err := ns.GetImplicitInputFields()
-	if err != nil {
-		return nil, err
-	}
-
 	var deps *dependencyInfo
-	if len(implicitInputs) == 0 {
-		deps, err = w.resolveDependencies(key, ns.InputSources)
-	} else {
-		combinedInputs := append(implicitInputs, ns.InputSources...)
-		combinedInputs, err = DeduplicateInputFields(combinedInputs)
-		if err != nil {
-			return nil, err
-		}
 
-		deps, err = w.resolveDependencies(key, combinedInputs)
-	}
-
+	deps, err := w.resolveDependencies(key, ns.InputSources)
 	if err != nil {
 		return nil, err
 	}
@@ -795,10 +780,20 @@ func (w *Workflow) resolveDependencies(n vo.NodeKey, sourceWithPaths []*vo.Field
 							swp.Path))
 				}
 
-				inputsForParent[fromNode] = append(inputsForParent[fromNode],
-					compose.MapFieldPaths(swp.Source.Ref.FromPath,
-						// our parent node will proxy for these field mappings, prepending the 'fromNode' to paths
-						joinFieldPath(append(compose.FieldPath{string(fromNode)}, swp.Source.Ref.FromPath...))))
+				fieldMapping := compose.MapFieldPaths(swp.Source.Ref.FromPath,
+					// our parent node will proxy for these field mappings, prepending the 'fromNode' to paths
+					joinFieldPath(append(compose.FieldPath{string(fromNode)}, swp.Source.Ref.FromPath...)))
+				added := false
+				for _, existedFieldMapping := range inputsForParent[fromNode] {
+					if existedFieldMapping.Equals(fieldMapping) {
+						added = true
+						break
+					}
+				}
+				if !added {
+					inputsForParent[fromNode] = append(inputsForParent[fromNode], fieldMapping)
+				}
+
 			}
 		} else {
 			return nil, fmt.Errorf("inputField's Val and Ref are both nil. path= %v", swp.Path)

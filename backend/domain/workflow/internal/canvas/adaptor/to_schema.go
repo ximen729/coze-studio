@@ -20,6 +20,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -100,7 +101,17 @@ func CanvasToWorkflowSchema(ctx context.Context, s *vo.Canvas) (sc *compose.Work
 			sc.GeneratedNodes = append(sc.GeneratedNodes, vo.NodeKey(node.Blocks[0].ID))
 		}
 
-		nsList, hierarchy, err := NodeToNodeSchema(ctx, node)
+		implicitDependencies, err := extractImplicitDependency(node, s.Nodes)
+		if err != nil {
+			return nil, err
+		}
+
+		opts := make([]OptionFn, 0, 1)
+		if len(implicitDependencies) > 0 {
+			opts = append(opts, WithImplicitNodeDependencies(implicitDependencies))
+		}
+
+		nsList, hierarchy, err := NodeToNodeSchema(ctx, node, opts...)
 		if err != nil {
 			return nil, err
 		}
@@ -198,7 +209,7 @@ func normalizePorts(connections []*compose.Connection, nodeMap map[string]*vo.No
 	return normalized, nil
 }
 
-var blockTypeToNodeSchema = map[vo.BlockType]func(*vo.Node) (*compose.NodeSchema, error){
+var blockTypeToNodeSchema = map[vo.BlockType]func(*vo.Node, ...OptionFn) (*compose.NodeSchema, error){
 	vo.BlockTypeBotStart:            toEntryNodeSchema,
 	vo.BlockTypeBotEnd:              toExitNodeSchema,
 	vo.BlockTypeBotLLM:              toLLMNodeSchema,
@@ -232,10 +243,21 @@ var blockTypeToSkip = map[vo.BlockType]bool{
 	vo.BlockTypeBotComment: true,
 }
 
-func NodeToNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, map[vo.NodeKey]vo.NodeKey, error) {
+type option struct {
+	implicitNodeDependencies []*vo.ImplicitNodeDependency
+}
+type OptionFn func(*option)
+
+func WithImplicitNodeDependencies(implicitNodeDependencies []*vo.ImplicitNodeDependency) OptionFn {
+	return func(o *option) {
+		o.implicitNodeDependencies = implicitNodeDependencies
+	}
+}
+
+func NodeToNodeSchema(ctx context.Context, n *vo.Node, opts ...OptionFn) ([]*compose.NodeSchema, map[vo.NodeKey]vo.NodeKey, error) {
 	cfg, ok := blockTypeToNodeSchema[n.Type]
 	if ok {
-		ns, err := cfg(n)
+		ns, err := cfg(n, opts...)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -262,9 +284,9 @@ func NodeToNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, m
 		}
 		return []*compose.NodeSchema{ns}, nil, nil
 	} else if n.Type == vo.BlockTypeBotBatch {
-		return toBatchNodeSchema(ctx, n)
+		return toBatchNodeSchema(ctx, n, opts...)
 	} else if n.Type == vo.BlockTypeBotLoop {
-		return toLoopNodeSchema(ctx, n)
+		return toLoopNodeSchema(ctx, n, opts...)
 	}
 
 	return nil, nil, fmt.Errorf("unsupported block type: %v", n.Type)
@@ -328,7 +350,7 @@ func toMetaConfig(n *vo.Node, nType entity.NodeType) (*compose.ExceptionConfig, 
 	return metaConf, nil
 }
 
-func toEntryNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toEntryNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	if n.Parent() != nil {
 		return nil, fmt.Errorf("entry node cannot have parent: %s", n.Parent().ID)
 	}
@@ -350,7 +372,7 @@ func toEntryNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toExitNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toExitNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	if n.Parent() != nil {
 		return nil, fmt.Errorf("exit node cannot have parent: %s", n.Parent().ID)
 	}
@@ -401,7 +423,7 @@ func toExitNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toOutputEmitterNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toOutputEmitterNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeOutputEmitter,
@@ -451,7 +473,7 @@ func toOutputEmitterNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toLLMNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toLLMNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeLLM,
@@ -551,7 +573,7 @@ func toLLMNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toLoopSetVariableNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toLoopSetVariableNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	if n.Parent() == nil {
 		return nil, fmt.Errorf("loop set variable node must have parent: %s", n.ID)
 	}
@@ -609,7 +631,7 @@ func toLoopSetVariableNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toBreakNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toBreakNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	return &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeBreak,
@@ -617,7 +639,7 @@ func toBreakNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	}, nil
 }
 
-func toContinueNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toContinueNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	return &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeContinue,
@@ -625,7 +647,7 @@ func toContinueNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	}, nil
 }
 
-func toSelectorNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toSelectorNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeSelector,
@@ -760,7 +782,7 @@ func toSelectorNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toTextProcessorNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toTextProcessorNodeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeTextProcessor,
@@ -810,7 +832,7 @@ func toTextProcessorNodeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toLoopNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, map[vo.NodeKey]vo.NodeKey, error) {
+func toLoopNodeSchema(ctx context.Context, n *vo.Node, opts ...OptionFn) ([]*compose.NodeSchema, map[vo.NodeKey]vo.NodeKey, error) {
 	if n.Parent() != nil {
 		return nil, nil, fmt.Errorf("loop node cannot have parent: %s", n.Parent().ID)
 	}
@@ -828,7 +850,7 @@ func toLoopNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, m
 
 	for _, childN := range n.Blocks {
 		childN.SetParent(n)
-		childNS, _, err := NodeToNodeSchema(ctx, childN)
+		childNS, _, err := NodeToNodeSchema(ctx, childN, opts...)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -902,7 +924,7 @@ func toLoopNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, m
 	return allNS, hierarchy, nil
 }
 
-func toBatchNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, map[vo.NodeKey]vo.NodeKey, error) {
+func toBatchNodeSchema(ctx context.Context, n *vo.Node, opts ...OptionFn) ([]*compose.NodeSchema, map[vo.NodeKey]vo.NodeKey, error) {
 	if n.Parent() != nil {
 		return nil, nil, fmt.Errorf("batch node cannot have parent: %s", n.Parent().ID)
 	}
@@ -920,7 +942,7 @@ func toBatchNodeSchema(ctx context.Context, n *vo.Node) ([]*compose.NodeSchema, 
 
 	for _, childN := range n.Blocks {
 		childN.SetParent(n)
-		childNS, _, err := NodeToNodeSchema(ctx, childN)
+		childNS, _, err := NodeToNodeSchema(ctx, childN, opts...)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -1024,7 +1046,7 @@ func toSubWorkflowNodeSchema(ctx context.Context, n *vo.Node) (*compose.NodeSche
 	return ns, nil
 }
 
-func toIntentDetectorSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toIntentDetectorSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeIntentDetector,
@@ -1085,7 +1107,7 @@ func toIntentDetectorSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toDatabaseCustomSQLSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toDatabaseCustomSQLSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeDatabaseCustomSQL,
@@ -1122,7 +1144,7 @@ func toDatabaseCustomSQLSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toDatabaseQuerySchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toDatabaseQuerySchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeDatabaseQuery,
@@ -1181,7 +1203,7 @@ func toDatabaseQuerySchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toDatabaseInsertSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toDatabaseInsertSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeDatabaseInsert,
@@ -1211,7 +1233,7 @@ func toDatabaseInsertSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toDatabaseDeleteSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toDatabaseDeleteSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeDatabaseDelete,
@@ -1249,7 +1271,7 @@ func toDatabaseDeleteSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toDatabaseUpdateSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toDatabaseUpdateSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeDatabaseUpdate,
@@ -1288,22 +1310,40 @@ func toDatabaseUpdateSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toHttpRequesterSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toHttpRequesterSchema(n *vo.Node, opts ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeHTTPRequester,
 		Name: n.Data.Meta.Title,
 	}
+	option := &option{}
+	for _, opt := range opts {
+		opt(option)
+	}
+
+	implicitNodeDependencies := option.implicitNodeDependencies
 
 	inputs := n.Data.Inputs
+
+	md5FieldMapping := &httprequester.MD5FieldMapping{}
 
 	method := inputs.APIInfo.Method
 	ns.SetConfigKV("Method", method)
 	url := inputs.APIInfo.URL
-
 	ns.SetConfigKV("URLConfig", httprequester.URLConfig{
 		Tpl: strings.TrimSpace(url),
 	})
+
+	urlVars := extractBracesContent(url)
+	md5FieldMapping.SetURLFields(urlVars...)
+
+	md5FieldMapping.SetHeaderFields(slices.Transform(inputs.Headers, func(a *vo.Param) string {
+		return a.Name
+	})...)
+
+	md5FieldMapping.SetParamFields(slices.Transform(inputs.Params, func(a *vo.Param) string {
+		return a.Name
+	})...)
 
 	if inputs.Auth != nil && inputs.Auth.AuthOpen {
 		auth := &httprequester.AuthenticationConfig{}
@@ -1331,31 +1371,44 @@ func toHttpRequesterSchema(n *vo.Node) (*compose.NodeSchema, error) {
 		bodyConfig.TextJsonConfig = &httprequester.TextJsonConfig{
 			Tpl: jsonTpl,
 		}
+		jsonVars := extractBracesContent(jsonTpl)
+		md5FieldMapping.SetBodyFields(jsonVars...)
 	case httprequester.BodyTypeFormData:
 		bodyConfig.FormDataConfig = &httprequester.FormDataConfig{
 			FileTypeMapping: map[string]bool{},
 		}
+		formDataVars := make([]string, 0)
 		for i := range inputs.Body.BodyData.FormData.Data {
 			p := inputs.Body.BodyData.FormData.Data[i]
 			if p.Input.Type == vo.VariableTypeString && p.Input.AssistType > vo.AssistTypeNotSet && p.Input.AssistType < vo.AssistTypeTime {
 				bodyConfig.FormDataConfig.FileTypeMapping[p.Name] = true
+				formDataVars = append(formDataVars, p.Name)
 			}
 		}
+		md5FieldMapping.SetBodyFields(formDataVars...)
 	case httprequester.BodyTypeRawText:
 		TextTpl := inputs.Body.BodyData.RawText
 		bodyConfig.TextPlainConfig = &httprequester.TextPlainConfig{
 			Tpl: TextTpl,
 		}
-
+		textPlainVars := extractBracesContent(TextTpl)
+		md5FieldMapping.SetBodyFields(textPlainVars...)
+	case httprequester.BodyTypeFormURLEncoded:
+		formURLEncodedVars := make([]string, 0)
+		for _, p := range inputs.Body.BodyData.FormURLEncoded {
+			formURLEncodedVars = append(formURLEncodedVars, p.Name)
+		}
+		md5FieldMapping.SetBodyFields(formURLEncodedVars...)
 	}
 	ns.SetConfigKV("BodyConfig", bodyConfig)
+	ns.SetConfigKV("MD5FieldMapping", *md5FieldMapping)
 
 	if inputs.Setting != nil {
 		ns.SetConfigKV("Timeout", time.Duration(inputs.Setting.Timeout)*time.Second)
 		ns.SetConfigKV("RetryTimes", uint64(inputs.Setting.RetryTimes))
 	}
 
-	if err := SetHttpRequesterInputsForNodeSchema(n, ns); err != nil {
+	if err := SetHttpRequesterInputsForNodeSchema(n, ns, implicitNodeDependencies); err != nil {
 		return nil, err
 	}
 	if err := SetOutputTypesForNodeSchema(n, ns); err != nil {
@@ -1364,7 +1417,7 @@ func toHttpRequesterSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toKnowledgeIndexerSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toKnowledgeIndexerSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeKnowledgeIndexer,
@@ -1420,7 +1473,7 @@ func toKnowledgeIndexerSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toKnowledgeRetrieverSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toKnowledgeRetrieverSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeKnowledgeRetriever,
@@ -1525,7 +1578,7 @@ func toKnowledgeRetrieverSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toKnowledgeDeleterSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toKnowledgeDeleterSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeKnowledgeDeleter,
@@ -1556,7 +1609,7 @@ func toKnowledgeDeleterSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toVariableAssignerSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toVariableAssignerSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeVariableAssigner,
@@ -1602,7 +1655,7 @@ func toVariableAssignerSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toCodeRunnerSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toCodeRunnerSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeCodeRunner,
@@ -1630,7 +1683,7 @@ func toCodeRunnerSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toPluginSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toPluginSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypePlugin,
@@ -1681,7 +1734,7 @@ func toPluginSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toVariableAggregatorSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toVariableAggregatorSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeVariableAggregator,
@@ -1732,7 +1785,7 @@ func toVariableAggregatorSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toInputReceiverSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toInputReceiverSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeInputReceiver,
@@ -1748,7 +1801,7 @@ func toInputReceiverSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toQASchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toQASchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeQuestionAnswer,
@@ -1840,7 +1893,7 @@ func toQASchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toJSONSerializeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toJSONSerializeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeJsonSerialization,
@@ -1858,7 +1911,7 @@ func toJSONSerializeSchema(n *vo.Node) (*compose.NodeSchema, error) {
 	return ns, nil
 }
 
-func toJSONDeserializeSchema(n *vo.Node) (*compose.NodeSchema, error) {
+func toJSONDeserializeSchema(n *vo.Node, _ ...OptionFn) (*compose.NodeSchema, error) {
 	ns := &compose.NodeSchema{
 		Key:  vo.NodeKey(n.ID),
 		Type: entity.NodeTypeJsonDeserialization,
@@ -2135,4 +2188,137 @@ func parseBatchMode(n *vo.Node) (
 	innerN.SetParent(parentN)
 
 	return parentN, true, nil
+}
+
+var extractBracesRegexp = regexp.MustCompile(`\{\{(.*?)\}\}`)
+
+func extractBracesContent(s string) []string {
+	matches := extractBracesRegexp.FindAllStringSubmatch(s, -1)
+	var result []string
+	for _, match := range matches {
+		if len(match) >= 2 {
+			result = append(result, match[1])
+		}
+	}
+	return result
+}
+
+func getTypeInfoByPath(root string, properties []string, tInfoMap map[string]*vo.TypeInfo) (*vo.TypeInfo, bool) {
+	if len(properties) == 0 {
+		if tInfo, ok := tInfoMap[root]; ok {
+			return tInfo, true
+		}
+		return nil, false
+	}
+	tInfo, ok := tInfoMap[root]
+	if !ok {
+		return nil, false
+	}
+	return getTypeInfoByPath(properties[0], properties[1:], tInfo.Properties)
+
+}
+
+func extractImplicitDependency(node *vo.Node, nodes []*vo.Node) ([]*vo.ImplicitNodeDependency, error) {
+
+	if len(node.Blocks) > 0 {
+		nodes = append(nodes, node.Blocks...)
+		dependencies := make([]*vo.ImplicitNodeDependency, 0, len(nodes))
+		for _, subNode := range node.Blocks {
+			ds, err := extractImplicitDependency(subNode, nodes)
+			if err != nil {
+				return nil, err
+			}
+			dependencies = append(dependencies, ds...)
+		}
+		return dependencies, nil
+
+	}
+
+	if node.Type != vo.BlockTypeBotHttp {
+		return nil, nil
+	}
+
+	dependencies := make([]*vo.ImplicitNodeDependency, 0, len(nodes))
+	url := node.Data.Inputs.APIInfo.URL
+	urlVars := extractBracesContent(url)
+	hasReferred := make(map[string]bool)
+	extractDependenciesFromVars := func(vars []string) error {
+		for _, v := range vars {
+			if strings.HasPrefix(v, "block_output_") {
+				paths := strings.Split(strings.TrimPrefix(v, "block_output_"), ".")
+				if len(paths) < 2 {
+					return fmt.Errorf("invalid block_output_ variable: %s", v)
+				}
+				if hasReferred[v] {
+					continue
+				}
+				hasReferred[v] = true
+				dependencies = append(dependencies, &vo.ImplicitNodeDependency{
+					NodeID:    paths[0],
+					FieldPath: paths[1:],
+				})
+			}
+		}
+		return nil
+	}
+
+	err := extractDependenciesFromVars(urlVars)
+	if err != nil {
+		return nil, err
+	}
+	if node.Data.Inputs.Body.BodyType == string(httprequester.BodyTypeJSON) {
+		jsonVars := extractBracesContent(node.Data.Inputs.Body.BodyData.Json)
+		err = extractDependenciesFromVars(jsonVars)
+		if err != nil {
+			return nil, err
+		}
+	}
+	if node.Data.Inputs.Body.BodyType == string(httprequester.BodyTypeRawText) {
+		rawTextVars := extractBracesContent(node.Data.Inputs.Body.BodyData.Json)
+		err = extractDependenciesFromVars(rawTextVars)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	var nodeFinder func(nodes []*vo.Node, nodeID string) *vo.Node
+	nodeFinder = func(nodes []*vo.Node, nodeID string) *vo.Node {
+		for i := range nodes {
+			if nodes[i].ID == nodeID {
+				return nodes[i]
+			}
+			if len(nodes[i].Blocks) > 0 {
+				if n := nodeFinder(nodes[i].Blocks, nodeID); n != nil {
+					return n
+				}
+			}
+		}
+		return nil
+	}
+	for _, ds := range dependencies {
+		fNode := nodeFinder(nodes, ds.NodeID)
+		if fNode == nil {
+			continue
+		}
+		tInfoMap := make(map[string]*vo.TypeInfo, len(node.Data.Outputs))
+		for _, vAny := range fNode.Data.Outputs {
+			v, err := vo.ParseVariable(vAny)
+			if err != nil {
+				return nil, err
+			}
+			tInfo, err := CanvasVariableToTypeInfo(v)
+			if err != nil {
+				return nil, err
+			}
+			tInfoMap[v.Name] = tInfo
+		}
+		tInfo, ok := getTypeInfoByPath(ds.FieldPath[0], ds.FieldPath[1:], tInfoMap)
+		if !ok {
+			return nil, fmt.Errorf("cannot find type info for dependency: %s", ds.FieldPath)
+		}
+		ds.TypeInfo = tInfo
+	}
+
+	return dependencies, nil
+
 }

@@ -18,24 +18,17 @@ package test
 
 import (
 	"context"
-	"io"
-	"net/http"
-	"net/http/httptest"
 	"testing"
-	"time"
 
-	"github.com/bytedance/sonic"
 	"github.com/cloudwego/eino/compose"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 	compose2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/compose"
-	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/httprequester"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/selector"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/textprocessor"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/variableaggregator"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestAddSelector(t *testing.T) {
@@ -625,106 +618,5 @@ func TestTextProcessor(t *testing.T) {
 		assert.Equal(t, map[string]any{
 			"output": "true_1_a",
 		}, out)
-	})
-}
-
-func TestHTTPRequester(t *testing.T) {
-	t.Run("post method text/plain", func(t *testing.T) {
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			body, err := io.ReadAll(r.Body)
-			if err != nil {
-				t.Fatal(err)
-				return
-			}
-			defer func() {
-				_ = r.Body.Close()
-			}()
-			assert.Equal(t, "text v1 v2", string(body))
-			w.WriteHeader(http.StatusOK)
-			response := map[string]string{
-				"message": "success",
-			}
-			bs, _ := sonic.Marshal(response)
-			_, _ = w.Write(bs)
-
-		}))
-		defer ts.Close()
-		urlTpl := ts.URL + "/{{block_output_start.post_text_plain}}"
-
-		entry := &compose2.NodeSchema{
-			Key:  entity.EntryNodeKey,
-			Type: entity.NodeTypeEntry,
-		}
-
-		exit := &compose2.NodeSchema{
-			Key:  entity.ExitNodeKey,
-			Type: entity.NodeTypeExit,
-			Configs: map[string]any{
-				"TerminalPlan": vo.ReturnVariables,
-			},
-			InputSources: []*vo.FieldInfo{
-				{
-					Path: compose.FieldPath{"body"},
-					Source: vo.FieldSource{
-						Ref: &vo.Reference{
-							FromNodeKey: "hr",
-							FromPath:    compose.FieldPath{"body"},
-						},
-					},
-				},
-			},
-		}
-
-		ns := &compose2.NodeSchema{
-			Key:  "hr",
-			Type: entity.NodeTypeHTTPRequester,
-			Configs: map[string]any{
-				"URLConfig": httprequester.URLConfig{
-					Tpl: urlTpl,
-				},
-				"BodyConfig": httprequester.BodyConfig{
-					BodyType: httprequester.BodyTypeRawText,
-					TextPlainConfig: &httprequester.TextPlainConfig{
-						Tpl: "text {{block_output_start.v1}} {{block_output_start.v2}}",
-					},
-				},
-				"Method":     http.MethodPost,
-				"RetryTimes": uint64(1),
-				"Timeout":    2 * time.Second,
-			},
-		}
-
-		ws := &compose2.WorkflowSchema{
-			Nodes: []*compose2.NodeSchema{
-				entry,
-				ns,
-				exit,
-			},
-			Connections: []*compose2.Connection{
-				{
-					FromNode: entry.Key,
-					ToNode:   "hr",
-				},
-				{
-					FromNode: "hr",
-					ToNode:   exit.Key,
-				},
-			},
-		}
-
-		ws.Init()
-
-		ctx := context.Background()
-		wf, err := compose2.NewWorkflow(ctx, ws)
-		assert.NoError(t, err)
-
-		out, err := wf.Runner.Invoke(context.Background(), map[string]any{
-			"post_text_plain": "post_text_plain",
-			"v1":              "v1",
-			"v2":              "v2",
-		})
-		assert.NoError(t, err)
-
-		assert.Equal(t, `{"message":"success"}`, out["body"])
 	})
 }

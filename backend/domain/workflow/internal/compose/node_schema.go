@@ -548,19 +548,6 @@ func (s *NodeSchema) IsRefGlobalVariable() bool {
 			return true
 		}
 	}
-
-	fields, err := s.GetImplicitInputFields()
-	if err != nil {
-		return false
-	}
-
-	for _, source := range fields {
-		if source.IsRefGlobalVariable() {
-			return true
-		}
-
-	}
-
 	return false
 }
 

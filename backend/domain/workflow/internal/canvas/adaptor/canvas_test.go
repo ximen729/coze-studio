@@ -560,6 +560,39 @@ func TestHttpRequester(t *testing.T) {
 		assert.Equal(t, body, `{"message":"custom_auth_file_body"}`)
 		assert.Equal(t, response["h2_v2"], "h_v2")
 	})
+
+	mockey.PatchConvey("http requester with url template", t, func() {
+		data, err := os.ReadFile("../examples/httprequester/http_with_url_template.json")
+		assert.NoError(t, err)
+		c := &vo.Canvas{}
+		err = sonic.Unmarshal(data, c)
+
+		assert.NoError(t, err)
+		ctx := t.Context()
+		workflowSC, err := CanvasToWorkflowSchema(ctx, c)
+		assert.NoError(t, err)
+		wf, err := compose.NewWorkflow(ctx, workflowSC)
+		assert.NoError(t, err)
+		response, err := wf.Runner.Invoke(ctx, map[string]any{
+			"input": "input",
+			"m": map[string]any{
+				"m1": "m1_v1",
+			},
+		})
+		assert.NoError(t, err)
+		output := response["output"].(string)
+
+		result := make(map[string]any)
+		err = sonic.UnmarshalString(output, &result)
+		assert.NoError(t, err)
+
+		assert.Equal(t, result["data"].(string), `input`)
+		assert.Equal(t, result["args"], map[string]any{
+			"var":  "input",
+			"var2": "m1_v1",
+		})
+	})
+
 	mockey.PatchConvey("http requester error", t, func() {
 		data, err := os.ReadFile("../examples/httprequester/http_error.json")
 		assert.NoError(t, err)

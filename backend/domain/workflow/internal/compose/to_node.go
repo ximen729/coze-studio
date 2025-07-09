@@ -39,7 +39,6 @@ import (
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model"
 	crossplugin "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/plugin"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/variable"
-	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/execute"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes"
@@ -397,12 +396,13 @@ func (s *NodeSchema) ToJsonDeserializationConfig() (*json.DeserializationConfig,
 
 func (s *NodeSchema) ToHTTPRequesterConfig() (*httprequester.Config, error) {
 	return &httprequester.Config{
-		URLConfig:  mustGetKey[httprequester.URLConfig]("URLConfig", s.Configs),
-		AuthConfig: getKeyOrZero[*httprequester.AuthenticationConfig]("AuthConfig", s.Configs),
-		BodyConfig: mustGetKey[httprequester.BodyConfig]("BodyConfig", s.Configs),
-		Method:     mustGetKey[string]("Method", s.Configs),
-		Timeout:    mustGetKey[time.Duration]("Timeout", s.Configs),
-		RetryTimes: mustGetKey[uint64]("RetryTimes", s.Configs),
+		URLConfig:       mustGetKey[httprequester.URLConfig]("URLConfig", s.Configs),
+		AuthConfig:      getKeyOrZero[*httprequester.AuthenticationConfig]("AuthConfig", s.Configs),
+		BodyConfig:      mustGetKey[httprequester.BodyConfig]("BodyConfig", s.Configs),
+		Method:          mustGetKey[string]("Method", s.Configs),
+		Timeout:         mustGetKey[time.Duration]("Timeout", s.Configs),
+		RetryTimes:      mustGetKey[uint64]("RetryTimes", s.Configs),
+		MD5FieldMapping: mustGetKey[httprequester.MD5FieldMapping]("MD5FieldMapping", s.Configs),
 	}, nil
 }
 
@@ -644,50 +644,6 @@ func (s *NodeSchema) ToSubWorkflowConfig(ctx context.Context, requireCheckpoint 
 	return &subworkflow.Config{
 		Runner: wf.Runner,
 	}, nil
-}
-
-func (s *NodeSchema) GetImplicitInputFields() ([]*vo.FieldInfo, error) {
-	switch s.Type {
-	case entity.NodeTypeHTTPRequester:
-		urlConfig := mustGetKey[httprequester.URLConfig]("URLConfig", s.Configs)
-		inputs, err := extractInputFieldsFromTemplate(urlConfig.Tpl)
-		if err != nil {
-			return nil, err
-		}
-
-		for i := range inputs {
-			inputs[i].Path = append(compose.FieldPath{"URLVars"}, inputs[i].Path...)
-		}
-
-		bodyConfig := mustGetKey[httprequester.BodyConfig]("BodyConfig", s.Configs)
-		if bodyConfig.TextPlainConfig != nil {
-			textInputs, err := extractInputFieldsFromTemplate(bodyConfig.TextPlainConfig.Tpl)
-			if err != nil {
-				return nil, err
-			}
-
-			for i := range textInputs {
-				textInputs[i].Path = append(compose.FieldPath{"TextPlainVars"}, textInputs[i].Path...)
-			}
-
-			inputs = append(inputs, textInputs...)
-		} else if bodyConfig.TextJsonConfig != nil {
-			jsonInputs, err := extractInputFieldsFromTemplate(bodyConfig.TextJsonConfig.Tpl)
-			if err != nil {
-				return nil, err
-			}
-
-			for i := range jsonInputs {
-				jsonInputs[i].Path = append(compose.FieldPath{"JsonVars"}, jsonInputs[i].Path...)
-			}
-
-			inputs = append(inputs, jsonInputs...)
-		}
-
-		return inputs, nil
-	default:
-		return nil, nil
-	}
 }
 
 func totRetrievalSearchType(s int64) (crossknowledge.SearchType, error) {
