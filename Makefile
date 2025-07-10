@@ -63,6 +63,7 @@ dump_sql_schema: sync_db
 	@echo "Dumping mysql schema to $(MYSQL_SCHEMA)..."
 	@. $(ENV_FILE); \
 	{ echo "SET NAMES utf8mb4;\nCREATE DATABASE IF NOT EXISTS opencoze COLLATE utf8mb4_unicode_ci;"; atlas schema inspect -u $$ATLAS_URL --format "{{ sql . }}" --exclude "atlas_schema_revisions,table_*" | sed 's/CREATE TABLE/CREATE TABLE IF NOT EXISTS/g'; } > $(MYSQL_SCHEMA)
+	@sed -I '' -E 's/(\))[[:space:]]+CHARSET utf8mb4/\1 ENGINE=InnoDB CHARSET utf8mb4/' $(MYSQL_SCHEMA)
 
 atlas-hash:
 	@echo "Rehash atlas migration files..."

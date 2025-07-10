@@ -10,7 +10,7 @@ import (
 
 const TableNameWorkflowVersion = "workflow_version"
 
-// WorkflowVersion mapped from table <workflow_version>
+// WorkflowVersion workflow 画布版本信息表，用于记录不同版本的画布信息
 type WorkflowVersion struct {
 	ID                 int64          `gorm:"column:id;primaryKey;comment:workflow id" json:"id"`                          // workflow id
 	Version            string         `gorm:"column:version;primaryKey;comment:发布版本" json:"version"`                       // 发布版本

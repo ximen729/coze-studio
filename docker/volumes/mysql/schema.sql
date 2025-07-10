@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `agent_to_database` (
   `prompt_disable` bool NOT NULL DEFAULT 0 COMMENT "Support prompt calls: 1 not supported, 0 supported",
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uniq_agent_db_draft` (`agent_id`, `database_id`, `is_draft`)
-) CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "agent_to_database info";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "agent_to_database info";
 -- Create "agent_tool_draft" table
 CREATE TABLE IF NOT EXISTS `agent_tool_draft` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Primary Key ID",
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `agent_tool_draft` (
   INDEX `idx_agent_tool_bind` (`agent_id`, `created_at`),
   UNIQUE INDEX `uniq_idx_agent_tool_id` (`agent_id`, `tool_id`),
   UNIQUE INDEX `uniq_idx_agent_tool_name` (`agent_id`, `tool_name`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Agent Tool";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Agent Tool";
 -- Create "agent_tool_version" table
 CREATE TABLE IF NOT EXISTS `agent_tool_version` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Primary Key ID",
@@ -46,10 +46,10 @@ CREATE TABLE IF NOT EXISTS `agent_tool_version` (
   INDEX `idx_agent_tool_name_created_at` (`agent_id`, `tool_name`, `created_at`),
   UNIQUE INDEX `uniq_idx_agent_tool_id_agent_version` (`agent_id`, `tool_id`, `agent_version`),
   UNIQUE INDEX `uniq_idx_agent_tool_name_agent_version` (`agent_id`, `tool_name`, `agent_version`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Agent Tool Version";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Agent Tool Version";
 -- Create "api_key" table
 CREATE TABLE IF NOT EXISTS `api_key` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
   `api_key` varchar(255) NOT NULL DEFAULT "" COMMENT "API Key hash",
   `name` varchar(255) NOT NULL DEFAULT "" COMMENT "API Key Name",
   `status` tinyint NOT NULL DEFAULT 0 COMMENT "0 normal, 1 deleted",
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `api_key` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Update Time in Milliseconds",
   `last_used_at` bigint NOT NULL DEFAULT 0 COMMENT "Used Time in Milliseconds",
   PRIMARY KEY (`id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "api key table";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "api key table";
 -- Create "app_connector_release_ref" table
 CREATE TABLE IF NOT EXISTS `app_connector_release_ref` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Primary Key",
@@ -70,21 +70,21 @@ CREATE TABLE IF NOT EXISTS `app_connector_release_ref` (
   `created_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Create Time in Milliseconds",
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Update Time in Milliseconds",
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_record_connector` (`record_id`, `connector_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Connector Release Record Reference";
+  UNIQUE INDEX `uniq_record_connector` (`record_id`, `connector_id`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Connector Release Record Reference";
 -- Create "app_draft" table
 CREATE TABLE IF NOT EXISTS `app_draft` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "APP ID",
   `space_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Space ID",
   `owner_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Owner ID",
   `icon_uri` varchar(512) NOT NULL DEFAULT "" COMMENT "Icon URI",
-  `Name` varchar(255) NOT NULL DEFAULT "" COMMENT "Application Name",
+  `name` varchar(255) NOT NULL DEFAULT "" COMMENT "Application Name",
   `description` text NULL COMMENT "Application Description",
   `created_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Create Time in Milliseconds",
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Update Time in Milliseconds",
   `deleted_at` datetime NULL COMMENT "Delete Time",
   PRIMARY KEY (`id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Application";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Application";
 -- Create "app_release_record" table
 CREATE TABLE IF NOT EXISTS `app_release_record` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Publish Record ID",
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `app_release_record` (
   `space_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Space ID",
   `owner_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Owner ID",
   `icon_uri` varchar(512) NOT NULL DEFAULT "" COMMENT "Icon URI",
-  `Name` varchar(255) NOT NULL DEFAULT "" COMMENT "Application Name",
+  `name` varchar(255) NOT NULL DEFAULT "" COMMENT "Application Name",
   `description` text NULL COMMENT "Application Description",
   `connector_ids` json NULL COMMENT "Publish Connector IDs",
   `extra_info` json NULL COMMENT "Publish Extra Info",
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `app_release_record` (
   PRIMARY KEY (`id`),
   INDEX `idx_app_publish_at` (`app_id`, `publish_at`),
   UNIQUE INDEX `uniq_idx_app_version_connector` (`app_id`, `version`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Application Release Record";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Application Release Record";
 -- Create "conversation" table
 CREATE TABLE IF NOT EXISTS `conversation` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "主键ID",
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `conversation` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "更新时间",
   PRIMARY KEY (`id`),
   INDEX `idx_connector_bot_status` (`connector_id`, `agent_id`, `creator_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "会话信息表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "会话信息表";
 -- Create "data_copy_task" table
 CREATE TABLE IF NOT EXISTS `data_copy_task` (
   `master_task_id` varchar(128) NOT NULL DEFAULT "" COMMENT "复制任务ID",
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `data_copy_task` (
   `status` tinyint NOT NULL DEFAULT 1 COMMENT "1:创建 2:执行中 3:成功 4:失败",
   `error_msg` varchar(128) NULL COMMENT "错误信息",
   PRIMARY KEY (`master_task_id`, `origin_data_id`, `data_type`)
-) CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "data方向复制任务记录表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "data方向复制任务记录表";
 -- Create "draft_database_info" table
 CREATE TABLE IF NOT EXISTS `draft_database_info` (
   `id` bigint unsigned NOT NULL COMMENT "ID",
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `draft_database_info` (
   `deleted_at` datetime NULL COMMENT "Delete Time",
   PRIMARY KEY (`id`),
   INDEX `idx_space_app_creator_deleted` (`space_id`, `app_id`, `creator_id`, `deleted_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "draft database info";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "draft database info";
 -- Create "knowledge" table
 CREATE TABLE IF NOT EXISTS `knowledge` (
   `id` bigint unsigned NOT NULL COMMENT "主键ID",
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `knowledge` (
   INDEX `idx_app_id` (`app_id`),
   INDEX `idx_creator_id` (`creator_id`),
   INDEX `idx_space_id_deleted_at_updated_at` (`space_id`, `deleted_at`, `updated_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "知识库表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "知识库表";
 -- Create "knowledge_document" table
 CREATE TABLE IF NOT EXISTS `knowledge_document` (
   `id` bigint unsigned NOT NULL COMMENT "主键ID",
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `knowledge_document` (
   PRIMARY KEY (`id`),
   INDEX `idx_creator_id` (`creator_id`),
   INDEX `idx_knowledge_id_deleted_at_updated_at` (`knowledge_id`, `deleted_at`, `updated_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "知识库文档表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "知识库文档表";
 -- Create "knowledge_document_review" table
 CREATE TABLE IF NOT EXISTS `knowledge_document_review` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "主键ID",
@@ -223,14 +223,14 @@ CREATE TABLE IF NOT EXISTS `knowledge_document_review` (
   PRIMARY KEY (`id`),
   INDEX `idx_dataset_id` (`knowledge_id`, `status`, `updated_at`),
   INDEX `idx_uri` (`uri` (100))
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "文档审阅表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "文档审阅表";
 -- Create "knowledge_document_slice" table
 CREATE TABLE IF NOT EXISTS `knowledge_document_slice` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "主键ID",
   `knowledge_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "knowledge id",
   `document_id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "document id",
   `content` text NULL COMMENT "切片内容",
-  `sequence` double NOT NULL COMMENT "切片顺序号, 从1开始",
+  `sequence` decimal(20,5) NOT NULL COMMENT "切片顺序号, 从1开始",
   `created_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Create Time in Milliseconds",
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Update Time in Milliseconds",
   `deleted_at` datetime(3) NULL COMMENT "Delete Time in Milliseconds",
@@ -243,7 +243,7 @@ CREATE TABLE IF NOT EXISTS `knowledge_document_slice` (
   INDEX `idx_document_id_deleted_at_sequence` (`document_id`, `deleted_at`, `sequence`),
   INDEX `idx_knowledge_id_document_id` (`knowledge_id`, `document_id`),
   INDEX `idx_sequence` (`sequence`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "知识库文件切片表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "知识库文件切片表";
 -- Create "message" table
 CREATE TABLE IF NOT EXISTS `message` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "主键ID",
@@ -268,14 +268,14 @@ CREATE TABLE IF NOT EXISTS `message` (
   PRIMARY KEY (`id`),
   INDEX `idx_conversation_id` (`conversation_id`),
   INDEX `idx_run_id` (`run_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "消息表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "消息表";
 -- Create "model_entity" table
 CREATE TABLE IF NOT EXISTS `model_entity` (
   `id` bigint unsigned NOT NULL COMMENT "主键ID",
   `meta_id` bigint unsigned NOT NULL COMMENT "模型元信息 id",
   `name` varchar(128) NOT NULL COMMENT "名称",
   `description` text NULL COMMENT "描述",
-  `default_params` json NOT NULL COMMENT "默认参数",
+  `default_params` json NULL COMMENT "默认参数",
   `scenario` bigint unsigned NOT NULL COMMENT "模型应用场景",
   `status` int NOT NULL DEFAULT 1 COMMENT "模型状态",
   `created_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Create Time in Milliseconds",
@@ -284,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `model_entity` (
   PRIMARY KEY (`id`),
   INDEX `idx_scenario` (`scenario`),
   INDEX `idx_status` (`status`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "模型信息";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "模型信息";
 -- Create "model_meta" table
 CREATE TABLE IF NOT EXISTS `model_meta` (
   `id` bigint unsigned NOT NULL COMMENT "主键ID",
@@ -301,34 +301,34 @@ CREATE TABLE IF NOT EXISTS `model_meta` (
   `icon_url` varchar(255) NOT NULL DEFAULT "" COMMENT "Icon URL",
   PRIMARY KEY (`id`),
   INDEX `idx_status` (`status`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "模型元信息";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "模型元信息";
 -- Create "node_execution" table
 CREATE TABLE IF NOT EXISTS `node_execution` (
   `id` bigint unsigned NOT NULL COMMENT "node execution id",
   `execute_id` bigint unsigned NOT NULL COMMENT "the workflow execute id this node execution belongs to",
-  `node_id` varchar(128) NOT NULL COMMENT "node key",
-  `node_name` varchar(128) NOT NULL COMMENT "name of the node",
-  `node_type` varchar(128) NOT NULL COMMENT "the type of the node, in string",
+  `node_id` varchar(128) NOT NULL COMMENT "node key" COLLATE utf8mb4_unicode_ci,
+  `node_name` varchar(128) NOT NULL COMMENT "name of the node" COLLATE utf8mb4_unicode_ci,
+  `node_type` varchar(128) NOT NULL COMMENT "the type of the node, in string" COLLATE utf8mb4_unicode_ci,
   `created_at` bigint unsigned NOT NULL COMMENT "create time in millisecond",
   `status` tinyint unsigned NOT NULL COMMENT "1=waiting 2=running 3=success 4=fail",
   `duration` bigint unsigned NULL COMMENT "execution duration in millisecond",
-  `input` mediumtext NULL COMMENT "actual input of the node",
-  `output` mediumtext NULL COMMENT "actual output of the node",
-  `raw_output` mediumtext NULL COMMENT "the original output of the node",
-  `error_info` mediumtext NULL COMMENT "error info",
-  `error_level` varchar(32) NULL COMMENT "level of the error",
+  `input` mediumtext NULL COMMENT "actual input of the node" COLLATE utf8mb4_unicode_ci,
+  `output` mediumtext NULL COMMENT "actual output of the node" COLLATE utf8mb4_unicode_ci,
+  `raw_output` mediumtext NULL COMMENT "the original output of the node" COLLATE utf8mb4_unicode_ci,
+  `error_info` mediumtext NULL COMMENT "error info" COLLATE utf8mb4_unicode_ci,
+  `error_level` varchar(32) NULL COMMENT "level of the error" COLLATE utf8mb4_unicode_ci,
   `input_tokens` bigint unsigned NULL COMMENT "number of input tokens",
   `output_tokens` bigint unsigned NULL COMMENT "number of output tokens",
   `updated_at` bigint unsigned NULL COMMENT "update time in millisecond",
   `composite_node_index` bigint unsigned NULL COMMENT "loop or batch's execution index",
-  `composite_node_items` mediumtext NULL COMMENT "the items extracted from parent composite node for this index",
-  `parent_node_id` varchar(128) NULL COMMENT "when as inner node for loop or batch, this is the parent node's key",
+  `composite_node_items` mediumtext NULL COMMENT "the items extracted from parent composite node for this index" COLLATE utf8mb4_unicode_ci,
+  `parent_node_id` varchar(128) NULL COMMENT "when as inner node for loop or batch, this is the parent node's key" COLLATE utf8mb4_unicode_ci,
   `sub_execute_id` bigint unsigned NULL COMMENT "if this node is sub_workflow, the exe id of the sub workflow",
-  `extra` mediumtext NULL COMMENT "extra info",
+  `extra` mediumtext NULL COMMENT "extra info" COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   INDEX `idx_execute_id_node_id` (`execute_id`, `node_id`),
   INDEX `idx_execute_id_parent_node_id` (`execute_id`, `parent_node_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "node 节点运行记录，用于记录每次workflow执行时，每个节点的状态信息";
 -- Create "online_database_info" table
 CREATE TABLE IF NOT EXISTS `online_database_info` (
   `id` bigint unsigned NOT NULL COMMENT "ID",
@@ -349,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `online_database_info` (
   `deleted_at` datetime NULL COMMENT "Delete Time",
   PRIMARY KEY (`id`),
   INDEX `idx_space_app_creator_deleted` (`space_id`, `app_id`, `creator_id`, `deleted_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "online database info";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "online database info";
 -- Create "plugin" table
 CREATE TABLE IF NOT EXISTS `plugin` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Plugin ID",
@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `plugin` (
   PRIMARY KEY (`id`),
   INDEX `idx_space_created_at` (`space_id`, `created_at`),
   INDEX `idx_space_updated_at` (`space_id`, `updated_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Latest Plugin";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Latest Plugin";
 -- Create "plugin_draft" table
 CREATE TABLE IF NOT EXISTS `plugin_draft` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Plugin ID",
@@ -387,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `plugin_draft` (
   INDEX `idx_app_id` (`app_id`, `id`),
   INDEX `idx_space_app_created_at` (`space_id`, `app_id`, `created_at`),
   INDEX `idx_space_app_updated_at` (`space_id`, `app_id`, `updated_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Plugin";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Plugin";
 -- Create "plugin_oauth_auth" table
 CREATE TABLE IF NOT EXISTS `plugin_oauth_auth` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Primary Key",
@@ -407,7 +407,7 @@ CREATE TABLE IF NOT EXISTS `plugin_oauth_auth` (
   INDEX `idx_last_token_expired_at` (`token_expired_at`),
   INDEX `idx_next_token_refresh_at` (`next_token_refresh_at`),
   UNIQUE INDEX `uniq_idx_user_plugin_is_draft` (`user_id`, `plugin_id`, `is_draft`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Plugin OAuth Authorization Code Info";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Plugin OAuth Authorization Code Info";
 -- Create "plugin_version" table
 CREATE TABLE IF NOT EXISTS `plugin_version` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Primary Key ID",
@@ -426,10 +426,10 @@ CREATE TABLE IF NOT EXISTS `plugin_version` (
   `deleted_at` datetime NULL COMMENT "Delete Time",
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uniq_idx_plugin_version` (`plugin_id`, `version`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Plugin Version";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Plugin Version";
 -- Create "prompt_resource" table
 CREATE TABLE IF NOT EXISTS `prompt_resource` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT "主键ID",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "主键ID",
   `space_id` bigint NOT NULL COMMENT "空间ID",
   `name` varchar(255) NOT NULL COMMENT "名称",
   `description` varchar(255) NOT NULL COMMENT "描述",
@@ -440,7 +440,7 @@ CREATE TABLE IF NOT EXISTS `prompt_resource` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "更新时间",
   PRIMARY KEY (`id`),
   INDEX `idx_creator_id` (`creator_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "prompt_resource";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "prompt_resource";
 -- Create "run_record" table
 CREATE TABLE IF NOT EXISTS `run_record` (
   `id` bigint unsigned NOT NULL COMMENT "主键ID",
@@ -461,7 +461,7 @@ CREATE TABLE IF NOT EXISTS `run_record` (
   `usage` json NULL COMMENT "usage",
   PRIMARY KEY (`id`),
   INDEX `idx_c_s` (`conversation_id`, `section_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "执行记录表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "执行记录表";
 -- Create "shortcut_command" table
 CREATE TABLE IF NOT EXISTS `shortcut_command` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "主键ID",
@@ -489,10 +489,10 @@ CREATE TABLE IF NOT EXISTS `shortcut_command` (
   `plugin_tool_id` bigint NOT NULL DEFAULT 0 COMMENT "tool_id",
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uniq_object_command_id_type` (`object_id`, `command_id`, `is_online`)
-) CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "bot快捷指令表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "bot快捷指令表";
 -- Create "single_agent_draft" table
 CREATE TABLE IF NOT EXISTS `single_agent_draft` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
   `agent_id` bigint NOT NULL DEFAULT 0 COMMENT "Agent ID",
   `creator_id` bigint NOT NULL DEFAULT 0 COMMENT "Creator ID",
   `space_id` bigint NOT NULL DEFAULT 0 COMMENT "Space ID",
@@ -515,9 +515,9 @@ CREATE TABLE IF NOT EXISTS `single_agent_draft` (
   `database_config` json NULL COMMENT "Agent Database Base Configuration",
   `shortcut_command` json NULL COMMENT "shortcut command",
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_agent_id` (`agent_id`),
-  INDEX `idx_creator_id` (`creator_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Single Agent Draft Copy Table";
+  INDEX `idx_creator_id` (`creator_id`),
+  UNIQUE INDEX `uniq_agent_id` (`agent_id`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Single Agent Draft Copy Table";
 -- Create "single_agent_publish" table
 CREATE TABLE IF NOT EXISTS `single_agent_publish` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "主键id",
@@ -536,10 +536,10 @@ CREATE TABLE IF NOT EXISTS `single_agent_publish` (
   INDEX `idx_agent_id_version` (`agent_id`, `version`),
   INDEX `idx_creator_id` (`creator_id`),
   INDEX `idx_publish_id` (`publish_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "bot 渠道和发布版本流水表";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "bot 渠道和发布版本流水表";
 -- Create "single_agent_version" table
 CREATE TABLE IF NOT EXISTS `single_agent_version` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
   `agent_id` bigint NOT NULL DEFAULT 0 COMMENT "Agent ID",
   `creator_id` bigint NOT NULL DEFAULT 0 COMMENT "Creator ID",
   `space_id` bigint NOT NULL DEFAULT 0 COMMENT "Space ID",
@@ -564,9 +564,9 @@ CREATE TABLE IF NOT EXISTS `single_agent_version` (
   `database_config` json NULL COMMENT "Agent Database Base Configuration",
   `shortcut_command` json NULL COMMENT "shortcut command",
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_agent_id_and_version_connector_id` (`agent_id`, `version`, `connector_id`),
-  INDEX `idx_creator_id` (`creator_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Single Agent Version Copy Table";
+  INDEX `idx_creator_id` (`creator_id`),
+  UNIQUE INDEX `uniq_agent_id_and_version_connector_id` (`agent_id`, `version`, `connector_id`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Single Agent Version Copy Table";
 -- Create "space" table
 CREATE TABLE IF NOT EXISTS `space` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID, Space ID",
@@ -581,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `space` (
   PRIMARY KEY (`id`),
   INDEX `idx_creator_id` (`creator_id`),
   INDEX `idx_owner_id` (`owner_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Space Table";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Space Table" AUTO_INCREMENT 666;
 -- Create "space_user" table
 CREATE TABLE IF NOT EXISTS `space_user` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID, Auto Increment",
@@ -592,11 +592,11 @@ CREATE TABLE IF NOT EXISTS `space_user` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Update Time (Milliseconds)",
   PRIMARY KEY (`id`),
   INDEX `idx_user_id` (`user_id`),
-  UNIQUE INDEX `uk_space_user` (`space_id`, `user_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Space Member Table";
+  UNIQUE INDEX `uniq_space_user` (`space_id`, `user_id`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Space Member Table";
 -- Create "template" table
 CREATE TABLE IF NOT EXISTS `template` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
   `agent_id` bigint NOT NULL DEFAULT 0 COMMENT "Agent ID",
   `workflow_id` bigint NOT NULL DEFAULT 0 COMMENT "Workflow ID",
   `space_id` bigint NOT NULL DEFAULT 0 COMMENT "Space ID",
@@ -608,8 +608,8 @@ CREATE TABLE IF NOT EXISTS `template` (
   `workflow_extra` json NULL COMMENT "Workflow Extra Info",
   `project_extra` json NULL COMMENT "Project Extra Info",
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_agent_id` (`agent_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Template Info Table";
+  UNIQUE INDEX `uniq_agent_id` (`agent_id`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Template Info Table";
 -- Create "tool" table
 CREATE TABLE IF NOT EXISTS `tool` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Tool ID",
@@ -624,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `tool` (
   PRIMARY KEY (`id`),
   INDEX `idx_plugin_activated_status` (`plugin_id`, `activated_status`),
   UNIQUE INDEX `uniq_idx_plugin_sub_url_method` (`plugin_id`, `sub_url`, `method`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Latest Tool";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Latest Tool";
 -- Create "tool_draft" table
 CREATE TABLE IF NOT EXISTS `tool_draft` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Tool ID",
@@ -639,7 +639,7 @@ CREATE TABLE IF NOT EXISTS `tool_draft` (
   PRIMARY KEY (`id`),
   INDEX `idx_plugin_created_at_id` (`plugin_id`, `created_at`, `id`),
   UNIQUE INDEX `uniq_idx_plugin_sub_url_method` (`plugin_id`, `sub_url`, `method`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Tool";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Draft Tool";
 -- Create "tool_version" table
 CREATE TABLE IF NOT EXISTS `tool_version` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Primary Key ID",
@@ -653,10 +653,10 @@ CREATE TABLE IF NOT EXISTS `tool_version` (
   `deleted_at` datetime NULL COMMENT "Delete Time",
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uniq_idx_tool_version` (`tool_id`, `version`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Tool Version";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "Tool Version";
 -- Create "user" table
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "Primary Key ID",
   `name` varchar(128) NOT NULL DEFAULT "" COMMENT "User Nickname",
   `unique_name` varchar(128) NOT NULL DEFAULT "" COMMENT "User Unique Name",
   `email` varchar(128) NOT NULL DEFAULT "" COMMENT "Email",
@@ -670,10 +670,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "Update Time (Milliseconds)",
   `deleted_at` bigint unsigned NULL COMMENT "Deletion Time (Milliseconds)",
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_email` (`email`),
   INDEX `idx_session_key` (`session_key`),
-  UNIQUE INDEX `idx_unique_name` (`unique_name`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "User Table";
+  UNIQUE INDEX `uniq_email` (`email`),
+  UNIQUE INDEX `uniq_unique_name` (`unique_name`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "User Table" AUTO_INCREMENT 888;
 -- Create "variable_instance" table
 CREATE TABLE IF NOT EXISTS `variable_instance` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "主键ID",
@@ -689,7 +689,7 @@ CREATE TABLE IF NOT EXISTS `variable_instance` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "更新时间",
   PRIMARY KEY (`id`),
   INDEX `idx_connector_key` (`biz_id`, `biz_type`, `version`, `connector_uid`, `connector_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "KV Memory";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "KV Memory";
 -- Create "variables_meta" table
 CREATE TABLE IF NOT EXISTS `variables_meta` (
   `id` bigint unsigned NOT NULL DEFAULT 0 COMMENT "主键ID",
@@ -701,9 +701,9 @@ CREATE TABLE IF NOT EXISTS `variables_meta` (
   `updated_at` bigint unsigned NOT NULL DEFAULT 0 COMMENT "update time",
   `version` varchar(255) NOT NULL COMMENT "project版本,为空代表草稿态",
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_project_key` (`biz_id`, `biz_type`, `version`),
-  INDEX `idx_user_key` (`creator_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "KV Memory meta";
+  INDEX `idx_user_key` (`creator_id`),
+  UNIQUE INDEX `uniq_project_key` (`biz_id`, `biz_type`, `version`)
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT "KV Memory meta";
 -- Create "workflow_draft" table
 CREATE TABLE IF NOT EXISTS `workflow_draft` (
   `id` bigint unsigned NOT NULL COMMENT "workflow ID",
@@ -717,7 +717,7 @@ CREATE TABLE IF NOT EXISTS `workflow_draft` (
   `commit_id` varchar(255) NOT NULL COMMENT "used to uniquely identify a draft snapshot",
   PRIMARY KEY (`id`),
   INDEX `idx_updated_at` (`updated_at` DESC)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "workflow 画布草稿表，用于记录workflow最新的草稿画布信息";
 -- Create "workflow_execution" table
 CREATE TABLE IF NOT EXISTS `workflow_execution` (
   `id` bigint unsigned NOT NULL COMMENT "execute id",
@@ -749,7 +749,7 @@ CREATE TABLE IF NOT EXISTS `workflow_execution` (
   `commit_id` varchar(255) NULL COMMENT "draft commit id this execution belongs to",
   PRIMARY KEY (`id`),
   INDEX `idx_workflow_id_version_mode_created_at` (`workflow_id`, `version`, `mode`, `created_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "workflow 执行记录表，用于记录每次workflow执行时的状态";
 -- Create "workflow_meta" table
 CREATE TABLE IF NOT EXISTS `workflow_meta` (
   `id` bigint unsigned NOT NULL COMMENT "workflow id",
@@ -775,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `workflow_meta` (
   INDEX `idx_app_id` (`app_id`),
   INDEX `idx_latest_version_ts` (`latest_version_ts` DESC),
   INDEX `idx_space_id_app_id_status_latest_version_ts` (`space_id`, `app_id`, `status`, `latest_version_ts`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "workflow 元信息表，用于记录workflow基本的元信息";
 -- Create "workflow_reference" table
 CREATE TABLE IF NOT EXISTS `workflow_reference` (
   `id` bigint unsigned NOT NULL COMMENT "workflow id",
@@ -790,7 +790,7 @@ CREATE TABLE IF NOT EXISTS `workflow_reference` (
   INDEX `idx_referred_id_referring_biz_type_status` (`referred_id`, `referring_biz_type`, `status`),
   INDEX `idx_referring_id_status` (`referring_id`, `status`),
   UNIQUE INDEX `uniq_referred_id_referring_id_refer_type` (`referred_id`, `referring_id`, `refer_type`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "workflow 关联关系表，用于记录workflow 直接互相引用关系";
 -- Create "workflow_snapshot" table
 CREATE TABLE IF NOT EXISTS `workflow_snapshot` (
   `workflow_id` bigint unsigned NOT NULL COMMENT "workflow id this snapshot belongs to",
@@ -800,7 +800,7 @@ CREATE TABLE IF NOT EXISTS `workflow_snapshot` (
   `output_params` mediumtext NULL COMMENT "output parameter info",
   `created_at` bigint unsigned NOT NULL,
   PRIMARY KEY (`workflow_id`, `commit_id`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "snapshot for executed workflow draft";
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "snapshot for executed workflow draft";
 -- Create "workflow_version" table
 CREATE TABLE IF NOT EXISTS `workflow_version` (
   `id` bigint unsigned NOT NULL COMMENT "workflow id",
@@ -815,4 +815,4 @@ CREATE TABLE IF NOT EXISTS `workflow_version` (
   `commit_id` varchar(255) NOT NULL COMMENT "the commit id corresponding to this version",
   PRIMARY KEY (`id`, `version`),
   INDEX `idx_id_created_at` (`id`, `created_at`)
-) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "workflow 画布版本信息表，用于记录不同版本的画布信息";

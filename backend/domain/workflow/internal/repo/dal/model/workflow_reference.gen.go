@@ -10,7 +10,7 @@ import (
 
 const TableNameWorkflowReference = "workflow_reference"
 
-// WorkflowReference mapped from table <workflow_reference>
+// WorkflowReference workflow 关联关系表，用于记录workflow 直接互相引用关系
 type WorkflowReference struct {
 	ID               int64          `gorm:"column:id;primaryKey;comment:workflow id" json:"id"`                                                                                      // workflow id
 	ReferredID       int64          `gorm:"column:referred_id;not null;comment:the id of the workflow that is referred by other entities" json:"referred_id"`                        // the id of the workflow that is referred by other entities

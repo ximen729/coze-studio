@@ -15,7 +15,7 @@ type AppReleaseRecord struct {
 	SpaceID       int64                          `gorm:"column:space_id;not null;comment:Space ID" json:"space_id"`                                             // Space ID
 	OwnerID       int64                          `gorm:"column:owner_id;not null;comment:Owner ID" json:"owner_id"`                                             // Owner ID
 	IconURI       string                         `gorm:"column:icon_uri;not null;comment:Icon URI" json:"icon_uri"`                                             // Icon URI
-	Name          string                         `gorm:"column:Name;not null;comment:Application Name" json:"Name"`                                             // Application Name
+	Name          string                         `gorm:"column:name;not null;comment:Application Name" json:"name"`                                             // Application Name
 	Description   string                         `gorm:"column:description;comment:Application Description" json:"description"`                                 // Application Description
 	ConnectorIds  []int64                        `gorm:"column:connector_ids;comment:Publish Connector IDs;serializer:json" json:"connector_ids"`               // Publish Connector IDs
 	ExtraInfo     *entity.PublishRecordExtraInfo `gorm:"column:extra_info;comment:Publish Extra Info;serializer:json" json:"extra_info"`                        // Publish Extra Info

@@ -221,6 +221,7 @@ table "api_key" {
   column "id" {
     null           = false
     type           = bigint
+    unsigned       = true
     comment        = "Primary Key ID"
     auto_increment = true
   }
@@ -329,7 +330,7 @@ table "app_connector_release_ref" {
   primary_key {
     columns = [column.id]
   }
-  index "idx_record_connector" {
+  index "uniq_record_connector" {
     unique  = true
     columns = [column.record_id, column.connector_id]
   }
@@ -364,7 +365,7 @@ table "app_draft" {
     default = ""
     comment = "Icon URI"
   }
-  column "Name" {
+  column "name" {
     null    = false
     type    = varchar(255)
     default = ""
@@ -435,7 +436,7 @@ table "app_release_record" {
     default = ""
     comment = "Icon URI"
   }
-  column "Name" {
+  column "name" {
     null    = false
     type    = varchar(255)
     default = ""
@@ -1133,9 +1134,10 @@ table "knowledge_document_slice" {
     comment = "切片内容"
   }
   column "sequence" {
-    null    = false
-    type    = double
-    comment = "切片顺序号, 从1开始"
+    null     = false
+    type     = decimal(20,5)
+    unsigned = false
+    comment  = "切片顺序号, 从1开始"
   }
   column "created_at" {
     null     = false
@@ -1355,7 +1357,7 @@ table "model_entity" {
     comment = "描述"
   }
   column "default_params" {
-    null    = false
+    null    = true
     type    = json
     comment = "默认参数"
   }
@@ -1482,7 +1484,9 @@ table "model_meta" {
   }
 }
 table "node_execution" {
-  schema = schema.opencoze
+  schema  = schema.opencoze
+  comment = "node 节点运行记录，用于记录每次workflow执行时，每个节点的状态信息"
+  collate = "utf8mb4_0900_ai_ci"
   column "id" {
     null     = false
     type     = bigint
@@ -1499,16 +1503,19 @@ table "node_execution" {
     null    = false
     type    = varchar(128)
     comment = "node key"
+    collate = "utf8mb4_unicode_ci"
   }
   column "node_name" {
     null    = false
     type    = varchar(128)
     comment = "name of the node"
+    collate = "utf8mb4_unicode_ci"
   }
   column "node_type" {
     null    = false
     type    = varchar(128)
     comment = "the type of the node, in string"
+    collate = "utf8mb4_unicode_ci"
   }
   column "created_at" {
     null     = false
@@ -1532,26 +1539,31 @@ table "node_execution" {
     null    = true
     type    = mediumtext
     comment = "actual input of the node"
+    collate = "utf8mb4_unicode_ci"
   }
   column "output" {
     null    = true
     type    = mediumtext
     comment = "actual output of the node"
+    collate = "utf8mb4_unicode_ci"
   }
   column "raw_output" {
     null    = true
     type    = mediumtext
     comment = "the original output of the node"
+    collate = "utf8mb4_unicode_ci"
   }
   column "error_info" {
     null    = true
     type    = mediumtext
     comment = "error info"
+    collate = "utf8mb4_unicode_ci"
   }
   column "error_level" {
     null    = true
     type    = varchar(32)
     comment = "level of the error"
+    collate = "utf8mb4_unicode_ci"
   }
   column "input_tokens" {
     null     = true
@@ -1581,11 +1593,13 @@ table "node_execution" {
     null    = true
     type    = mediumtext
     comment = "the items extracted from parent composite node for this index"
+    collate = "utf8mb4_unicode_ci"
   }
   column "parent_node_id" {
     null    = true
     type    = varchar(128)
     comment = "when as inner node for loop or batch, this is the parent node's key"
+    collate = "utf8mb4_unicode_ci"
   }
   column "sub_execute_id" {
     null     = true
@@ -1597,6 +1611,7 @@ table "node_execution" {
     null    = true
     type    = mediumtext
     comment = "extra info"
+    collate = "utf8mb4_unicode_ci"
   }
   primary_key {
     columns = [column.id]
@@ -2089,6 +2104,7 @@ table "prompt_resource" {
   column "id" {
     null           = false
     type           = bigint
+    unsigned       = true
     comment        = "主键ID"
     auto_increment = true
   }
@@ -2418,6 +2434,7 @@ table "single_agent_draft" {
   column "id" {
     null           = false
     type           = bigint
+    unsigned       = true
     comment        = "Primary Key ID"
     auto_increment = true
   }
@@ -2538,12 +2555,12 @@ table "single_agent_draft" {
   primary_key {
     columns = [column.id]
   }
-  index "idx_agent_id" {
-    unique  = true
-    columns = [column.agent_id]
-  }
   index "idx_creator_id" {
     columns = [column.creator_id]
+  }
+  index "uniq_agent_id" {
+    unique  = true
+    columns = [column.agent_id]
   }
 }
 table "single_agent_publish" {
@@ -2645,6 +2662,7 @@ table "single_agent_version" {
   column "id" {
     null           = false
     type           = bigint
+    unsigned       = true
     comment        = "Primary Key ID"
     auto_increment = true
   }
@@ -2777,12 +2795,12 @@ table "single_agent_version" {
   primary_key {
     columns = [column.id]
   }
-  index "idx_agent_id_and_version_connector_id" {
-    unique  = true
-    columns = [column.agent_id, column.version, column.connector_id]
-  }
   index "idx_creator_id" {
     columns = [column.creator_id]
+  }
+  index "uniq_agent_id_and_version_connector_id" {
+    unique  = true
+    columns = [column.agent_id, column.version, column.connector_id]
   }
 }
 table "space" {
@@ -2907,7 +2925,7 @@ table "space_user" {
   index "idx_user_id" {
     columns = [column.user_id]
   }
-  index "uk_space_user" {
+  index "uniq_space_user" {
     unique  = true
     columns = [column.space_id, column.user_id]
   }
@@ -2918,6 +2936,7 @@ table "template" {
   column "id" {
     null           = false
     type           = bigint
+    unsigned       = true
     comment        = "Primary Key ID"
     auto_increment = true
   }
@@ -2983,7 +3002,7 @@ table "template" {
   primary_key {
     columns = [column.id]
   }
-  index "idx_agent_id" {
+  index "uniq_agent_id" {
     unique  = true
     columns = [column.agent_id]
   }
@@ -3206,6 +3225,7 @@ table "user" {
   column "id" {
     null           = false
     type           = bigint
+    unsigned       = true
     comment        = "Primary Key ID"
     auto_increment = true
   }
@@ -3286,14 +3306,14 @@ table "user" {
   primary_key {
     columns = [column.id]
   }
-  index "idx_email" {
-    unique  = true
-    columns = [column.email]
-  }
   index "idx_session_key" {
     columns = [column.session_key]
   }
-  index "idx_unique_name" {
+  index "uniq_email" {
+    unique  = true
+    columns = [column.email]
+  }
+  index "uniq_unique_name" {
     unique  = true
     columns = [column.unique_name]
   }
@@ -3428,16 +3448,17 @@ table "variables_meta" {
   primary_key {
     columns = [column.id]
   }
-  index "idx_project_key" {
-    unique  = true
-    columns = [column.biz_id, column.biz_type, column.version]
-  }
   index "idx_user_key" {
     columns = [column.creator_id]
   }
+  index "uniq_project_key" {
+    unique  = true
+    columns = [column.biz_id, column.biz_type, column.version]
+  }
 }
 table "workflow_draft" {
-  schema = schema.opencoze
+  schema  = schema.opencoze
+  comment = "workflow 画布草稿表，用于记录workflow最新的草稿画布信息"
   column "id" {
     null     = false
     type     = bigint
@@ -3496,7 +3517,8 @@ table "workflow_draft" {
   }
 }
 table "workflow_execution" {
-  schema = schema.opencoze
+  schema  = schema.opencoze
+  comment = "workflow 执行记录表，用于记录每次workflow执行时的状态"
   column "id" {
     null     = false
     type     = bigint
@@ -3658,7 +3680,8 @@ table "workflow_execution" {
   }
 }
 table "workflow_meta" {
-  schema = schema.opencoze
+  schema  = schema.opencoze
+  comment = "workflow 元信息表，用于记录workflow基本的元信息"
   column "id" {
     null     = false
     type     = bigint
@@ -3785,7 +3808,8 @@ table "workflow_meta" {
   }
 }
 table "workflow_reference" {
-  schema = schema.opencoze
+  schema  = schema.opencoze
+  comment = "workflow 关联关系表，用于记录workflow 直接互相引用关系"
   column "id" {
     null     = false
     type     = bigint
@@ -3885,7 +3909,8 @@ table "workflow_snapshot" {
   }
 }
 table "workflow_version" {
-  schema = schema.opencoze
+  schema  = schema.opencoze
+  comment = "workflow 画布版本信息表，用于记录不同版本的画布信息"
   column "id" {
     null     = false
     type     = bigint

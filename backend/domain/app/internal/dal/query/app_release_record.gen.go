@@ -32,7 +32,7 @@ func newAppReleaseRecord(db *gorm.DB, opts ...gen.DOOption) appReleaseRecord {
 	_appReleaseRecord.SpaceID = field.NewInt64(tableName, "space_id")
 	_appReleaseRecord.OwnerID = field.NewInt64(tableName, "owner_id")
 	_appReleaseRecord.IconURI = field.NewString(tableName, "icon_uri")
-	_appReleaseRecord.Name = field.NewString(tableName, "Name")
+	_appReleaseRecord.Name = field.NewString(tableName, "name")
 	_appReleaseRecord.Description = field.NewString(tableName, "description")
 	_appReleaseRecord.ConnectorIds = field.NewField(tableName, "connector_ids")
 	_appReleaseRecord.ExtraInfo = field.NewField(tableName, "extra_info")
@@ -89,7 +89,7 @@ func (a *appReleaseRecord) updateTableName(table string) *appReleaseRecord {
 	a.SpaceID = field.NewInt64(table, "space_id")
 	a.OwnerID = field.NewInt64(table, "owner_id")
 	a.IconURI = field.NewString(table, "icon_uri")
-	a.Name = field.NewString(table, "Name")
+	a.Name = field.NewString(table, "name")
 	a.Description = field.NewString(table, "description")
 	a.ConnectorIds = field.NewField(table, "connector_ids")
 	a.ExtraInfo = field.NewField(table, "extra_info")
@@ -121,7 +121,7 @@ func (a *appReleaseRecord) fillFieldMap() {
 	a.fieldMap["space_id"] = a.SpaceID
 	a.fieldMap["owner_id"] = a.OwnerID
 	a.fieldMap["icon_uri"] = a.IconURI
-	a.fieldMap["Name"] = a.Name
+	a.fieldMap["name"] = a.Name
 	a.fieldMap["description"] = a.Description
 	a.fieldMap["connector_ids"] = a.ConnectorIds
 	a.fieldMap["extra_info"] = a.ExtraInfo

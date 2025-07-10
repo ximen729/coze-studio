@@ -43,6 +43,7 @@ func newWorkflowVersion(db *gorm.DB, opts ...gen.DOOption) workflowVersion {
 	return _workflowVersion
 }
 
+// workflowVersion workflow 画布版本信息表，用于记录不同版本的画布信息
 type workflowVersion struct {
 	workflowVersionDo
 

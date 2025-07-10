@@ -31,7 +31,7 @@ func newAppDraft(db *gorm.DB, opts ...gen.DOOption) appDraft {
 	_appDraft.SpaceID = field.NewInt64(tableName, "space_id")
 	_appDraft.OwnerID = field.NewInt64(tableName, "owner_id")
 	_appDraft.IconURI = field.NewString(tableName, "icon_uri")
-	_appDraft.Name = field.NewString(tableName, "Name")
+	_appDraft.Name = field.NewString(tableName, "name")
 	_appDraft.Description = field.NewString(tableName, "description")
 	_appDraft.CreatedAt = field.NewInt64(tableName, "created_at")
 	_appDraft.UpdatedAt = field.NewInt64(tableName, "updated_at")
@@ -76,7 +76,7 @@ func (a *appDraft) updateTableName(table string) *appDraft {
 	a.SpaceID = field.NewInt64(table, "space_id")
 	a.OwnerID = field.NewInt64(table, "owner_id")
 	a.IconURI = field.NewString(table, "icon_uri")
-	a.Name = field.NewString(table, "Name")
+	a.Name = field.NewString(table, "name")
 	a.Description = field.NewString(table, "description")
 	a.CreatedAt = field.NewInt64(table, "created_at")
 	a.UpdatedAt = field.NewInt64(table, "updated_at")
@@ -102,7 +102,7 @@ func (a *appDraft) fillFieldMap() {
 	a.fieldMap["space_id"] = a.SpaceID
 	a.fieldMap["owner_id"] = a.OwnerID
 	a.fieldMap["icon_uri"] = a.IconURI
-	a.fieldMap["Name"] = a.Name
+	a.fieldMap["name"] = a.Name
 	a.fieldMap["description"] = a.Description
 	a.fieldMap["created_at"] = a.CreatedAt
 	a.fieldMap["updated_at"] = a.UpdatedAt

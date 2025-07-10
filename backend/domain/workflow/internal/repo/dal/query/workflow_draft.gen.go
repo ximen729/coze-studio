@@ -42,6 +42,7 @@ func newWorkflowDraft(db *gorm.DB, opts ...gen.DOOption) workflowDraft {
 	return _workflowDraft
 }
 
+// workflowDraft workflow 画布草稿表，用于记录workflow最新的草稿画布信息
 type workflowDraft struct {
 	workflowDraftDo
 

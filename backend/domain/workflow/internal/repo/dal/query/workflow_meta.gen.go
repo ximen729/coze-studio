@@ -52,6 +52,7 @@ func newWorkflowMeta(db *gorm.DB, opts ...gen.DOOption) workflowMeta {
 	return _workflowMeta
 }
 
+// workflowMeta workflow 元信息表，用于记录workflow基本的元信息
 type workflowMeta struct {
 	workflowMetaDo
 
