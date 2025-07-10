@@ -1,37 +1,3 @@
-- plugin_id: 1
-  product_id: 7345361954749300771
-  deprecated: false
-  version: v1.0.0
-  openapi_doc_file: ai_ppt.yaml
-  plugin_type: 1
-  manifest:
-    schema_version: v1
-    name_for_model: AiPPT
-    name_for_human: AiPPT
-    description_for_model: 新一代的AI人工智能产品。最快10秒一句话智能生成PPT，自动生成大纲内容，自动选择和设计幻灯片的布局、颜色和字体，自动配图，拥有海量版权模板
-      ，支持在线编辑、演示、下载、存储等功能。通过先进的AI技术，助您提高学习办公效率。
-    description_for_human: 新一代的AI人工智能产品。最快10秒一句话智能生成PPT，自动生成大纲内容，自动选择和设计幻灯片的布局、颜色和字体，自动配图，拥有海量版权模板
-      ，支持在线编辑、演示、下载、存储等功能。通过先进的AI技术，助您提高学习办公效率。
-    auth:
-      type: service_http
-      key: Authorization
-      sub_type: token/api_key
-      payload: '{"key": "Authorization", "service_token": "", "location": "Header"}'
-    logo_url: official_plugin_icon/plugin_ai_ppt.jpeg
-    api:
-      type: openapi
-    common_params:
-      query: [ ]
-      body: [ ]
-      header:
-        - name: User-Agent
-          value: Coze/1.0
-      path: [ ]
-  tools:
-    - tool_id: 10001
-      deprecated: false
-      method: post
-      sub_url: /api/ai/chat/coze/plugin/outline
 - plugin_id: 2
   product_id: 7376228190244618278
   deprecated: false
@@ -79,6 +45,7 @@
       type: service_http
       key: Authorization
       sub_type: token/api_key
+      # service token apply to https://open.bochaai.com/
       payload: '{"key": "Authorization", "service_token": "", "location": "Header"}'
     logo_url: official_plugin_icon/plugin_bocha_search.jpeg
     api:
@@ -111,6 +78,7 @@
       type: service_http
       key: appid
       sub_type: token/api_key
+      # service token apply to https://developer.wolframalpha.com/
       payload: '{"key": "appid", "service_token": "", "location": "Query"}'
     logo_url: official_plugin_icon/plugin_wolfram_alpha.png
     api:
@@ -187,97 +155,6 @@
       deprecated: false
       method: get
       sub_url: /blog/outer/temp/feeds/ark
-- plugin_id: 7
-  product_id: 7349090832584245274
-  deprecated: false
-  version: v1.0.0
-  openapi_doc_file: chat_ppt.yaml
-  plugin_type: 1
-  manifest:
-    schema_version: v1
-    name_for_model: ChatPPT
-    name_for_human: ChatPPT
-    description_for_model: ChatPPT，一款在线Chat指令式生成PPT产品。通过简单的对话式输入，即可轻松完成PPT文档在线生成、编辑、美化、排版、导出、一键动效、协作等超400+类操作，同时支持基于主题词或其他文档（word、脑图、在线链接、大纲文本等）生成PPT，目前支持500字以内生成指令的解析。
-    description_for_human: ChatPPT，是一款在线Chat指令式生成PPT产品。通过简单的对话式输入，即可轻松完成PPT文档在线生成、编辑、美化、排版、导出、一键动效、协作等超400+类操作，同时支持基于主题词或其他文档（word、脑图、在线链接、大纲文本等）生成PPT，目前支持500字以内生成指令的解析。
-    auth:
-      type: service_http
-      key: Authorization
-      sub_type: token/api_key
-      payload: '{"key": "Authorization", "service_token": "", "location": "Header"}'
-    logo_url: official_plugin_icon/plugin_chat_ppt.png
-    api:
-      type: openapi
-    common_params:
-      path: [ ]
-      query: [ ]
-      body: [ ]
-      header: [ ]
-  tools:
-    - tool_id: 70001
-      deprecated: false
-      method: post
-      sub_url: /agents/ppt
-- plugin_id: 8
-  product_id: 7349090832584245274
-  deprecated: false
-  version: v1.0.0
-  openapi_doc_file: constellation.yaml
-  plugin_type: 1
-  manifest:
-    schema_version: v1
-    name_for_model: xingzuoleheji
-    name_for_human: 星座乐合集
-    description_for_model: '1.当需要查询星座运势的时候，用户必须输入对应星座和年月日等信息查询星座运势，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体星座运势，需要给我信息的是：xx座xxxx年xx月xx日运势或者xx座xxxx年运势
-
-      2.当需要查询星座配对的时候，用户必须输入男女星座查询星座配对，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体星座配对结果，需要给我信息的是：xx座男和xx座女
-
-      3.当需要查询生肖运势的时候，用户必须输入对应生肖和年月日等信息查询生肖运势，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体生肖运势，需要给我信息的是：属xx的xxxx年xx月xx日运势或者属xx的xxxx年运势
-
-      4.当需要查询生肖配对的时候，用户必须输入男女生肖查询生肖配对，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体生肖配对结果，需要给我信息的是：属x男和属x女
-
-      5.当需要查询周公解梦的时候，用户必须输入梦境描述（梦见xxxxx）去查询周公解梦，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道梦境解析，需要给我的信息是：梦见xxxx'
-    description_for_human: '1.当需要查询星座运势的时候，用户必须输入对应星座和年月日等信息查询星座运势，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体星座运势，需要给我信息的是：xx座xxxx年xx月xx日运势或者xx座xxxx年运势
-
-      2.当需要查询星座配对的时候，用户必须输入男女星座查询星座配对，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体星座配对结果，需要给我信息的是：xx座男和xx座女
-
-      3.当需要查询生肖运势的时候，用户必须输入对应生肖和年月日等信息查询生肖运势，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体生肖运势，需要给我信息的是：属xx的xxxx年xx月xx日运势或者属xx的xxxx年运势
-
-      4.当需要查询生肖配对的时候，用户必须输入男女生肖查询生肖配对，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道具体生肖配对结果，需要给我信息的是：属x男和属x女
-
-      5.当需要查询周公解梦的时候，用户必须输入梦境描述（梦见xxxxx）去查询周公解梦，当用户给的信息不完善的时候，给用户返回固定的话术：如果想知道梦境解析，需要给我的信息是：梦见xxxx'
-    auth:
-      type: none
-    logo_url: official_plugin_icon/plugin_constellation.png
-    api:
-      type: openapi
-    common_params:
-      path: [ ]
-      query: [ ]
-      body: [ ]
-      header:
-        - name: User-Agent
-          value: Coze/1.0
-  tools:
-    - tool_id: 80001
-      deprecated: false
-      method: get
-      sub_url: /dream/
-    - tool_id: 80002
-      deprecated: false
-      method: get
-      sub_url: /luck/
-    - tool_id: 80003
-      deprecated: false
-      method: get
-      sub_url: /pair/
-    - tool_id: 80004
-      deprecated: false
-      method: get
-      sub_url: /sxpair/
-    - tool_id: 80005
-      deprecated: false
-      method: get
-      sub_url: /sxys/
 - plugin_id: 9
   product_id: 7461926057290153993
   deprecated: false
@@ -320,6 +197,7 @@
       type: service_http
       key: token
       sub_type: token/api_key
+      # service token apply to https://openapi.zhidemai.com/
       payload: '{"key": "token", "service_token": "", "location": "Query"}'
     logo_url: official_plugin_icon/plugin_worth_buying.jpeg
     api:
@@ -381,6 +259,7 @@
       type: service_http
       key: Authorization
       sub_type: token/api_key
+      # apply token [https://open.tianyancha.com/console/mydata]
       payload: '{"key": "Authorization", "service_token": "", "location": "Header"}'
     logo_url: official_plugin_icon/plugin_sky_eye_check.jpeg
     api:
@@ -413,38 +292,6 @@
       deprecated: false
       method: get
       sub_url: /search/2.0
-- plugin_id: 13
-  product_id: 7330155407547138089
-  deprecated: false
-  version: v1.0.0
-  openapi_doc_file: liepin.yaml
-  plugin_type: 1
-  manifest:
-    schema_version: v1
-    name_for_model: liepin
-    name_for_human: 猎聘
-    description_for_model: 帮助用户根据工作经验、教育经历、地理位置、薪水、职位名称、工作性质等条件搜索猎聘上提供的招聘信息
-    description_for_human: 帮助用户根据工作经验、教育经历、地理位置、薪水、职位名称、工作性质等条件搜索猎聘上提供的招聘信息
-    auth:
-      type: service_http
-      key: Authorization
-      sub_type: token/api_key
-      payload: '{"key": "Authorization", "service_token": "", "location": "Header"}'
-    logo_url: official_plugin_icon/plugin_liepin.png
-    api:
-      type: openapi
-    common_params:
-      header:
-        - name: User-Agent
-          value: Coze/1.0
-      path: [ ]
-      query: [ ]
-      body: [ ]
-  tools:
-    - tool_id: 130001
-      deprecated: false
-      method: post
-      sub_url: /doubao/search-job
 - plugin_id: 14
   product_id: 7395041877151514662
   deprecated: false
@@ -507,6 +354,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"im:message im:message.group_msg","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_message.png
     api:
@@ -588,6 +436,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"bitable:app","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_base.png
     api:
@@ -703,6 +552,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"drive:drive","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_sheet.png
     api:
@@ -790,6 +640,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"task:task:write","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_task.png
     api:
@@ -863,6 +714,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"drive:drive","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_docx.png
     api:
@@ -926,6 +778,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"wiki:wiki","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_wiki.png
     api:
@@ -957,6 +810,7 @@
     auth:
       type: oauth
       sub_type: authorization_code
+      # client_id and client_secret apply to https://open.larkoffice.com/app
       payload: '{"client_id":"","client_secret":"","client_url":"https://accounts.feishu.cn/open-apis/authen/v1/authorize","scope":"calendar:calendar calendar:calendar:read","authorization_url":"https://open.larkoffice.com/open-apis/authen/v2/oauth/token","authorization_content_type":"application/json"}'
     logo_url: official_plugin_icon/plugin_lark_calendar.png
     api:
