@@ -40,7 +40,6 @@ func TestInvoke(t *testing.T) {
 			}
 			bs, _ := json.Marshal(response)
 			_, _ = w.Write(bs)
-
 		}))
 		defer ts.Close()
 		urlTpl := ts.URL + "/{{url_v1}}"
@@ -88,7 +87,6 @@ func TestInvoke(t *testing.T) {
 		fileServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			fileContent := "fileV1"
 			_, _ = w.Write([]byte(fileContent))
-
 		}))
 		defer fileServer.Close()
 		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -117,7 +115,6 @@ func TestInvoke(t *testing.T) {
 			}
 			bs, _ := json.Marshal(response)
 			_, _ = w.Write(bs)
-
 		}))
 		defer ts.Close()
 
@@ -177,11 +174,9 @@ func TestInvoke(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, `{"message":"success"}`, result["body"])
 		assert.Equal(t, int64(200), result["statusCode"])
-
 	})
 
 	t.Run("post method text/plain", func(t *testing.T) {
-
 		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			body, err := io.ReadAll(r.Body)
 			if err != nil {
@@ -198,7 +193,6 @@ func TestInvoke(t *testing.T) {
 			}
 			bs, _ := json.Marshal(response)
 			_, _ = w.Write(bs)
-
 		}))
 		defer ts.Close()
 		urlTpl := ts.URL + "/{{post_text_plain}}"
@@ -250,11 +244,9 @@ func TestInvoke(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, `{"message":"success"}`, result["body"])
 		assert.Equal(t, int64(200), result["statusCode"])
-
 	})
 
 	t.Run("post method application/json", func(t *testing.T) {
-
 		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			body, err := io.ReadAll(r.Body)
 			if err != nil {
@@ -271,7 +263,6 @@ func TestInvoke(t *testing.T) {
 			}
 			bs, _ := json.Marshal(response)
 			_, _ = w.Write(bs)
-
 		}))
 		defer ts.Close()
 
@@ -328,14 +319,12 @@ func TestInvoke(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, `{"message":"success"}`, result["body"])
 		assert.Equal(t, int64(200), result["statusCode"])
-
 	})
 
 	t.Run("post method application/octet-stream", func(t *testing.T) {
 		fileServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			fileContent := strings.Repeat("fileV1", 100)
 			_, _ = w.Write([]byte(fileContent))
-
 		}))
 		defer fileServer.Close()
 		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -355,7 +344,6 @@ func TestInvoke(t *testing.T) {
 			}
 			bs, _ := json.Marshal(response)
 			_, _ = w.Write(bs)
-
 		}))
 		defer ts.Close()
 
@@ -403,7 +391,5 @@ func TestInvoke(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, `{"message":"success"}`, result["body"])
 		assert.Equal(t, int64(200), result["statusCode"])
-
 	})
-
 }

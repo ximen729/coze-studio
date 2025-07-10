@@ -21,6 +21,8 @@ import (
 	"testing"
 
 	"github.com/cloudwego/eino/compose"
+	"github.com/stretchr/testify/assert"
+
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 	compose2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/compose"
@@ -28,7 +30,6 @@ import (
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/textprocessor"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/nodes/variableaggregator"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestAddSelector(t *testing.T) {
