@@ -99,9 +99,13 @@ func NewContainsQuery(k string, v any) Query {
 	}
 }
 
-func NewInQuery(k string, v any) Query {
+func NewInQuery[T any](k string, v []T) Query {
+	arr := make([]any, 0, len(v))
+	for _, item := range v {
+		arr = append(arr, item)
+	}
 	return Query{
-		KV:   KV{Key: k, Value: v},
+		KV:   KV{Key: k, Value: arr},
 		Type: QueryTypeIn,
 	}
 }

@@ -284,7 +284,7 @@ func (e *esSearchStore) fromDocument(doc *schema.Document) (map[string]any, erro
 	return fieldMapping, nil
 }
 
-func stringifyValue(dslValue any) any {
+func stringifyValue(dslValue any) []any {
 	value := reflect.ValueOf(dslValue)
 	switch value.Kind() {
 	case reflect.Slice, reflect.Array:
@@ -307,7 +307,7 @@ func stringifyValue(dslValue any) any {
 		}
 		return slice
 	default:
-		return dslValue
+		return []any{fmt.Sprintf("%v", value)}
 	}
 }
 

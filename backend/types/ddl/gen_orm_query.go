@@ -54,7 +54,7 @@ var path2Table2Columns2Model = map[string]map[string]map[string]any{
 			"suggest_reply":              &bot_common.SuggestReplyInfo{},
 			"jump_config":                &bot_common.JumpConfig{},
 			"background_image_info_list": []*bot_common.BackgroundImageInfo{},
-			"database_config":                   []*bot_common.Database{},
+			"database_config":            []*bot_common.Database{},
 			"shortcut_command":           []string{},
 		},
 		"single_agent_version": {
@@ -68,7 +68,7 @@ var path2Table2Columns2Model = map[string]map[string]map[string]any{
 			"suggest_reply":              &bot_common.SuggestReplyInfo{},
 			"jump_config":                &bot_common.JumpConfig{},
 			"background_image_info_list": []*bot_common.BackgroundImageInfo{},
-			"database_config":                   []*bot_common.Database{},
+			"database_config":            []*bot_common.Database{},
 			"shortcut_command":           []string{},
 		},
 		"single_agent_publish": {
