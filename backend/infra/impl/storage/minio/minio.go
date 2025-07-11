@@ -63,7 +63,7 @@ func New(ctx context.Context, endpoint, accessKeyID, secretAccessKey, bucketName
 		return nil, fmt.Errorf("init minio client failed %v", err)
 	}
 
-	m.Test() // TODO: remove me later
+	// m.Test()
 
 	return m, nil
 }
@@ -86,41 +86,36 @@ func (m *minioClient) createBucketIfNeed(ctx context.Context, client *minio.Clie
 	return nil
 }
 
-// TODO: 测试代码,remove me later
-func (m *minioClient) Test() {
+func (m *minioClient) test() {
 	ctx := context.Background()
 	objectName := fmt.Sprintf("test-file-%d.txt", rand.Int())
 
-	// 上传文件
 	err := m.PutObject(ctx, objectName, []byte("hello content"), storage.WithContentType("text/plain"))
 	if err != nil {
-		log.Fatalf("文件上传失败: %v", err)
+		log.Fatalf("upload file failed: %v", err)
 	}
-	log.Printf("文件上传成功")
+	log.Printf("upload file success")
 
 	url, err := m.GetObjectUrl(ctx, objectName)
 	if err != nil {
-		log.Fatalf("获取文件地址失败 : %v", err)
+		log.Fatalf("get file url failed: %v", err)
 	}
 
-	log.Printf("文件地址: %s", url)
-
-	// 下载文件
+	log.Printf("get file url success, url: %s", url)
 
 	content, err := m.GetObject(ctx, objectName)
 	if err != nil {
-		log.Fatalf("文件下载失败: %v", err)
+		log.Fatalf("download file failed: %v", err)
 	}
 
-	log.Printf("文件已下载: %s", string(content))
+	log.Printf("download file success, content: %s", string(content))
 
-	// 删除对象
-	// err = m.DeleteObject(ctx, objectName)
-	// if err != nil {
-	// 	log.Fatalf("删除对象失败: %v", err)
-	// }
-	//
-	// log.Println("对象已成功删除")
+	err = m.DeleteObject(ctx, objectName)
+	if err != nil {
+		log.Fatalf("delete object failed: %v", err)
+	}
+
+	log.Printf("delete object success")
 }
 
 func (m *minioClient) PutObject(ctx context.Context, objectKey string, content []byte, opts ...storage.PutOptFn) error {

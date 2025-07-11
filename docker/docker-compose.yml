@@ -249,41 +249,6 @@ services:
         echo -e "⏳ Adjusting Elasticsearch disk watermark settings..."
       "
 
-  kibana:
-    image: bitnami/kibana:8.18.0
-    container_name: coze-kibana
-    user: root
-    privileged: true
-    profiles: ['middleware']
-    env_file: *env_file
-    ports:
-      - '5601:5601'
-    environment:
-      # - ELASTICSEARCH_HOSTS=http://coze-elasticsearch:9200
-      - KIBANA_ELASTICSEARCH_URL=coze-elasticsearch
-    volumes:
-      - ./data/bitnami/kibana:/bitnami/kibana:rw,Z
-    command: >
-      bash -c "
-        /opt/bitnami/scripts/kibana/setup.sh
-        # Set proper permissions for data directories
-        chown -R kibana:kibana /bitnami/kibana
-        chmod g+s /bitnami/kibana
-
-        exec /opt/bitnami/scripts/kibana/entrypoint.sh /opt/bitnami/scripts/kibana/run.sh
-      "
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:5601/api/status']
-      interval: 5s
-      timeout: 10s
-      retries: 10
-      start_period: 10s
-    networks:
-      - coze-network
-
   minio:
     image: minio/minio:RELEASE.2025-06-13T11-33-47Z-cpuv1
     container_name: coze-minio
@@ -302,7 +267,11 @@ services:
       MINIO_DEFAULT_BUCKETS: ${MINIO_BUCKET:-opencoze},${MINIO_DEFAULT_BUCKETS:-milvus}
     command: server /data --console-address ":9001"
     healthcheck:
-      test: ['CMD-SHELL', '/usr/bin/mc alias set health_check http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} && /usr/bin/mc ready health_check']
+      test:
+        [
+          'CMD-SHELL',
+          '/usr/bin/mc alias set health_check http://localhost:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} && /usr/bin/mc ready health_check',
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
