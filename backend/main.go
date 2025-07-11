@@ -42,12 +42,13 @@ import (
 func main() {
 	ctx := context.Background()
 	// Please do not change the order of the function calls below
-	setLogLevel()
 	setCrashOutput()
 
 	if err := loadEnv(); err != nil {
 		panic("loadEnv failed, err=" + err.Error())
 	}
+
+	setLogLevel()
 
 	if err := application.Init(ctx); err != nil {
 		panic("InitializeInfra failed, err=" + err.Error())
@@ -125,6 +126,7 @@ func getEnv(key string, defaultValue string) string {
 func setLogLevel() {
 	level := strings.ToLower(os.Getenv("LOG_LEVEL"))
 
+	logs.Infof("log level: %s", level)
 	switch level {
 	case "trace":
 		logs.SetLevel(logs.LevelTrace)
