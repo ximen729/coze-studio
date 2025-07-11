@@ -138,7 +138,9 @@ CREATE TABLE IF NOT EXISTS `data_copy_task` (
   `finish_time` bigint NULL COMMENT "任务结束时间",
   `status` tinyint NOT NULL DEFAULT 1 COMMENT "1:创建 2:执行中 3:成功 4:失败",
   `error_msg` varchar(128) NULL COMMENT "错误信息",
-  PRIMARY KEY (`master_task_id`, `origin_data_id`, `data_type`)
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "ID",
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uniq_master_task_id_origin_data_id_data_type` (`master_task_id`, `origin_data_id`, `data_type`)
 ) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_general_ci COMMENT "data方向复制任务记录表";
 -- Create "draft_database_info" table
 CREATE TABLE IF NOT EXISTS `draft_database_info` (
@@ -799,11 +801,14 @@ CREATE TABLE IF NOT EXISTS `workflow_snapshot` (
   `input_params` mediumtext NULL COMMENT "input parameter info",
   `output_params` mediumtext NULL COMMENT "output parameter info",
   `created_at` bigint unsigned NOT NULL,
-  PRIMARY KEY (`workflow_id`, `commit_id`)
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "ID",
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uniq_workflow_id_commit_id` (`workflow_id`, `commit_id`)
 ) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "snapshot for executed workflow draft";
 -- Create "workflow_version" table
 CREATE TABLE IF NOT EXISTS `workflow_version` (
-  `id` bigint unsigned NOT NULL COMMENT "workflow id",
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT "ID",
+  `workflow_id` bigint unsigned NOT NULL COMMENT "workflow id",
   `version` varchar(50) NOT NULL COMMENT "发布版本",
   `version_description` varchar(2000) NOT NULL COMMENT "版本描述",
   `canvas` mediumtext NOT NULL COMMENT "前端 schema",
@@ -813,6 +818,7 @@ CREATE TABLE IF NOT EXISTS `workflow_version` (
   `created_at` bigint unsigned NOT NULL COMMENT "创建时间毫秒时间戳",
   `deleted_at` datetime(3) NULL COMMENT "删除毫秒时间戳",
   `commit_id` varchar(255) NOT NULL COMMENT "the commit id corresponding to this version",
-  PRIMARY KEY (`id`, `version`),
-  INDEX `idx_id_created_at` (`id`, `created_at`)
+  PRIMARY KEY (`id`),
+  INDEX `idx_id_created_at` (`workflow_id`, `created_at`),
+  UNIQUE INDEX `uniq_workflow_id_version` (`workflow_id`, `version`)
 ) ENGINE=InnoDB CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT "workflow 画布版本信息表，用于记录不同版本的画布信息";
