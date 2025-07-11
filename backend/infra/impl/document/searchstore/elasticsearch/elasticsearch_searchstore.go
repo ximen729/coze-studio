@@ -163,13 +163,20 @@ func (e *esSearchStore) travDSL(query *es.Query, dsl *searchstore.DSL) error {
 	}
 
 	switch dsl.Op {
-	case searchstore.OpEq:
-		query.Bool.Must = append(query.Bool.Must,
-			es.NewEqualQuery(dsl.Field, stringifyValue(dsl.Value)))
-	case searchstore.OpNe:
-		query.Bool.MustNot = append(query.Bool.MustNot,
-			es.NewEqualQuery(dsl.Field, stringifyValue(dsl.Value)))
+	case searchstore.OpEq, searchstore.OpNe:
+		arr := stringifyValue(dsl.Value)
+		v := dsl.Value
+		if len(arr) > 0 {
+			v = arr[0]
+		}
 
+		if dsl.Op == searchstore.OpEq {
+			query.Bool.Must = append(query.Bool.Must,
+				es.NewEqualQuery(dsl.Field, v))
+		} else {
+			query.Bool.MustNot = append(query.Bool.MustNot,
+				es.NewEqualQuery(dsl.Field, v))
+		}
 	case searchstore.OpLike:
 		s, ok := dsl.Value.(string)
 		if !ok {
