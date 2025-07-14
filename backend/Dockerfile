@@ -60,7 +60,7 @@ COPY backend/infra/impl/document/parser/builtin/parse_docx.py /app/parse_docx.py
 # Copy static resources
 COPY backend/static /app/resources/static/
 COPY backend/conf /app/resources/conf/
-COPY docker/.env /app/.env
+COPY docker/.env.example /app/.env
 # COPY docker/.env.ve /app/.env
 # COPY docker/cert.pem /app/cert.pem
 # COPY docker/key.pem /app/key.pem
