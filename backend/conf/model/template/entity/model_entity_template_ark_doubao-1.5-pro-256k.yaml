@@ -1,8 +1,7 @@
-id: 2002 # 模型 entity id, 同 id 数据不会覆盖
-name: Doubao Model
-description: test doubao description
+id: 65536 # 模型 entity id, 同 id 数据不会覆盖
+name: Doubao-1.5-Pro-256k
 meta:
-  id: 102
+  id: 65536
 default_parameters:
   -
     name: temperature
@@ -65,30 +64,3 @@ default_parameters:
       label:
         zh: 生成多样性
         en: Generation diversity
-  -
-    name: response_format
-    label:
-      zh: 输出格式
-      en: Response format
-    desc:
-      zh: '- **文本**: 使用普通文本格式回复\n- **Markdown**: 将引导模型使用Markdown格式输出回复\n- **JSON**: 将引导模型使用JSON格式输出'
-      en: '**Response Format**:\n\n- **Text**: Replies in plain text format\n- **Markdown**: Uses Markdown format for replies\n- **JSON**: Uses JSON format for replies'
-    type: int
-    precision: 0
-    default_val:
-      default_val: '0'
-    options:
-      -
-        value: '0'
-        label: 'Text'
-      -
-        value: '1'
-        label: 'Markdown'
-      -
-        value: '2'
-        label: 'JSON'
-    style:
-      widget: radio_buttons
-      label:
-        zh: 输入及输出设置
-        en: Input and output settings
