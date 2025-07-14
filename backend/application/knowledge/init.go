@@ -29,6 +29,7 @@ import (
 	"github.com/cloudwego/eino-ext/components/embedding/openai"
 	ao "github.com/cloudwego/eino-ext/components/model/ark"
 	"github.com/cloudwego/eino-ext/components/model/deepseek"
+	"github.com/cloudwego/eino-ext/components/model/gemini"
 	"github.com/cloudwego/eino-ext/components/model/ollama"
 	mo "github.com/cloudwego/eino-ext/components/model/openai"
 	"github.com/cloudwego/eino-ext/components/model/qwen"
@@ -37,6 +38,7 @@ import (
 	"github.com/milvus-io/milvus/client/v2/milvusclient"
 	"github.com/volcengine/volc-sdk-golang/service/vikingdb"
 	"github.com/volcengine/volc-sdk-golang/service/visual"
+	"google.golang.org/genai"
 	"gorm.io/gorm"
 
 	"github.com/coze-dev/coze-studio/backend/application/search"
@@ -377,6 +379,27 @@ func getBuiltinChatModel(ctx context.Context, envPrefix string) (bcm chatmodel.B
 			APIKey:  getEnv("BUILTIN_CM_QWEN_API_KEY"),
 			BaseURL: getEnv("BUILTIN_CM_QWEN_BASE_URL"),
 			Model:   getEnv("BUILTIN_CM_QWEN_MODEL"),
+		})
+	case "gemini":
+		backend, convErr := strconv.ParseInt(getEnv("BUILTIN_CM_GEMINI_BACKEND"), 10, 64)
+		if convErr != nil {
+			return nil, false, convErr
+		}
+		c, clientErr := genai.NewClient(ctx, &genai.ClientConfig{
+			APIKey:   getEnv("BUILTIN_CM_GEMINI_API_KEY"),
+			Backend:  genai.Backend(backend),
+			Project:  getEnv("BUILTIN_CM_GEMINI_PROJECT"),
+			Location: getEnv("BUILTIN_CM_GEMINI_LOCATION"),
+			HTTPOptions: genai.HTTPOptions{
+				BaseURL: getEnv("BUILTIN_CM_GEMINI_BASE_URL"),
+			},
+		})
+		if clientErr != nil {
+			return nil, false, clientErr
+		}
+		bcm, err = gemini.NewChatModel(ctx, &gemini.Config{
+			Client: c,
+			Model:  getEnv("BUILTIN_CM_GEMINI_MODEL"),
 		})
 	default:
 		// accept builtin chat model not configured
