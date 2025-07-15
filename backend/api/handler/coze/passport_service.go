@@ -82,7 +82,7 @@ func PassportWebLogoutGet(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	c.JSON(http.StatusUnauthorized, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 // PassportWebEmailLoginPost .
