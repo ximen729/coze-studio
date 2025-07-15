@@ -63,6 +63,7 @@ import (
 	sses "github.com/coze-dev/coze-studio/backend/infra/impl/document/searchstore/elasticsearch"
 	ssmilvus "github.com/coze-dev/coze-studio/backend/infra/impl/document/searchstore/milvus"
 	ssvikingdb "github.com/coze-dev/coze-studio/backend/infra/impl/document/searchstore/vikingdb"
+	arkemb "github.com/coze-dev/coze-studio/backend/infra/impl/embedding/ark"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/embedding/wrap"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus/rmq"
 	builtinM2Q "github.com/coze-dev/coze-studio/backend/infra/impl/messages2query/builtin"
@@ -327,7 +328,7 @@ func getEmbedding(ctx context.Context) (embedding.Embedder, error) {
 			return nil, fmt.Errorf("init ark embedding dims failed, err=%w", err)
 		}
 
-		emb, err = wrap.NewArkEmbedder(ctx, &ark.EmbeddingConfig{
+		emb, err = arkemb.NewArkEmbedder(ctx, &ark.EmbeddingConfig{
 			APIKey: arkEmbeddingAK,
 			Model:  arkEmbeddingModel,
 		}, dims)
