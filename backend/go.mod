@@ -26,7 +26,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/matoous/go-nanoid v1.5.1
 	github.com/milvus-io/milvus-proto/go-api/v2 v2.5.0-beta.0.20250325034212-6e98baa34971 // indirect
-	github.com/nikolalohinski/gonja v1.5.3
+	github.com/nikolalohinski/gonja v1.5.3 // indirect
 	github.com/onsi/gomega v1.27.3
 	github.com/pingcap/tidb/pkg/parser v0.0.0-20250417044355-c5882b1f6c58
 	github.com/redis/go-redis/v9 v9.7.3
@@ -53,6 +53,7 @@ replace parse-curl => github.com/killlowkey/parse-curl v1.0.0
 require github.com/alicebob/miniredis/v2 v2.34.0
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/cloudwego/eino-ext/components/embedding/ark v0.0.0-20250522060253-ddb617598b09
 	github.com/cloudwego/eino-ext/components/embedding/openai v0.0.0-20250522060253-ddb617598b09
 	github.com/cloudwego/eino-ext/components/model/ollama v0.0.0-20250610035057-2c4e7c8488a5
@@ -71,13 +72,11 @@ require (
 )
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.5.2 // indirect
 	github.com/alicebob/gopher-json v0.0.0-20230218143504-906a9b012302 // indirect
 	github.com/cloudwego/gopkg v0.1.4 // indirect
 	github.com/evanphx/json-patch v4.12.0+incompatible // indirect
 	github.com/extrame/ole2 v0.0.0-20160812065207-d69429661ad7 // indirect
 	github.com/frankban/quicktest v1.14.6 // indirect
-	github.com/go-redis/redismock/v9 v9.2.0 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/meguminnnnnnnnn/go-openai v0.0.0-20250523041550-e202cd57070c // indirect
 	github.com/peterbourgon/diskv/v3 v3.0.1 // indirect
