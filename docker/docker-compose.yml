@@ -467,10 +467,10 @@ services:
     restart: 'no'
 
   coze-server:
-    build:
-      context: ../
-      dockerfile: backend/Dockerfile
-    # image: opencoze/opencoze:latest
+    # build:
+    #   context: ../
+    #   dockerfile: backend/Dockerfile
+    image: opencoze/opencoze:latest
     container_name: coze-server
     profiles: ['run-server']
     env_file: *env_file
