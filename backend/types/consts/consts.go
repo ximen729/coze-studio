@@ -40,7 +40,8 @@ const (
 	TOSRegion          = "TOS_REGION"
 	TOSEndpoint        = "TOS_ENDPOINT"
 
-	HostKeyInCtx = "HOST_KEY_IN_CTX"
+	HostKeyInCtx          = "HOST_KEY_IN_CTX"
+	RequestSchemeKeyInCtx = "REQUEST_SCHEME_IN_CTX"
 
 	RMQServer                = "RMQ_NAME_SERVER"
 	RMQSecretKey             = "RMQ_SECRET_KEY"

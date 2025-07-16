@@ -204,12 +204,18 @@ func (m *minioClient) GetObjectUrl(ctx context.Context, objectKey string, opts .
 			return presignedURL.String(), nil
 		}
 
+		currentScheme, ok := ctxcache.Get[string](ctx, consts.RequestSchemeKeyInCtx)
+		if !ok {
+			return presignedURL.String(), nil
+		}
+
 		host, _, err := net.SplitHostPort(currentHost)
 		if err != nil {
 			host = currentHost
 		}
 		minioProxyHost := host + proxyPort
 		presignedURL.Host = minioProxyHost
+		presignedURL.Scheme = currentScheme
 		logs.CtxDebugf(ctx, "[GetObjectUrl] reset presignedURL.String = %s", presignedURL.String())
 	}
 

@@ -179,6 +179,19 @@ func asyncStartMinioProxyServer(ctx context.Context) {
 			originDirector(req)
 			req.Host = req.URL.Host
 		}
-		http.ListenAndServe(minioProxyEndpoint, proxy)
+		useSSL := getEnv("USE_SSL", "0")
+		if useSSL == "1" {
+			logs.Infof("Minio proxy server is listening on %s with SSL", minioProxyEndpoint)
+			err := http.ListenAndServeTLS(minioProxyEndpoint, "cert.pem", "key.pem", proxy)
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			logs.Infof("Minio proxy server is listening on %s", minioProxyEndpoint)
+			err := http.ListenAndServe(minioProxyEndpoint, proxy)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
 	})
 }
