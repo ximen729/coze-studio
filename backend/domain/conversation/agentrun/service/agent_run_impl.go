@@ -506,12 +506,10 @@ func (c *runImpl) push(ctx context.Context, mainChan chan *entity.AgentRespEvent
 		case message.MessageTypeAnswer:
 			fullContent := bytes.NewBuffer([]byte{})
 			reasoningContent := bytes.NewBuffer([]byte{})
-			preMsg, pErr := c.handlerPreAnswer(ctx, rtDependence)
-			if pErr != nil {
-				err = pErr
-				return
-			}
+
+			var preMsg *msgEntity.Message
 			var usage *msgEntity.UsageExt
+			var createPreMsg = true
 			var isToolCalls = false
 
 			for {
@@ -519,6 +517,11 @@ func (c *runImpl) push(ctx context.Context, mainChan chan *entity.AgentRespEvent
 
 				if receErr != nil {
 					if errors.Is(receErr, io.EOF) {
+
+						if isToolCalls && reasoningContent.String() == "" {
+							break
+						}
+
 						finalAnswer := c.buildSendMsg(ctx, preMsg, false, rtDependence)
 						finalAnswer.Content = fullContent.String()
 						finalAnswer.ReasoningContent = ptr.Of(reasoningContent.String())
@@ -526,9 +529,6 @@ func (c *runImpl) push(ctx context.Context, mainChan chan *entity.AgentRespEvent
 						if hfErr != nil {
 							err = hfErr
 							return
-						}
-						if isToolCalls {
-							break
 						}
 						finishErr := c.handlerFinalAnswerFinish(ctx, sw, rtDependence)
 						if finishErr != nil {
@@ -551,6 +551,13 @@ func (c *runImpl) push(ctx context.Context, mainChan chan *entity.AgentRespEvent
 
 				if streamMsg != nil && len(streamMsg.ReasoningContent) == 0 && len(streamMsg.Content) == 0 {
 					continue
+				}
+				if createPreMsg && (len(streamMsg.ReasoningContent) > 0 || len(streamMsg.Content) > 0) {
+					preMsg, err = c.handlerPreAnswer(ctx, rtDependence)
+					if err != nil {
+						return
+					}
+					createPreMsg = false
 				}
 
 				sendMsg := c.buildSendMsg(ctx, preMsg, false, rtDependence)
