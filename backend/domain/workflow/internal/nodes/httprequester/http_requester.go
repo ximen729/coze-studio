@@ -275,7 +275,7 @@ func (hg *HTTPRequester) Invoke(ctx context.Context, input map[string]any) (outp
 		httpRequest.Header.Add(HeaderContentType, contentType)
 	}
 
-	for i := uint64(0); i < retryTimes; i++ {
+	for i := uint64(0); i <= retryTimes; i++ {
 		response, err = hg.client.Do(httpRequest)
 		if err == nil {
 			break
