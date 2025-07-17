@@ -39,14 +39,13 @@ import (
 	"github.com/coze-dev/coze-studio/backend/infra/contract/document/nl2sql"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/document/parser"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/document/searchstore"
-	"github.com/coze-dev/coze-studio/backend/infra/contract/eventbus"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/cache/redis"
 	sses "github.com/coze-dev/coze-studio/backend/infra/impl/document/searchstore/elasticsearch"
 	ssmilvus "github.com/coze-dev/coze-studio/backend/infra/impl/document/searchstore/milvus"
 	hembed "github.com/coze-dev/coze-studio/backend/infra/impl/embedding/http"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/es"
-	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus/rmq"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/idgen"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/mysql"
 	rdbservice "github.com/coze-dev/coze-studio/backend/infra/impl/rdb"
@@ -121,7 +120,7 @@ func (suite *KnowledgeTestSuite) SetupSuite() {
 
 	rdbService := rdbservice.NewService(db, idGenSVC)
 
-	knowledgeProducer, err := rmq.NewProducer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, 2)
+	knowledgeProducer, err := eventbus.NewProducer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, 2)
 	if err != nil {
 		panic(err)
 	}
@@ -179,7 +178,7 @@ func (suite *KnowledgeTestSuite) SetupSuite() {
 
 	suite.handler = knowledgeEventHandler
 
-	err = rmq.RegisterConsumer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, suite)
+	err = eventbus.RegisterConsumer(rmqEndpoint, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, suite)
 	if err != nil {
 		panic(err)
 	}

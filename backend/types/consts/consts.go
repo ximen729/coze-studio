@@ -43,7 +43,8 @@ const (
 	HostKeyInCtx          = "HOST_KEY_IN_CTX"
 	RequestSchemeKeyInCtx = "REQUEST_SCHEME_IN_CTX"
 
-	RMQServer                = "RMQ_NAME_SERVER"
+	MQTypeKey                = "COZE_MQ_TYPE"
+	MQServer                 = "MQ_NAME_SERVER"
 	RMQSecretKey             = "RMQ_SECRET_KEY"
 	RMQAccessKey             = "RMQ_ACCESS_KEY"
 	RMQTopicApp              = "opencoze_search_app"

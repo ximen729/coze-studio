@@ -65,6 +65,7 @@ require (
 	github.com/hertz-contrib/cors v0.1.0
 	github.com/jinzhu/copier v0.4.0
 	github.com/mattn/go-shellwords v1.0.12
+	github.com/nsqio/go-nsq v1.1.0
 	github.com/ollama/ollama v0.6.5
 	github.com/rbretecher/go-postman-collection v0.9.0
 	github.com/volcengine/ve-tos-golang-sdk/v2 v2.7.17

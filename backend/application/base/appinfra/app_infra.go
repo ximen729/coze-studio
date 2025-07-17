@@ -23,11 +23,10 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/coze-dev/coze-studio/backend/infra/contract/eventbus"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/imagex"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/cache/redis"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/es"
-	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus/rmq"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/idgen"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/imagex/veimagex"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/mysql"
@@ -106,8 +105,8 @@ func initTOS(ctx context.Context) (storage.Storage, error) {
 }
 
 func initResourceEventBusProducer() (eventbus.Producer, error) {
-	nameServer := os.Getenv(consts.RMQServer)
-	resourceEventBusProducer, err := rmq.NewProducer(nameServer,
+	nameServer := os.Getenv(consts.MQServer)
+	resourceEventBusProducer, err := eventbus.NewProducer(nameServer,
 		consts.RMQTopicResource, consts.RMQConsumeGroupResource, 1)
 	if err != nil {
 		return nil, fmt.Errorf("init resource producer failed, err=%w", err)
@@ -117,8 +116,8 @@ func initResourceEventBusProducer() (eventbus.Producer, error) {
 }
 
 func initAppEventProducer() (eventbus.Producer, error) {
-	nameServer := os.Getenv(consts.RMQServer)
-	appEventProducer, err := rmq.NewProducer(nameServer, consts.RMQTopicApp, consts.RMQConsumeGroupApp, 1)
+	nameServer := os.Getenv(consts.MQServer)
+	appEventProducer, err := eventbus.NewProducer(nameServer, consts.RMQTopicApp, consts.RMQConsumeGroupApp, 1)
 	if err != nil {
 		return nil, fmt.Errorf("init app producer failed, err=%w", err)
 	}

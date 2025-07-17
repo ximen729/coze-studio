@@ -65,7 +65,7 @@ import (
 	ssvikingdb "github.com/coze-dev/coze-studio/backend/infra/impl/document/searchstore/vikingdb"
 	arkemb "github.com/coze-dev/coze-studio/backend/infra/impl/embedding/ark"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/embedding/wrap"
-	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus/rmq"
+	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus"
 	builtinM2Q "github.com/coze-dev/coze-studio/backend/infra/impl/messages2query/builtin"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 	"github.com/coze-dev/coze-studio/backend/pkg/logs"
@@ -86,9 +86,9 @@ type ServiceComponents struct {
 func InitService(c *ServiceComponents) (*KnowledgeApplicationService, error) {
 	ctx := context.Background()
 
-	nameServer := os.Getenv(consts.RMQServer)
+	nameServer := os.Getenv(consts.MQServer)
 
-	knowledgeProducer, err := rmq.NewProducer(nameServer, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, 2)
+	knowledgeProducer, err := eventbus.NewProducer(nameServer, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, 2)
 	if err != nil {
 		return nil, fmt.Errorf("init knowledge producer failed, err=%w", err)
 	}
@@ -176,7 +176,7 @@ func InitService(c *ServiceComponents) (*KnowledgeApplicationService, error) {
 		ModelFactory:              chatmodelImpl.NewDefaultFactory(),
 	})
 
-	if err = rmq.RegisterConsumer(nameServer, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, knowledgeEventHandler); err != nil {
+	if err = eventbus.RegisterConsumer(nameServer, consts.RMQTopicKnowledge, consts.RMQConsumeGroupKnowledge, knowledgeEventHandler); err != nil {
 		return nil, fmt.Errorf("register knowledge consumer failed, err=%w", err)
 	}
 

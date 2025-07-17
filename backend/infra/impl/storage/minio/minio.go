@@ -33,7 +33,6 @@ import (
 
 	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
 	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
-	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 	"github.com/coze-dev/coze-studio/backend/types/consts"
 )
 
@@ -195,7 +194,7 @@ func (m *minioClient) GetObjectUrl(ctx context.Context, objectKey string, opts .
 		return "", fmt.Errorf("GetObjectUrl failed: %v", err)
 	}
 
-	logs.CtxDebugf(ctx, "[GetObjectUrl] origin presignedURL.String = %s", presignedURL.String())
+	// logs.CtxDebugf(ctx, "[GetObjectUrl] origin presignedURL.String = %s", presignedURL.String())
 
 	proxyPort := os.Getenv(consts.MinIOProxyEndpoint) // :8889
 	if len(proxyPort) > 0 {
@@ -216,7 +215,7 @@ func (m *minioClient) GetObjectUrl(ctx context.Context, objectKey string, opts .
 		minioProxyHost := host + proxyPort
 		presignedURL.Host = minioProxyHost
 		presignedURL.Scheme = currentScheme
-		logs.CtxDebugf(ctx, "[GetObjectUrl] reset presignedURL.String = %s", presignedURL.String())
+		// logs.CtxDebugf(ctx, "[GetObjectUrl] reset presignedURL.String = %s", presignedURL.String())
 	}
 
 	return presignedURL.String(), nil
