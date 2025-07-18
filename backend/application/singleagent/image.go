@@ -18,16 +18,11 @@ package singleagent
 
 import (
 	"context"
-	"os"
 	"strings"
 
 	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
 	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/developer_api"
 	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/playground"
-	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
-	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
-	"github.com/coze-dev/coze-studio/backend/types/consts"
-	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 func (s *SingleAgentApplicationService) GetUploadAuthToken(ctx context.Context, req *developer_api.GetUploadAuthTokenRequest) (*developer_api.GetUploadAuthTokenResponse, error) {
@@ -56,52 +51,19 @@ func (s *SingleAgentApplicationService) GetUploadAuthToken(ctx context.Context, 
 	}, nil
 }
 func (s *SingleAgentApplicationService) getAuthToken(ctx context.Context) (*bot_common.AuthToken, error) {
-	uploadComponentType := os.Getenv(consts.FileUploadComponentType)
-
-	var authToken *bot_common.AuthToken
-
-	if uploadComponentType == consts.FileUploadComponentTypeImagex {
-		imagexAuthToken, err := s.appContext.ImageX.GetUploadAuth(ctx)
-
-		if err != nil {
-			return nil, err
-		}
-		authToken = &bot_common.AuthToken{
-			ServiceID:       s.appContext.ImageX.GetServerID(),
-			AccessKeyID:     imagexAuthToken.AccessKeyID,
-			SecretAccessKey: imagexAuthToken.SecretAccessKey,
-			SessionToken:    imagexAuthToken.SessionToken,
-			ExpiredTime:     imagexAuthToken.ExpiredTime,
-			CurrentTime:     imagexAuthToken.CurrentTime,
-			UploadHost:      s.appContext.ImageX.GetUploadHost(),
-			HostScheme:      "https",
-		}
-	} else {
-		storageAuthToken, err := s.appContext.TosClient.GetUploadAuth(ctx)
-
-		if err != nil {
-			return nil, err
-		}
-		currentHost, ok := ctxcache.Get[string](ctx, consts.HostKeyInCtx)
-
-		if !ok {
-			return nil, errorx.New(errno.ErrUploadHostNotExistCode)
-		}
-
-		scheme, ok := ctxcache.Get[string](ctx, consts.RequestSchemeKeyInCtx)
-		if !ok {
-			return nil, errorx.New(errno.ErrUploadHostSchemaNotExistCode)
-		}
-
-		authToken = &bot_common.AuthToken{
-			AccessKeyID:     storageAuthToken.AccessKeyID,
-			SecretAccessKey: storageAuthToken.SecretAccessKey,
-			SessionToken:    storageAuthToken.SessionToken,
-			ExpiredTime:     storageAuthToken.ExpiredTime,
-			CurrentTime:     storageAuthToken.CurrentTime,
-			UploadHost:      currentHost + consts.ApplyUploadActionURI,
-			HostScheme:      scheme,
-		}
+	uploadAuthToken, err := s.appContext.ImageX.GetUploadAuth(ctx)
+	if err != nil {
+		return nil, err
+	}
+	authToken := &bot_common.AuthToken{
+		ServiceID:       s.appContext.ImageX.GetServerID(),
+		AccessKeyID:     uploadAuthToken.AccessKeyID,
+		SecretAccessKey: uploadAuthToken.SecretAccessKey,
+		SessionToken:    uploadAuthToken.SessionToken,
+		ExpiredTime:     uploadAuthToken.ExpiredTime,
+		CurrentTime:     uploadAuthToken.CurrentTime,
+		UploadHost:      s.appContext.ImageX.GetUploadHost(ctx),
+		HostScheme:      uploadAuthToken.HostScheme,
 	}
 	return authToken, nil
 }

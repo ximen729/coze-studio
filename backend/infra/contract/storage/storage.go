@@ -20,7 +20,6 @@ import "context"
 
 //go:generate  mockgen -destination ../../../internal/mock/infra/contract/storage/storage_mock.go -package mock -source storage.go Factory
 type Storage interface {
-	GetUploadAuth(ctx context.Context) (*SecurityToken, error)
 	PutObject(ctx context.Context, objectKey string, content []byte, opts ...PutOptFn) error
 	GetObject(ctx context.Context, objectKey string) ([]byte, error)
 	DeleteObject(ctx context.Context, objectKey string) error

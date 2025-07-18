@@ -27,9 +27,14 @@ import (
 	"github.com/volcengine/ve-tos-golang-sdk/v2/tos"
 	"github.com/volcengine/ve-tos-golang-sdk/v2/tos/enum"
 
+	"github.com/coze-dev/coze-studio/backend/infra/contract/imagex"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
+	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 	"github.com/coze-dev/coze-studio/backend/pkg/logs"
+	"github.com/coze-dev/coze-studio/backend/types/consts"
+	"github.com/coze-dev/coze-studio/backend/types/errno"
 )
 
 type tosClient struct {
@@ -37,8 +42,15 @@ type tosClient struct {
 	bucketName string
 }
 
-func New(ctx context.Context, ak, sk, bucketName, endpoint, region string) (storage.Storage, error) {
-	logs.CtxInfof(ctx, "TOS GO SDK Version: %s", tos.Version)
+func NewStorageImagex(ctx context.Context, ak, sk, bucketName, endpoint, region string) (imagex.ImageX, error) {
+	t, err := getTosClient(ctx, ak, sk, bucketName, endpoint, region)
+	if err != nil {
+		return nil, err
+	}
+	return t, nil
+}
+
+func getTosClient(ctx context.Context, ak, sk, bucketName, endpoint, region string) (*tosClient, error) {
 	credential := tos.NewStaticCredentials(ak, sk)
 	client, err := tos.NewClientV2(endpoint,
 		tos.WithCredentials(credential), tos.WithRegion(region))
@@ -56,9 +68,18 @@ func New(ctx context.Context, ak, sk, bucketName, endpoint, region string) (stor
 	if err != nil {
 		return nil, err
 	}
+	return t, nil
+}
+
+func New(ctx context.Context, ak, sk, bucketName, endpoint, region string) (storage.Storage, error) {
+	logs.CtxInfof(ctx, "TOS GO SDK Version: %s", tos.Version)
 
 	// t.test()
 
+	t, err := getTosClient(ctx, ak, sk, bucketName, endpoint, region)
+	if err != nil {
+		return nil, err
+	}
 	return t, nil
 }
 
@@ -195,12 +216,49 @@ func (t *tosClient) GetObjectUrl(ctx context.Context, objectKey string, opts ...
 	return output.SignedUrl, nil
 }
 
-func (t *tosClient) GetUploadAuth(ctx context.Context) (*storage.SecurityToken, error) {
-	return &storage.SecurityToken{
+func (i *tosClient) GetUploadHost(ctx context.Context) string {
+
+	currentHost, ok := ctxcache.Get[string](ctx, consts.HostKeyInCtx)
+	if !ok {
+		return ""
+	}
+	return currentHost + consts.ApplyUploadActionURI
+
+}
+
+func (t *tosClient) GetServerID() string {
+	return ""
+}
+
+func (t *tosClient) GetUploadAuth(ctx context.Context, opt ...imagex.UploadAuthOpt) (*imagex.SecurityToken, error) {
+	scheme, ok := ctxcache.Get[string](ctx, consts.RequestSchemeKeyInCtx)
+	if !ok {
+		return nil, errorx.New(errno.ErrUploadHostSchemaNotExistCode)
+	}
+	return &imagex.SecurityToken{
 		AccessKeyID:     "",
 		SecretAccessKey: "",
 		SessionToken:    "",
 		ExpiredTime:     time.Now().Add(time.Hour).Format("2006-01-02 15:04:05"),
 		CurrentTime:     time.Now().Format("2006-01-02 15:04:05"),
+		HostScheme:      scheme,
 	}, nil
+}
+
+func (t *tosClient) GetResourceURL(ctx context.Context, uri string, opts ...imagex.GetResourceOpt) (*imagex.ResourceURL, error) {
+	url, err := t.GetObjectUrl(ctx, uri)
+	if err != nil {
+		return nil, err
+	}
+	return &imagex.ResourceURL{
+		URL: url,
+	}, nil
+}
+
+func (t *tosClient) Upload(ctx context.Context, data []byte, opts ...imagex.UploadAuthOpt) (*imagex.UploadResult, error) {
+	return nil, nil
+}
+
+func (t *tosClient) GetUploadAuthWithExpire(ctx context.Context, expire time.Duration, opt ...imagex.UploadAuthOpt) (*imagex.SecurityToken, error) {
+	return nil, nil
 }

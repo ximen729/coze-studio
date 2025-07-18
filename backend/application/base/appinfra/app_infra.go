@@ -66,7 +66,7 @@ func Init(ctx context.Context) (*AppDependencies, error) {
 		return nil, err
 	}
 
-	deps.ImageXClient, err = initImageX()
+	deps.ImageXClient, err = initImageX(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,13 @@ func Init(ctx context.Context) (*AppDependencies, error) {
 	return deps, nil
 }
 
-func initImageX() (imagex.ImageX, error) {
+func initImageX(ctx context.Context) (imagex.ImageX, error) {
+
+	uploadComponentType := os.Getenv(consts.FileUploadComponentType)
+
+	if uploadComponentType != consts.FileUploadComponentTypeImagex {
+		return storage.NewImagex(ctx)
+	}
 	return veimagex.New(
 		os.Getenv(consts.VeImageXAK),
 		os.Getenv(consts.VeImageXSK),

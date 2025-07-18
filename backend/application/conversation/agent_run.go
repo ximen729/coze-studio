@@ -21,7 +21,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"os"
 	"strconv"
 
 	"github.com/cloudwego/eino/schema"
@@ -462,23 +461,11 @@ func (c *ConversationApplicationService) parseMultiContent(ctx context.Context, 
 }
 
 func (s *ConversationApplicationService) getUrlByUri(ctx context.Context, uri string) (string, error) {
-	uploadComponentType := os.Getenv(consts.FileUploadComponentType)
-	var url string
-	if uploadComponentType == consts.FileUploadComponentTypeImagex {
-		imagexUrl, err := s.appContext.ImageX.GetResourceURL(ctx, uri)
-		if err != nil {
-			return "", err
-		}
-		url = imagexUrl.URL
-	} else {
-		storageUrl, err := s.appContext.TosClient.GetObjectUrl(ctx, uri)
-		if err != nil {
-			return "", err
-		}
-		url = storageUrl
 
+	url, err := s.appContext.ImageX.GetResourceURL(ctx, uri)
+	if err != nil {
+		return "", err
 	}
 
-	return url, nil
-
+	return url.URL, nil
 }
