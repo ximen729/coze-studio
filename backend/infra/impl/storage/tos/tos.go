@@ -72,14 +72,12 @@ func getTosClient(ctx context.Context, ak, sk, bucketName, endpoint, region stri
 }
 
 func New(ctx context.Context, ak, sk, bucketName, endpoint, region string) (storage.Storage, error) {
-	logs.CtxInfof(ctx, "TOS GO SDK Version: %s", tos.Version)
-
-	// t.test()
 
 	t, err := getTosClient(ctx, ak, sk, bucketName, endpoint, region)
 	if err != nil {
 		return nil, err
 	}
+	// t.test()
 	return t, nil
 }
 
