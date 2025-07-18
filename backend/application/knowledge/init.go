@@ -327,9 +327,10 @@ func getEmbedding(ctx context.Context) (embedding.Embedder, error) {
 
 	case "ark":
 		var (
-			arkEmbeddingModel = os.Getenv("ARK_EMBEDDING_MODEL")
-			arkEmbeddingAK    = os.Getenv("ARK_EMBEDDING_AK")
-			arkEmbeddingDims  = os.Getenv("ARK_EMBEDDING_DIMS")
+			arkEmbeddingBaseURL = os.Getenv("ARK_EMBEDDING_BASE_URL")
+			arkEmbeddingModel   = os.Getenv("ARK_EMBEDDING_MODEL")
+			arkEmbeddingAK      = os.Getenv("ARK_EMBEDDING_AK")
+			arkEmbeddingDims    = os.Getenv("ARK_EMBEDDING_DIMS")
 		)
 
 		dims, err := strconv.ParseInt(arkEmbeddingDims, 10, 64)
@@ -338,8 +339,9 @@ func getEmbedding(ctx context.Context) (embedding.Embedder, error) {
 		}
 
 		emb, err = arkemb.NewArkEmbedder(ctx, &ark.EmbeddingConfig{
-			APIKey: arkEmbeddingAK,
-			Model:  arkEmbeddingModel,
+			APIKey:  arkEmbeddingAK,
+			Model:   arkEmbeddingModel,
+			BaseURL: arkEmbeddingBaseURL,
 		}, dims)
 		if err != nil {
 			return nil, fmt.Errorf("init ark embedding client failed, err=%w", err)
@@ -370,8 +372,9 @@ func getBuiltinChatModel(ctx context.Context, envPrefix string) (bcm chatmodel.B
 		})
 	case "ark":
 		bcm, err = ao.NewChatModel(ctx, &ao.ChatModelConfig{
-			APIKey: getEnv("BUILTIN_CM_ARK_API_KEY"),
-			Model:  getEnv("BUILTIN_CM_ARK_MODEL"),
+			APIKey:  getEnv("BUILTIN_CM_ARK_API_KEY"),
+			Model:   getEnv("BUILTIN_CM_ARK_MODEL"),
+			BaseURL: getEnv("BUILTIN_CM_ARK_BASE_URL"),
 		})
 	case "deepseek":
 		bcm, err = deepseek.NewChatModel(ctx, &deepseek.ChatModelConfig{
