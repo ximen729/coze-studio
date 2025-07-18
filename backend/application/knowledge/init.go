@@ -67,6 +67,7 @@ import (
 	"github.com/coze-dev/coze-studio/backend/infra/impl/embedding/wrap"
 	"github.com/coze-dev/coze-studio/backend/infra/impl/eventbus"
 	builtinM2Q "github.com/coze-dev/coze-studio/backend/infra/impl/messages2query/builtin"
+	"github.com/coze-dev/coze-studio/backend/pkg/lang/conv"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/ptr"
 	"github.com/coze-dev/coze-studio/backend/pkg/logs"
 	"github.com/coze-dev/coze-studio/backend/types/consts"
@@ -286,12 +287,13 @@ func getEmbedding(ctx context.Context) (embedding.Embedder, error) {
 	switch os.Getenv("EMBEDDING_TYPE") {
 	case "openai":
 		var (
-			openAIEmbeddingBaseURL    = os.Getenv("OPENAI_EMBEDDING_BASE_URL")
-			openAIEmbeddingModel      = os.Getenv("OPENAI_EMBEDDING_MODEL")
-			openAIEmbeddingApiKey     = os.Getenv("OPENAI_EMBEDDING_API_KEY")
-			openAIEmbeddingByAzure    = os.Getenv("OPENAI_EMBEDDING_BY_AZURE")
-			openAIEmbeddingApiVersion = os.Getenv("OPENAI_EMBEDDING_API_VERSION")
-			openAIEmbeddingDims       = os.Getenv("OPENAI_EMBEDDING_DIMS")
+			openAIEmbeddingBaseURL     = os.Getenv("OPENAI_EMBEDDING_BASE_URL")
+			openAIEmbeddingModel       = os.Getenv("OPENAI_EMBEDDING_MODEL")
+			openAIEmbeddingApiKey      = os.Getenv("OPENAI_EMBEDDING_API_KEY")
+			openAIEmbeddingByAzure     = os.Getenv("OPENAI_EMBEDDING_BY_AZURE")
+			openAIEmbeddingApiVersion  = os.Getenv("OPENAI_EMBEDDING_API_VERSION")
+			openAIEmbeddingDims        = os.Getenv("OPENAI_EMBEDDING_DIMS")
+			openAIRequestEmbeddingDims = os.Getenv("OPENAI_EMBEDDING_REQUEST_DIMS")
 		)
 
 		byAzure, err := strconv.ParseBool(openAIEmbeddingByAzure)
@@ -304,14 +306,21 @@ func getEmbedding(ctx context.Context) (embedding.Embedder, error) {
 			return nil, fmt.Errorf("init openai embedding dims failed, err=%w", err)
 		}
 
-		emb, err = wrap.NewOpenAIEmbedder(ctx, &openai.EmbeddingConfig{
+		openAICfg := &openai.EmbeddingConfig{
 			APIKey:     openAIEmbeddingApiKey,
 			ByAzure:    byAzure,
 			BaseURL:    openAIEmbeddingBaseURL,
 			APIVersion: openAIEmbeddingApiVersion,
 			Model:      openAIEmbeddingModel,
-			Dimensions: ptr.Of(int(dims)),
-		}, dims)
+			// Dimensions: ptr.Of(int(dims)),
+		}
+		reqDims := conv.StrToInt64D(openAIRequestEmbeddingDims, 0)
+		if reqDims > 0 {
+			// some openai model not support request dims
+			openAICfg.Dimensions = ptr.Of(int(reqDims))
+		}
+
+		emb, err = wrap.NewOpenAIEmbedder(ctx, openAICfg, dims)
 		if err != nil {
 			return nil, fmt.Errorf("init openai embedding failed, err=%w", err)
 		}
