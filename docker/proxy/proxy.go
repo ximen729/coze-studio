@@ -22,63 +22,23 @@ import (
 	"log"
 	"net"
 	"os"
+	"strings"
 )
 
 func main() {
-	mysqlPodProxyURL := os.Getenv("MYSQL_POD_PROXY_URL")
-	if mysqlPodProxyURL == "" {
-		mysqlPodProxyURL = "mysql:3306"
+	proxyURLListString := os.Getenv("COZE_SERVER_PROXY_URL_LIST")
+	if proxyURLListString == "" {
+		proxyURLListString = "mysql:3306,redis:6379,elasticsearch:9200,milvus:19530,minio:9000,nsqd:4150"
 	}
 
-	redisPodProxyURL := os.Getenv("REDIS_POD_PROXY_URL")
-	if redisPodProxyURL == "" {
-		redisPodProxyURL = "redis:6379"
+	proxyURLList := strings.Split(proxyURLListString, ",")
+	for _, serverAddInDockerNet := range proxyURLList {
+		err := listen(serverAddInDockerNet)
+		if err != nil {
+			fmt.Printf("listen %s failed: %v\n", serverAddInDockerNet, err)
+		}
 	}
 
-	elasticsearchPodProxyURL := os.Getenv("ELASTICSEARCH_POD_PROXY_URL")
-	if elasticsearchPodProxyURL == "" {
-		elasticsearchPodProxyURL = "elasticsearch:9200"
-	}
-
-	milvusPodProxyURL := os.Getenv("MILVUS_POD_PROXY_URL")
-	if milvusPodProxyURL == "" {
-		milvusPodProxyURL = "milvus:19530"
-	}
-
-	rocketmqNamesrvPodProxyURL := os.Getenv("ROCKETMQ_NAMESRV_POD_PROXY_URL")
-	if rocketmqNamesrvPodProxyURL == "" {
-		rocketmqNamesrvPodProxyURL = "rocketmq-namesrv:9876"
-	}
-
-	rocketmqBrokerPodProxyURL := os.Getenv("ROCKETMQ_BROKER_POD_PROXY_URL")
-	if rocketmqBrokerPodProxyURL == "" {
-		rocketmqBrokerPodProxyURL = "rocketmq-broker:10909"
-	}
-
-	rocketmqBrokerPodProxyURL1 := os.Getenv("ROCKETMQ_BROKER_POD_PROXY_URL1")
-	if rocketmqBrokerPodProxyURL1 == "" {
-		rocketmqBrokerPodProxyURL1 = "rocketmq-broker:10911"
-	}
-
-	rocketmqBrokerPodProxyURL2 := os.Getenv("ROCKETMQ_BROKER_POD_PROXY_URL2")
-	if rocketmqBrokerPodProxyURL2 == "" {
-		rocketmqBrokerPodProxyURL2 = "rocketmq-broker:10912"
-	}
-
-	minioPodProxyURL := os.Getenv("MINIO_POD_PROXY_URL")
-	if minioPodProxyURL == "" {
-		minioPodProxyURL = "minio:9000"
-	}
-
-	listen(mysqlPodProxyURL)
-	listen(redisPodProxyURL)
-	listen(elasticsearchPodProxyURL)
-	listen(milvusPodProxyURL)
-	listen(rocketmqNamesrvPodProxyURL)
-	listen(rocketmqBrokerPodProxyURL)
-	listen(rocketmqBrokerPodProxyURL1)
-	listen(rocketmqBrokerPodProxyURL2)
-	listen(minioPodProxyURL)
 	// 阻塞主程序，防止退出
 	select {}
 }

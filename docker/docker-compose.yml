@@ -541,10 +541,10 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      rocketmq-namesrv:
-        condition: service_healthy
-      rocketmq-broker:
-        condition: service_healthy
+      # rocketmq-namesrv:
+      #   condition: service_healthy
+      # rocketmq-broker:
+      #   condition: service_healthy
       elasticsearch:
         condition: service_healthy
       minio:
@@ -558,14 +558,7 @@ services:
       mysql-setup-init-sql:
         condition: service_completed_successfully
     command: ['/app/bootstrap.sh']
-    deploy:
-      resources:
-        limits:
-          cpus: '8'
-          memory: 16G
-        reservations:
-          cpus: '2'
-          memory: 4G
+
 networks:
   coze-network:
     driver: bridge
