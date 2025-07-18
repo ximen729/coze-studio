@@ -220,3 +220,13 @@ func (m *minioClient) GetObjectUrl(ctx context.Context, objectKey string, opts .
 
 	return presignedURL.String(), nil
 }
+
+func (m *minioClient) GetUploadAuth(ctx context.Context) (*storage.SecurityToken, error) {
+	return &storage.SecurityToken{
+		AccessKeyID:     "",
+		SecretAccessKey: "",
+		SessionToken:    "",
+		ExpiredTime:     time.Now().Add(time.Hour).Format("2006-01-02 15:04:05"),
+		CurrentTime:     time.Now().Format("2006-01-02 15:04:05"),
+	}, nil
+}

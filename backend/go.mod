@@ -70,6 +70,7 @@ require (
 	github.com/rbretecher/go-postman-collection v0.9.0
 	github.com/volcengine/ve-tos-golang-sdk/v2 v2.7.17
 	github.com/yuin/goldmark v1.4.13
+	golang.org/x/image v0.22.0
 	golang.org/x/oauth2 v0.23.0
 	google.golang.org/genai v1.13.0
 )

@@ -28,6 +28,10 @@ const (
 	VeImageXTemplate   = "VE_IMAGEX_TEMPLATE"
 	VeImageXUploadHost = "VE_IMAGEX_UPLOAD_HOST"
 
+	FileUploadComponentType        = "FILE_UPLOAD_COMPONENT_TYPE"
+	FileUploadComponentTypeImagex  = "imagex"
+	FileUploadComponentTypeStorage = "storage"
+
 	StorageType        = "STORAGE_TYPE"
 	MinIOAK            = "MINIO_AK"
 	MinIOSK            = "MINIO_SK"
@@ -85,4 +89,9 @@ const (
 
 const (
 	TemplateSpaceID = int64(999999) // special space id for template
+)
+
+const (
+	ApplyUploadActionURI = "/api/playground/apply_upload_action"
+	UploadURI            = "/api/playground/upload"
 )

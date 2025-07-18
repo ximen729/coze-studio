@@ -20,6 +20,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -31,6 +32,7 @@ import (
 
 	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/knowledge"
 	pluginmodel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/bot_common"
 	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/playground"
 	pluginAPI "github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/plugin_develop"
 	"github.com/coze-dev/coze-studio/backend/api/model/ocean/cloud/workflow"
@@ -50,6 +52,8 @@ import (
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/idgen"
 	"github.com/coze-dev/coze-studio/backend/infra/contract/imagex"
+	"github.com/coze-dev/coze-studio/backend/infra/contract/storage"
+	"github.com/coze-dev/coze-studio/backend/pkg/ctxcache"
 	"github.com/coze-dev/coze-studio/backend/pkg/errorx"
 	"github.com/coze-dev/coze-studio/backend/pkg/i18n"
 	"github.com/coze-dev/coze-studio/backend/pkg/lang/maps"
@@ -66,6 +70,7 @@ import (
 type ApplicationService struct {
 	DomainSVC   workflowDomain.Service
 	ImageX      imagex.ImageX // we set Imagex here, because Imagex is used as a proxy to get auth token, there is no actual correlation with the workflow domain.
+	TosClient   storage.Storage
 	IDGenerator idgen.IDGenerator
 }
 
@@ -2402,16 +2407,16 @@ func (w *ApplicationService) GetWorkflowUploadAuthToken(ctx context.Context, req
 		return nil, fmt.Errorf("scene %s is not supported", req.GetScene())
 	}
 
-	authToken, err := w.ImageX.GetUploadAuth(ctx)
+	authToken, err := w.getAuthToken(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	return &workflow.GetUploadAuthTokenResponse{
 		Data: &workflow.GetUploadAuthTokenData{
-			ServiceID:        w.ImageX.GetServerID(),
+			ServiceID:        authToken.ServiceID,
 			UploadPathPrefix: prefix,
-			UploadHost:       w.ImageX.GetUploadHost(),
+			UploadHost:       authToken.UploadHost,
 			Auth: &workflow.UploadAuthTokenInfo{
 				AccessKeyID:     authToken.AccessKeyID,
 				SecretAccessKey: authToken.SecretAccessKey,
@@ -2419,8 +2424,59 @@ func (w *ApplicationService) GetWorkflowUploadAuthToken(ctx context.Context, req
 				ExpiredTime:     authToken.ExpiredTime,
 				CurrentTime:     authToken.CurrentTime,
 			},
+			Schema: authToken.HostScheme,
 		},
 	}, nil
+}
+
+func (w *ApplicationService) getAuthToken(ctx context.Context) (*bot_common.AuthToken, error) {
+	uploadComponentType := os.Getenv(consts.FileUploadComponentType)
+
+	var authToken *bot_common.AuthToken
+
+	if uploadComponentType == consts.FileUploadComponentTypeImagex {
+		imagexAuthToken, err := w.ImageX.GetUploadAuth(ctx)
+		if err != nil {
+			return nil, err
+		}
+		authToken = &bot_common.AuthToken{
+			ServiceID:       w.ImageX.GetServerID(),
+			AccessKeyID:     imagexAuthToken.AccessKeyID,
+			SecretAccessKey: imagexAuthToken.SecretAccessKey,
+			SessionToken:    imagexAuthToken.SessionToken,
+			ExpiredTime:     imagexAuthToken.ExpiredTime,
+			CurrentTime:     imagexAuthToken.CurrentTime,
+			UploadHost:      w.ImageX.GetUploadHost(),
+			HostScheme:      "https",
+		}
+	} else {
+		storageAuthToken, err := w.TosClient.GetUploadAuth(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		currentHost, ok := ctxcache.Get[string](ctx, consts.HostKeyInCtx)
+
+		if !ok {
+			return nil, errorx.New(errno.ErrUploadHostNotExistCode)
+		}
+
+		scheme, ok := ctxcache.Get[string](ctx, consts.RequestSchemeKeyInCtx)
+		if !ok {
+			return nil, errorx.New(errno.ErrUploadHostSchemaNotExistCode)
+		}
+
+		authToken = &bot_common.AuthToken{
+			AccessKeyID:     storageAuthToken.AccessKeyID,
+			SecretAccessKey: storageAuthToken.SecretAccessKey,
+			SessionToken:    storageAuthToken.SessionToken,
+			ExpiredTime:     storageAuthToken.ExpiredTime,
+			CurrentTime:     storageAuthToken.CurrentTime,
+			UploadHost:      currentHost + consts.ApplyUploadActionURI,
+			HostScheme:      scheme,
+		}
+	}
+	return authToken, nil
 }
 
 func (w *ApplicationService) SignImageURL(ctx context.Context, req *workflow.SignImageURLRequest) (
@@ -2436,13 +2492,25 @@ func (w *ApplicationService) SignImageURL(ctx context.Context, req *workflow.Sig
 		}
 	}()
 
-	url, err := w.ImageX.GetResourceURL(ctx, req.GetURI())
-	if err != nil {
-		return nil, err
+	uploadComponentType := os.Getenv(consts.FileUploadComponentType)
+	var url string
+	if uploadComponentType == consts.FileUploadComponentTypeImagex {
+		imagexUrl, err := w.ImageX.GetResourceURL(ctx, req.GetURI())
+		if err != nil {
+			return nil, err
+		}
+
+		url = imagexUrl.URL
+	} else {
+		stroageUrl, err := w.TosClient.GetObjectUrl(ctx, req.GetURI())
+		if err != nil {
+			return nil, err
+		}
+		url = stroageUrl
 	}
 
 	return &workflow.SignImageURLResponse{
-		URL: url.URL,
+		URL: url,
 	}, nil
 }
 
