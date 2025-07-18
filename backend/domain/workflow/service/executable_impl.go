@@ -62,7 +62,7 @@ func (i *impl) SyncExecute(ctx context.Context, config vo.ExecuteConfig, input m
 	}
 
 	isApplicationWorkflow := wfEntity.AppID != nil
-	if isApplicationWorkflow {
+	if isApplicationWorkflow && config.Mode == vo.ExecuteModeRelease {
 		err = i.checkApplicationWorkflowReleaseVersion(ctx, *wfEntity.AppID, config.ConnectorID, config.ID, config.Version)
 		if err != nil {
 			return nil, "", err
@@ -207,7 +207,7 @@ func (i *impl) AsyncExecute(ctx context.Context, config vo.ExecuteConfig, input 
 	}
 
 	isApplicationWorkflow := wfEntity.AppID != nil
-	if isApplicationWorkflow {
+	if isApplicationWorkflow && config.Mode == vo.ExecuteModeRelease {
 		err = i.checkApplicationWorkflowReleaseVersion(ctx, *wfEntity.AppID, config.ConnectorID, config.ID, config.Version)
 		if err != nil {
 			return 0, err
@@ -292,7 +292,7 @@ func (i *impl) AsyncExecuteNode(ctx context.Context, nodeID string, config vo.Ex
 	}
 
 	isApplicationWorkflow := wfEntity.AppID != nil
-	if isApplicationWorkflow {
+	if isApplicationWorkflow && config.Mode == vo.ExecuteModeRelease {
 		err = i.checkApplicationWorkflowReleaseVersion(ctx, *wfEntity.AppID, config.ConnectorID, config.ID, config.Version)
 		if err != nil {
 			return 0, err
@@ -375,7 +375,7 @@ func (i *impl) StreamExecute(ctx context.Context, config vo.ExecuteConfig, input
 	}
 
 	isApplicationWorkflow := wfEntity.AppID != nil
-	if isApplicationWorkflow {
+	if isApplicationWorkflow && config.Mode == vo.ExecuteModeRelease {
 		err = i.checkApplicationWorkflowReleaseVersion(ctx, *wfEntity.AppID, config.ConnectorID, config.ID, config.Version)
 		if err != nil {
 			return nil, err
