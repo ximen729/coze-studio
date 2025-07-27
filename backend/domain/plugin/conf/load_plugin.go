@@ -99,6 +99,14 @@ func GetAllPluginProducts() []*PluginInfo {
 	return plugins
 }
 
+func GetAllToolProducts() []*ToolInfo {
+	tools := make([]*ToolInfo, 0, len(toolProducts))
+	for _, ti := range toolProducts {
+		tools = append(tools, ti)
+	}
+	return tools
+}
+
 type PluginInfo struct {
 	Info    *model.PluginInfo
 	ToolIDs []int64
