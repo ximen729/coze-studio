@@ -129,11 +129,6 @@ func (t *ToolDraftDAO) genToolID(ctx context.Context) (id int64, err error) {
 		if i == retryTimes-1 {
 			return 0, fmt.Errorf("id %d is confilict with product tool id.", id)
 		}
-
-		id, err = t.idGen.GenID(ctx)
-		if err != nil {
-			return 0, err
-		}
 	}
 
 	return id, nil
