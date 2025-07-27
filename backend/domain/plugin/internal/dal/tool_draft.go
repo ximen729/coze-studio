@@ -113,16 +113,21 @@ func (t *ToolDraftDAO) Create(ctx context.Context, tool *entity.ToolInfo) (toolI
 	return id, nil
 }
 
-func (t *ToolDraftDAO) genToolID(ctx context.Context) (int64, error) {
-	id, err := t.idGen.GenID(ctx)
-	if err != nil {
-		return 0, err
-	}
+func (t *ToolDraftDAO) genToolID(ctx context.Context) (id int64, err error) {
 
-	for i := 0; i < len(conf.GetAllToolProducts())+1; i++ {
+	retryTimes := 5
+
+	for i := 0; i < retryTimes; i++ {
+		id, err = t.idGen.GenID(ctx)
+		if err != nil {
+			return 0, err
+		}
 
 		if _, ok := conf.GetToolProduct(id); !ok {
 			break
+		}
+		if i == retryTimes-1 {
+			return 0, fmt.Errorf("id %d is confilict with product tool id.", id)
 		}
 
 		id, err = t.idGen.GenID(ctx)

@@ -118,17 +118,19 @@ func (p *PluginDraftDAO) Create(ctx context.Context, plugin *entity.PluginInfo) 
 	return id, nil
 }
 
-func (p *PluginDraftDAO) genPluginID(ctx context.Context) (int64, error) {
+func (p *PluginDraftDAO) genPluginID(ctx context.Context) (id int64, err error) {
 
-	id, err := p.idGen.GenID(ctx)
-	if err != nil {
-		return 0, err
-	}
-
-	for i := 0; i < len(conf.GetAllPluginProducts())+1; i++ {
-
+	retryTimes := 5
+	for i := 0; i < retryTimes; i++ {
+		id, err = p.idGen.GenID(ctx)
+		if err != nil {
+			return 0, err
+		}
 		if _, ok := conf.GetPluginProduct(id); !ok {
 			break
+		}
+		if i == retryTimes-1 {
+			return 0, fmt.Errorf("id %d is confilict with product plugin id.", id)
 		}
 
 		id, err = p.idGen.GenID(ctx)
