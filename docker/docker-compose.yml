@@ -391,22 +391,22 @@ services:
 volumes:
   mysql_data:
     external: true
-    name: coze-mysql-data  # 指向老项目的数据卷
+    name: docker_coze-mysql-data  # 指向老项目的数据卷
   redis_data:
     external: true
-    name: coze-redis-data
+    name: docker_coze-redis-data
   elasticsearch_data:
     external: true
-    name: coze-elasticsearch-data
+    name: docker_coze-elasticsearch-data
   minio_data:
     external: true
-    name: coze-minio-data
+    name: docker_coze-minio-data
   etcd_data:
     external: true
-    name: coze-etcd-data
+    name: docker_coze-etcd-data
   milvus_data:
     external: true
-    name: coze-milvus-data
+    name: docker_coze-milvus-data
 
 networks:
   coze-network:
