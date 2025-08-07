@@ -19,9 +19,8 @@ import path from 'path';
 import { defineConfig } from '@coze-arch/rsbuild-config';
 import { GLOBAL_ENVS } from '@coze-arch/bot-env';
 
-const API_PROXY_TARGET = `http://localhost:${
-  process.env.WEB_SERVER_PORT || 8888
-}/`;
+// const API_PROXY_TARGET = 'https://coze-test.sxsstem.cn';
+const API_PROXY_TARGET = 'http://61.160.207.153:8888';
 
 const mergedConfig = defineConfig({
   server: {

@@ -25,15 +25,6 @@ import {
   type UserInfo,
 } from '@coze-foundation/account-adapter';
 
-// 手动清除旧的session_key cookie，强制使用新的
-const clearOldSessionCookie = () => {
-  // 清除所有可能的session_key cookie
-  document.cookie = 'session_key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-  document.cookie = 'session_key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-  document.cookie = 'session_key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname + ';';
-  console.log('Cleared old session cookies');
-};
-
 export const useLoginService = ({
   email,
   password,
@@ -45,9 +36,6 @@ export const useLoginService = ({
 }) => {
   const loginService = useRequest(
     async () => {
-      // 在登录前清除旧的Cookie
-      clearOldSessionCookie();
-      
       const res = (await passport.PassportWebEmailLoginPost({
         email,
         password,
@@ -56,24 +44,13 @@ export const useLoginService = ({
     },
     {
       manual: true,
-      onSuccess: data => {
-        setUserInfo(data);
-        // 强制刷新页面以确保Cookie更新，或者等待更长时间
-        console.log('Login successful, waiting for cookie update...');
-        // 等待更长时间确保Cookie完全写入
-        setTimeout(() => {
-          console.log('Cookie should be updated now');
-        }, 500);
-      },
+      onSuccess: setUserInfo,
       onError: onLoginError,
     },
   );
 
   const registerService = useRequest(
     async () => {
-      // 在注册前清除旧的Cookie
-      clearOldSessionCookie();
-      
       const res = (await passport.PassportWebEmailRegisterV2Post({
         email,
         password,
@@ -82,15 +59,7 @@ export const useLoginService = ({
     },
     {
       manual: true,
-      onSuccess: data => {
-        setUserInfo(data);
-        // 强制刷新页面以确保Cookie更新，或者等待更长时间
-        console.log('Register successful, waiting for cookie update...');
-        // 等待更长时间确保Cookie完全写入
-        setTimeout(() => {
-          console.log('Cookie should be updated now');
-        }, 500);
-      },
+      onSuccess: setUserInfo,
     },
   );
 
@@ -99,14 +68,9 @@ export const useLoginService = ({
 
   useEffect(() => {
     if (loginStatus === 'logined') {
-      // 确保Cookie已经写入后再跳转，增加等待时间
-      console.log('Login status changed to logined, waiting before navigation...');
-      setTimeout(() => {
-        console.log('Navigating to home page...');
-        navigate('/');
-      }, 500);
+      navigate('/');
     }
-  }, [loginStatus, navigate]);
+  }, [loginStatus]);
 
   return {
     login: loginService.run,

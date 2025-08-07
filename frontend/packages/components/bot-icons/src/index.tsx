@@ -727,7 +727,7 @@ export const IconMenuCommunityDiscord = IconFactory(
   <SvgIconMenuCommunityDiscord />,
 );
 
-export const IconMenuLogo = IconFactory(<SvgIconBotMenuLogo />);
+export const IconMenuLogo = IconFactory(<SvgBrandCnBlackRow />);
 export const IconChatHashtag = IconFactory(<SvgChatHashtag />);
 export const IconMenuLogoText = IconFactory(<SvgIconBotMenuLogoText />);
 export const IconMenuLogoTextCN = IconFactory(<SvgIconBotMenuLogoTextCN />);

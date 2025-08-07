@@ -36,7 +36,9 @@ export enum ErrorCodes {
   COZE_TOKEN_INSUFFICIENT_WORKFLOW = 702095072,
 }
 
-export const axiosInstance = axios.create();
+export const axiosInstance = axios.create({
+  withCredentials: true, // 确保Cookie能够被正确发送和接收
+});
 
 const HTTP_STATUS_COE_UNAUTHORIZED = 401;
 
@@ -53,6 +55,13 @@ axiosInstance.interceptors.response.use(
       message: '----',
       meta: { response },
     });
+    
+    // 调试信息：监控响应中的Set-Cookie
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+    console.log('Set-Cookie headers:', response.headers['set-cookie']);
+    console.log('Updated cookies:', document.cookie);
+    
     const { data = {} } = response;
 
     // Added interface return message field
@@ -137,6 +146,16 @@ axiosInstance.interceptors.request.use(config => {
     return config.headers[key];
   };
   setHeader('x-requested-with', 'XMLHttpRequest');
+  
+  // 强制确保withCredentials为true，确保Cookie被发送
+  config.withCredentials = true;
+  
+  // 调试信息：监控Cookie状态
+  console.log('Request URL:', config.url);
+  console.log('Request method:', config.method);
+  console.log('WithCredentials:', config.withCredentials);
+  console.log('Current cookies:', document.cookie);
+  
   if (
     ['post', 'get'].includes(config.method?.toLowerCase() ?? '') &&
     !getHeader('content-type')

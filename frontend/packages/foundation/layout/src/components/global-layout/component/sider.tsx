@@ -61,8 +61,11 @@ export const GlobalLayoutSider: FC<Omit<LayoutProps, 'hasSider'>> = ({
               'border-0 border-r-[1px] border-solid coz-stroke-primary',
           )}
         >
-          <IconMenuLogo
+          {/* <IconMenuLogo
             onClick={onClickLogo}
+            className="cursor-pointer w-[40px] h-[40px]"
+          /> */}
+          <IconMenuLogo
             className="cursor-pointer w-[40px] h-[40px]"
           />
           <div className="mt-[16px]">
@@ -76,12 +79,13 @@ export const GlobalLayoutSider: FC<Omit<LayoutProps, 'hasSider'>> = ({
               <GLobalLayoutMenuItem {...menu} key={index} />
             ))}
           </Space>
-          <Space spacing={4} vertical className="mt-[12px]">
+          {/* 底部 - 个人信息设置 & 登出 */}
+          {/* <Space spacing={4} vertical className="mt-[12px]">
             {extras?.map((extra, index) => (
               <GlobalLayoutActionBtn {...extra} key={index} />
             ))}
             {footer}
-          </Space>
+          </Space> */}
         </div>
         {/* secondary navigation */}
         <SubMenu />
