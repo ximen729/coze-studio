@@ -292,7 +292,7 @@ services:
     networks:
       - coze-network
   nsqlookupd:
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/nsqio/nsq:v1.2.1
+    image: nsqio/nsq:v1.2.1
     container_name: coze-nsqlookupd
     command: /nsqlookupd
     restart: always
@@ -309,7 +309,7 @@ services:
       start_period: 10s
 
   nsqd:
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/nsqio/nsq:v1.2.1
+    image: nsqio/nsq:v1.2.1
     container_name: coze-nsqd
     command: /nsqd --lookupd-tcp-address=nsqlookupd:4160 --broadcast-address=nsqd
     restart: always
@@ -329,7 +329,7 @@ services:
       start_period: 10s
 
   nsqadmin:
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/nsqio/nsq:v1.2.1
+    image: nsqio/nsq:v1.2.1
     container_name: coze-nsqadmin
     command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
     restart: always
@@ -377,7 +377,7 @@ services:
     # build:
     #   context: ..
     #   dockerfile: frontend/Dockerfile
-    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/opencoze/opencoze:latest
+    image: opencoze/web:latest
     container_name: coze-web
     restart: always
     ports:
