@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import { EVENT_NAMES, sendTeaEvent } from '@coze-arch/bot-tea';
 import { useCreateProjectModal } from '@coze-studio/project-entity-adapter';
@@ -29,17 +29,7 @@ export const useCreateBotAction = ({
   urlSearch?: string;
   currentSpaceId?: string;
 }) => {
-  // Create bot function
-  const newWindowRef = useRef<Window | null>(null);
-  const openWindow = () => {
-    newWindowRef.current = window.open();
-  };
-  const destroyWindow = () => {
-    if (!newWindowRef.current) {
-      return;
-    }
-    newWindowRef.current.close();
-  };
+  // Create bot function - 移除新窗口相关逻辑
   const { modalContextHolder, createProject } = useCreateProjectModal({
     bizCreateFrom: 'navi',
     selectSpace: true,
@@ -48,51 +38,47 @@ export const useCreateBotAction = ({
       if (autoCreate) {
         url += urlSearch;
       }
-      if (botId && newWindowRef.current) {
-        newWindowRef.current.location = url;
-      } else {
-        destroyWindow();
+      // 改为在当前页面导航，而不是新窗口
+      if (botId) {
+        window.location.href = url;
       }
     },
     onBeforeCreateBot: () => {
       sendTeaEvent(EVENT_NAMES.create_bot_click, {
         source: 'menu_bar',
       });
-      openWindow();
+      // 移除打开新窗口的逻辑
     },
     onCreateBotError: () => {
-      destroyWindow();
+      // 移除销毁窗口的逻辑
     },
     onBeforeCreateProject: () => {
-      openWindow();
+      // 移除打开新窗口的逻辑
     },
     onCreateProjectError: () => {
-      destroyWindow();
+      // 移除销毁窗口的逻辑
     },
     onBeforeCopyProjectTemplate: ({ toSpaceId }) => {
-      if (toSpaceId !== currentSpaceId) {
-        openWindow();
-      }
+      // 移除打开新窗口的逻辑
     },
     onProjectTemplateCopyError: () => {
-      destroyWindow();
+      // 移除销毁窗口的逻辑
     },
     onCreateProjectSuccess: ({ projectId, spaceId }) => {
       const baseUrl = `/space/${spaceId}/project-ide/${projectId}`;
-
-      if (!newWindowRef.current) {
-        return;
-      }
+      let finalUrl = baseUrl;
+      
       if (autoCreate) {
-        newWindowRef.current.location = baseUrl + urlSearch;
+        finalUrl += urlSearch;
       }
-      newWindowRef.current.location = baseUrl;
+      
+      // 改为在当前页面导航
+      window.location.href = finalUrl;
     },
     onCopyProjectTemplateSuccess: param => {
       cozeMitt.emit('createProjectByCopyTemplateFromSidebar', param);
-      if (newWindowRef.current) {
-        newWindowRef.current.location = `/space/${param.toSpaceId}/develop`;
-      }
+      // 改为在当前页面导航
+      window.location.href = `/space/${param.toSpaceId}/develop`;
     },
   });
 
