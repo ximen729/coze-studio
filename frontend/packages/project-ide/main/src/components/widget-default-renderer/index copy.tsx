@@ -82,6 +82,81 @@ export const WidgetDefaultRenderer = () => {
       <div className={styles['sub-title']}>
         {I18n.t('project_ide_welcome_describe')}
       </div>
+      <div className={styles.gallery}>
+        <div className={styles['gallery-block']}>
+          <Image
+            preview={false}
+            src={IS_OVERSEA ? EnWorkflowFrame : CnWorkflowFrame}
+            width={320}
+            height={160}
+          />
+          <div className={styles['gallery-title']}>
+            {I18n.t('project_ide_welcome_workflow_title')}
+          </div>
+          <div className={styles['gallery-description']}>
+            {I18n.t('project_ide_welcome_workflow_describe')}
+          </div>
+          <Button
+            className={styles['doc-search']}
+            icon={<IconCozDocument />}
+            color="primary"
+            onClick={handleWorkflowDoc}
+          >
+            {I18n.t('project_ide_view_document')}
+          </Button>
+        </div>
+        {IS_OVERSEA || IS_OPEN_SOURCE ? null : (
+          <div className={styles['gallery-block']}>
+            <Image
+              preview={false}
+              src={IS_OVERSEA ? EnUIBuilderFrame : CnUIBuilderFrame}
+              width={320}
+              height={160}
+            />
+            <div className={styles['gallery-title']}>
+              {I18n.t('project_ide_welcome_ui_builder_title')}
+            </div>
+            <div className={styles['gallery-description']}>
+              {I18n.t('project_ide_welcome_ui_builder_describe')}
+            </div>
+            <Button
+              className={styles['doc-search']}
+              icon={<IconCozDocument />}
+              color="primary"
+              onClick={handleUIBuilderDoc}
+            >
+              {I18n.t('project_ide_view_document')}
+            </Button>
+          </div>
+        )}
+        <div className={styles['gallery-block']}>
+          <Image
+            preview={false}
+            src={IS_OVERSEA ? EnKnowledgeFrame : CnKnowledgeFrame}
+            width={320}
+            height={160}
+          />
+          <div className={styles['gallery-title']}>
+            {I18n.t('project_ide_welcome_db_title')}
+          </div>
+          <div className={styles['gallery-description']}>
+            {I18n.t('project_ide_welcome_db_describ')}
+          </div>
+          <Button
+            className={styles['doc-search']}
+            icon={<IconCozDocument />}
+            color="primary"
+            onClick={handleDatabaseDoc}
+          >
+            {I18n.t('project_ide_view_document')}
+          </Button>
+        </div>
+      </div>
+      <div className={styles['shortcuts-list']}>
+        {shortcutsList.map(item => (
+          <ShortcutItem key={item.key} item={item} />
+        ))}
+      </div>
     </div>
   );
 };

@@ -113,8 +113,8 @@ export const FavoritesListItem: FC<IntelligenceData> = ({
           need_login: true,
           have_access: true,
         });
-        // 改为在当前页面导航，而不是新开页面
-        window.location.href = getIntelligenceNavigateUrl({ basic_info, type });
+        //Jump to the Bot edit page, which will be changed to a new URL/space/: spaceId/agent/: agentId later.
+        window.open(getIntelligenceNavigateUrl({ basic_info, type }), '_blank');
       }}
       data-testid="workspace.favorites.list.item"
     >
