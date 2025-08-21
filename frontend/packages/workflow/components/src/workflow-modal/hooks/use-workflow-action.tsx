@@ -245,7 +245,7 @@ export function useWorkflowAction({
     botId && query.append('bot_id', botId);
     query.append('space_id', context?.spaceId ?? '');
     query.append('workflow_id', wId);
-    window.open(`/work_flow?${query.toString()}`, '_blank');
+    window.location.href = `/work_flow?${query.toString()}`;
   }
 
   const dupProduct = async () => {
@@ -316,9 +316,7 @@ export function useWorkflowAction({
               <Button
                 color="primary"
                 onClick={() => {
-                  window.open(
-                    `/work_flow?space_id=${context.spaceId}&workflow_id=${newWorkflow.workflow_id}&from=dupSuccess`,
-                  );
+                  window.location.href = `/work_flow?space_id=${context.spaceId}&workflow_id=${newWorkflow.workflow_id}&from=dupSuccess`;
                 }}
               >
                 {I18n.t('workflowstore_continue_editing')}
@@ -414,9 +412,7 @@ export function useWorkflowAction({
               <Button
                 color="primary"
                 onClick={() => {
-                  window.open(
-                    `/work_flow?space_id=${context.spaceId}&workflow_id=${newWorkflow.workflow_id}`,
-                  );
+                  window.location.href = `/work_flow?space_id=${context.spaceId}&workflow_id=${newWorkflow.workflow_id}`;
                 }}
               >
                 {I18n.t('workflowstore_continue_editing')}
@@ -550,10 +546,7 @@ export function useWorkflowAction({
     if (isTypeWorkflow(data)) {
       openWorkflowDetailPage(data);
     } else {
-      window.open(
-        `/template/workflow/${data.meta_info.id}?entity_id=${ProductEntityType.WorkflowTemplateV2}`,
-        '_blank',
-      );
+      window.location.href = `/template/workflow/${data.meta_info.id}?entity_id=${ProductEntityType.WorkflowTemplateV2}`;
     }
   };
 
