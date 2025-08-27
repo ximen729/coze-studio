@@ -32,6 +32,7 @@ import {
 } from '@coze-common/chat-uikit-shared';
 import { useEventCallback } from '@coze-common/chat-hooks';
 import { Avatar, Typography } from '@coze-arch/coze-design';
+import { IconCozInfoCircle } from '@coze-arch/coze-design/icons';
 
 import { UserLabel, UserName } from '../user-label';
 import { MessageContentTime } from '../message-content-time';

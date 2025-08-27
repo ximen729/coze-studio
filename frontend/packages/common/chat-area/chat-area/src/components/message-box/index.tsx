@@ -39,6 +39,7 @@ import { usePreference } from '../../context/preference';
 import { useMessageBoxContext } from '../../context/message-box';
 import { getContentConfigs } from '../../constants/content';
 import { RevealTrigger } from './reveal-trigger';
+import { IconCozInfoCircle } from '@coze-arch/coze-design/icons';
 
 import styles from './index.module.less';
 
@@ -159,17 +160,33 @@ export const MessageBox: React.FC = memo(() => {
   const renderFooter = (refreshContainerWidth: () => void) => {
     const usedFooter = customMessageBoxFooterComponentList?.at(0);
 
+    let footerContent = null;
     if (!usedFooter) {
-      return isRenderAnswerAction && ActionBarFooter ? (
+      footerContent = isRenderAnswerAction && ActionBarFooter ? (
         <ActionBarFooter refreshContainerWidth={refreshContainerWidth} />
       ) : null;
+    } else {
+      const { Component, pluginName } = usedFooter;
+      footerContent = (
+        <PluginScopeContextProvider pluginName={pluginName}>
+          <Component refreshContainerWidth={refreshContainerWidth} />
+        </PluginScopeContextProvider>
+      );
     }
 
-    const { Component, pluginName } = usedFooter;
+    // AI生成提示 - 只有当消息是assistant角色时才显示
+    const aiGeneratedTip = message.role === 'assistant' ? (
+      <div className="flex items-center gap-1 mt-2 text-xs coz-fg-secondary">
+        <IconCozInfoCircle className="w-3 h-3" />
+        <span>此回答由AI生成</span>
+      </div>
+    ) : null;
+
     return (
-      <PluginScopeContextProvider pluginName={pluginName}>
-        <Component refreshContainerWidth={refreshContainerWidth} />
-      </PluginScopeContextProvider>
+      <>
+        {footerContent}
+        {aiGeneratedTip}
+      </>
     );
   };
 
