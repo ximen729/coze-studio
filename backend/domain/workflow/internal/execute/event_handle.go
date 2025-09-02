@@ -27,6 +27,7 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/cloudwego/eino/schema"
 
+	workflowModel "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/workflow"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
@@ -63,7 +64,7 @@ func setRootWorkflowSuccess(ctx context.Context, event *Event, repo workflow.Rep
 
 	rootWkID := event.RootWorkflowBasic.ID
 	exeCfg := event.ExeCfg
-	if exeCfg.Mode == vo.ExecuteModeDebug {
+	if exeCfg.Mode == workflowModel.ExecuteModeDebug {
 		if err := repo.UpdateWorkflowDraftTestRunSuccess(ctx, rootWkID); err != nil {
 			return fmt.Errorf("failed to save workflow draft test run success: %v", err)
 		}
@@ -282,7 +283,7 @@ func handleEvent(ctx context.Context, event *Event, repo workflow.Repository,
 			return noTerminate, fmt.Errorf("failed to update workflow execution to interrupted for execution id %d, current status is %v", exeID, currentStatus)
 		}
 
-		if event.RootCtx.ResumeEvent != nil {
+		if event.RootCtx.ResumeEvent != nil && !event.RootCtx.ResumeEvent.Popped {
 			needPop := false
 			for _, ie := range event.InterruptEvents {
 				if ie.NodeKey == event.RootCtx.ResumeEvent.NodeKey {
@@ -379,7 +380,7 @@ func handleEvent(ctx context.Context, event *Event, repo workflow.Repository,
 		}
 
 		if updatedRows, currentStatus, err = repo.UpdateWorkflowExecution(ctx, wfExec, []entity.WorkflowExecuteStatus{entity.WorkflowRunning,
-			entity.WorkflowInterrupted}); err != nil {
+			entity.WorkflowInterrupted, entity.WorkflowCancel}); err != nil {
 			return noTerminate, fmt.Errorf("failed to save workflow execution when canceled: %v", err)
 		} else if updatedRows == 0 {
 			return noTerminate, fmt.Errorf("failed to update workflow execution to canceled for execution id %d, current status is %v", exeID, currentStatus)
@@ -725,7 +726,7 @@ func HandleExecuteEvent(ctx context.Context,
 	timeoutFn context.CancelFunc,
 	repo workflow.Repository,
 	sw *schema.StreamWriter[*entity.Message],
-	exeCfg vo.ExecuteConfig,
+	exeCfg workflowModel.ExecuteConfig,
 ) (event *Event) {
 	var (
 		wfSuccessEvent *Event
@@ -760,7 +761,7 @@ func HandleExecuteEvent(ctx context.Context,
 			return event
 		case workflowSuccess: // workflow success, wait for exit node to be done
 			wfSuccessEvent = event
-			if lastNodeIsDone || exeCfg.Mode == vo.ExecuteModeNodeDebug {
+			if lastNodeIsDone || exeCfg.Mode == workflowModel.ExecuteModeNodeDebug {
 				if err = setRootWorkflowSuccess(ctx, wfSuccessEvent, repo, sw); err != nil {
 					logs.CtxErrorf(ctx, "failed to set root workflow success for workflow %d: %v",
 						wfSuccessEvent.RootWorkflowBasic.ID, err)
@@ -788,6 +789,7 @@ func HandleExecuteEvent(ctx context.Context,
 			logs.CtxInfof(ctx, "[handleExecuteEvent] finish, returned event type: %v, workflow id: %d",
 				event.Type, event.Context.RootWorkflowBasic.ID)
 			cancelTicker.Stop() // Clean up timer
+			waitUntilToolFinish(ctx)
 			if timeoutFn != nil {
 				timeoutFn()
 			}
@@ -879,11 +881,41 @@ func cacheToolStreamingResponse(ctx context.Context, event *Event) {
 		c[event.NodeKey][event.toolResponse.CallID].output = event.toolResponse
 	}
 	c[event.NodeKey][event.toolResponse.CallID].output.Response += event.toolResponse.Response
+	c[event.NodeKey][event.toolResponse.CallID].output.Complete = event.toolResponse.Complete
 }
 
 func getFCInfos(ctx context.Context, nodeKey vo.NodeKey) map[string]*fcInfo {
 	c := ctx.Value(fcCacheKey{}).(map[vo.NodeKey]map[string]*fcInfo)
 	return c[nodeKey]
+}
+
+func waitUntilToolFinish(ctx context.Context) {
+	var cnt int
+outer:
+	for {
+		if cnt > 1000 {
+			return
+		}
+
+		c := ctx.Value(fcCacheKey{}).(map[vo.NodeKey]map[string]*fcInfo)
+		if len(c) == 0 {
+			return
+		}
+
+		for _, m := range c {
+			for _, info := range m {
+				if info.output == nil {
+					cnt++
+					continue outer
+				}
+
+				if !info.output.Complete {
+					cnt++
+					continue outer
+				}
+			}
+		}
+	}
 }
 
 func (f *fcInfo) inputString() string {

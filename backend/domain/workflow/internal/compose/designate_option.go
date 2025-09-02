@@ -23,10 +23,11 @@ import (
 	"strconv"
 
 	einoCompose "github.com/cloudwego/eino/compose"
-	"github.com/cloudwego/eino/schema"
 
+	"github.com/coze-dev/coze-studio/backend/api/model/crossdomain/plugin"
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/workflow"
+	crossplugin "github.com/coze-dev/coze-studio/backend/crossdomain/contract/plugin"
 	workflow2 "github.com/coze-dev/coze-studio/backend/domain/workflow"
-	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/plugin"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/internal/execute"
@@ -45,7 +46,7 @@ func (r *WorkflowRunner) designateOptions(ctx context.Context) (context.Context,
 		workflowSC   = r.schema
 		eventChan    = r.eventChan
 		resumedEvent = r.interruptEvent
-		sw           = r.streamWriter
+		sw           = r.container
 	)
 
 	if wb.AppID != nil && exeCfg.AppID == nil {
@@ -146,7 +147,7 @@ func (r *WorkflowRunner) designateOptionsForSubWorkflow(ctx context.Context,
 	var (
 		resumeEvent = r.interruptEvent
 		eventChan   = r.eventChan
-		sw          = r.streamWriter
+		container   = r.container
 	)
 	subHandler := execute.NewSubWorkflowHandler(
 		parentHandler,
@@ -184,7 +185,7 @@ func (r *WorkflowRunner) designateOptionsForSubWorkflow(ctx context.Context,
 					opts = append(opts, WrapOpt(subO, ns.Key))
 				}
 			} else if subNS.Type == entity.NodeTypeLLM {
-				llmNodeOpts, err := llmToolCallbackOptions(ctx, subNS, eventChan, sw)
+				llmNodeOpts, err := llmToolCallbackOptions(ctx, subNS, eventChan, container)
 				if err != nil {
 					return nil, err
 				}
@@ -207,7 +208,7 @@ func (r *WorkflowRunner) designateOptionsForSubWorkflow(ctx context.Context,
 					opts = append(opts, WrapOpt(WrapOpt(subO, parent.Key), ns.Key))
 				}
 			} else if subNS.Type == entity.NodeTypeLLM {
-				llmNodeOpts, err := llmToolCallbackOptions(ctx, subNS, eventChan, sw)
+				llmNodeOpts, err := llmToolCallbackOptions(ctx, subNS, eventChan, container)
 				if err != nil {
 					return nil, err
 				}
@@ -222,7 +223,7 @@ func (r *WorkflowRunner) designateOptionsForSubWorkflow(ctx context.Context,
 }
 
 func llmToolCallbackOptions(ctx context.Context, ns *schema2.NodeSchema, eventChan chan *execute.Event,
-	sw *schema.StreamWriter[*entity.Message]) (
+	container *execute.StreamContainer) (
 	opts []einoCompose.Option, err error) {
 	// this is a LLM node.
 	// check if it has any tools, if no tools, then no callback options needed
@@ -242,9 +243,9 @@ func llmToolCallbackOptions(ctx context.Context, ns *schema2.NodeSchema, eventCh
 				if err != nil {
 					return nil, fmt.Errorf("invalid workflow id: %s", wfIDStr)
 				}
-				locator := vo.FromDraft
+				locator := model.FromDraft
 				if wf.WorkflowVersion != "" {
-					locator = vo.FromSpecificVersion
+					locator = model.FromSpecificVersion
 				}
 
 				wfTool, err := workflow2.GetRepository().WorkflowAsTool(ctx, vo.GetPolicy{
@@ -278,6 +279,12 @@ func llmToolCallbackOptions(ctx context.Context, ns *schema2.NodeSchema, eventCh
 				opt = einoCompose.WithLambdaOption(nodes.WithOptsForNested(opt)).DesignateNode(string(ns.Key))
 				opts = append(opts, opt)
 			}
+
+			if container != nil {
+				toolMsgOpt := llm.WithToolWorkflowStreamContainer(container)
+				opt := einoCompose.WithLambdaOption(toolMsgOpt).DesignateNode(string(ns.Key))
+				opts = append(opts, opt)
+			}
 		}
 		if fcParams.PluginFCParam != nil {
 			for _, p := range fcParams.PluginFCParam.PluginList {
@@ -290,8 +297,8 @@ func llmToolCallbackOptions(ctx context.Context, ns *schema2.NodeSchema, eventCh
 					return nil, err
 				}
 
-				toolInfoResponse, err := plugin.GetPluginService().GetPluginToolsInfo(ctx, &plugin.ToolsInfoRequest{
-					PluginEntity: plugin.Entity{
+				toolInfoResponse, err := crossplugin.DefaultSVC().GetPluginToolsInfo(ctx, &plugin.ToolsInfoRequest{
+					PluginEntity: plugin.PluginEntity{
 						PluginID:      pluginID,
 						PluginVersion: ptr.Of(p.PluginVersion),
 					},
@@ -317,12 +324,6 @@ func llmToolCallbackOptions(ctx context.Context, ns *schema2.NodeSchema, eventCh
 				opts = append(opts, opt)
 			}
 		}
-	}
-
-	if sw != nil {
-		toolMsgOpt := llm.WithToolWorkflowMessageWriter(sw)
-		opt := einoCompose.WithLambdaOption(toolMsgOpt).DesignateNode(string(ns.Key))
-		opts = append(opts, opt)
 	}
 
 	return opts, nil

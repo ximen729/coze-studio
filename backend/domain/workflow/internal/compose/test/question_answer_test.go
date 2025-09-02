@@ -36,9 +36,10 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
+	model "github.com/coze-dev/coze-studio/backend/api/model/crossdomain/modelmgr"
+	crossmodelmgr "github.com/coze-dev/coze-studio/backend/crossdomain/contract/modelmgr"
+	mockmodel "github.com/coze-dev/coze-studio/backend/crossdomain/contract/modelmgr/modelmock"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow"
-	"github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model"
-	mockmodel "github.com/coze-dev/coze-studio/backend/domain/workflow/crossdomain/model/modelmock"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity"
 	"github.com/coze-dev/coze-studio/backend/domain/workflow/entity/vo"
 	compose2 "github.com/coze-dev/coze-studio/backend/domain/workflow/internal/compose"
@@ -61,7 +62,7 @@ func TestQuestionAnswer(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		mockModelManager := mockmodel.NewMockManager(ctrl)
-		mockey.Mock(model.GetManager).Return(mockModelManager).Build()
+		mockey.Mock(crossmodelmgr.DefaultSVC).Return(mockModelManager).Build()
 
 		accessKey := os.Getenv("OPENAI_API_KEY")
 		baseURL := os.Getenv("OPENAI_BASE_URL")
@@ -97,13 +98,24 @@ func TestQuestionAnswer(t *testing.T) {
 		defer s.Close()
 
 		redisClient := redis.NewWithAddrAndPassword(s.Addr(), "")
-
+		var oneChatModel = chatModel
+		if oneChatModel == nil {
+			oneChatModel = &testutil.UTChatModel{
+				InvokeResultProvider: func(_ int, in []*schema.Message) (*schema.Message, error) {
+					return &schema.Message{
+						Role:    schema.Assistant,
+						Content: "-1",
+					}, nil
+				},
+			}
+		}
 		mockIDGen := mock.NewMockIDGenerator(ctrl)
 		mockIDGen.EXPECT().GenID(gomock.Any()).Return(time.Now().UnixNano(), nil).AnyTimes()
 		mockTos := storageMock.NewMockStorage(ctrl)
 		mockTos.EXPECT().GetObjectUrl(gomock.Any(), gomock.Any(), gomock.Any()).Return("", nil).AnyTimes()
-		repo := repo2.NewRepository(mockIDGen, db, redisClient, mockTos,
-			checkpoint.NewRedisStore(redisClient), nil)
+		repo, _ := repo2.NewRepository(mockIDGen, db, redisClient, mockTos,
+			checkpoint.NewRedisStore(redisClient), oneChatModel, nil)
+
 		mockey.Mock(workflow.GetRepository).Return(repo).Build()
 
 		t.Run("answer directly, no structured output", func(t *testing.T) {
